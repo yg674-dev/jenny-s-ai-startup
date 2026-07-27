@@ -61,4 +61,104 @@ for (const path of connectorPaths) {
   );
 }
 
+const nodeRects = [
+  ...html.matchAll(
+    /<g class="node [^"]+">\s*<rect x="([\d.]+)" y="([\d.]+)" width="([\d.]+)" height="([\d.]+)"\/>/g,
+  ),
+].map((match) => ({
+  x: Number(match[1]),
+  y: Number(match[2]),
+  width: Number(match[3]),
+  height: Number(match[4]),
+}));
+
+function segmentsFromPath(path) {
+  const commands = [
+    ...path.matchAll(/([MHV])\s*(-?[\d.]+)(?:\s+(-?[\d.]+))?/g),
+  ];
+  const segments = [];
+  let x;
+  let y;
+
+  for (const command of commands) {
+    const type = command[1];
+    const first = Number(command[2]);
+    const second = command[3] === undefined ? undefined : Number(command[3]);
+
+    if (type === "M") {
+      x = first;
+      y = second;
+      continue;
+    }
+
+    const nextX = type === "H" ? first : x;
+    const nextY = type === "V" ? first : y;
+    segments.push({ x1: x, y1: y, x2: nextX, y2: nextY });
+    x = nextX;
+    y = nextY;
+  }
+
+  return segments;
+}
+
+function crossesRectInterior(segment, rect) {
+  const epsilon = 0.1;
+  const left = rect.x + epsilon;
+  const right = rect.x + rect.width - epsilon;
+  const top = rect.y + epsilon;
+  const bottom = rect.y + rect.height - epsilon;
+
+  if (segment.x1 === segment.x2) {
+    const start = Math.min(segment.y1, segment.y2);
+    const end = Math.max(segment.y1, segment.y2);
+    return (
+      segment.x1 > left &&
+      segment.x1 < right &&
+      Math.max(start, top) < Math.min(end, bottom)
+    );
+  }
+
+  const start = Math.min(segment.x1, segment.x2);
+  const end = Math.max(segment.x1, segment.x2);
+  return (
+    segment.y1 > top &&
+    segment.y1 < bottom &&
+    Math.max(start, left) < Math.min(end, right)
+  );
+}
+
+const collisions = [];
+const longInteriorRoutes = [];
+
+for (const path of connectorPaths) {
+  for (const segment of segmentsFromPath(path)) {
+    for (const rect of nodeRects) {
+      if (crossesRectInterior(segment, rect)) {
+        collisions.push(`${path} crosses ${JSON.stringify(rect)}`);
+      }
+    }
+
+    const verticalLength = Math.abs(segment.y2 - segment.y1);
+    if (
+      segment.x1 === segment.x2 &&
+      verticalLength > 1000 &&
+      segment.x1 > 55 &&
+      segment.x1 < 1645
+    ) {
+      longInteriorRoutes.push(
+        `${path} has ${verticalLength}px trunk at x=${segment.x1}`,
+      );
+    }
+  }
+}
+
+assert(
+  collisions.length === 0,
+  `Connectors cross node interiors:\n${collisions.join("\n")}`,
+);
+assert(
+  longInteriorRoutes.length === 0,
+  `Cross-flow routes must use an outer gutter:\n${longInteriorRoutes.join("\n")}`,
+);
+
 console.log("AI companion flow verification passed.");
