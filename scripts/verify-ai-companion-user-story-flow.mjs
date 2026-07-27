@@ -14,18 +14,31 @@ const required = [
   "Flow A",
   "Flow B",
   "User Layer",
-  "LLM Layer",
+  "Agent &amp; LLM",
+  "System Layer",
+  "Agent 与大模型系统层",
   "Age Gate",
   "朋友",
   "家人",
   "恋人",
   "生活伙伴",
   "结构化剧情",
-  "无开放聊天",
-  "Safety Orchestrator",
-  "画像拒绝",
-  "降低触达频率",
-  "真人支持",
+  "ONE-TIME ONBOARDING",
+  "PERSISTENT RELATIONSHIP LOOP",
+  "PERSISTENT STORY LOOP",
+  "Input + Safety",
+  "Context Assembler",
+  "Decision Harness",
+  "State Transition Guard",
+  "State &amp; Memory Commit",
+  "Proactive Scheduler",
+  "Constrained Story Decision",
+  "Preference State Guard",
+  "Progress Commit",
+  "No romance",
+  "无恋人模式",
+  "Pause &amp; Human Support",
+  "Story Paused",
 ];
 
 for (const text of required) {
@@ -33,16 +46,16 @@ for (const text of required) {
 }
 
 assert(html.includes("<svg"), "Missing SVG");
-assert(html.includes("viewBox=\"0 0 1700"), "Unexpected SVG width");
+assert(html.includes("viewBox=\"0 0 1720 2680\""), "Unexpected SVG dimensions");
 assert(html.includes("marker-end"), "Missing arrow markers");
 assert(html.includes("@media print"), "Missing print stylesheet");
 assert(html.includes("overflow-x: auto"), "Missing mobile horizontal scroll");
 assert(
-  (html.match(/class="lane-title"/g) ?? []).length === 4,
-  "Expected exactly four swimlanes",
+  (html.match(/class="lane-title"/g) ?? []).length === 8,
+  "Expected exactly eight lane labels across four two-lane bands",
 );
 assert(
-  (html.match(/class="connector/g) ?? []).length >= 24,
+  (html.match(/class="connector/g) ?? []).length >= 40,
   "Not enough flow connectors",
 );
 assert(!/<line\b/i.test(html), "Use orthogonal paths instead of SVG lines");
@@ -53,7 +66,7 @@ const connectorPaths = [
   ...html.matchAll(/<path class="connector[^"]*" d="([^"]+)"/g),
 ].map((match) => match[1]);
 
-assert(connectorPaths.length >= 24, "Connector paths were not parsed");
+assert(connectorPaths.length >= 40, "Connector paths were not parsed");
 for (const path of connectorPaths) {
   assert(
     !/[LQCAS]/i.test(path),

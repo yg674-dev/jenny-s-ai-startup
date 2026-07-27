@@ -278,6 +278,7 @@ Expected: all constrained teen components and the explicit boundary note exist.
 
 **Files:**
 - Modify if needed: `ai-companion-dual-audience-user-story-flow.html`
+- Modify: `scripts/verify-ai-companion-user-story-flow.mjs`
 - Temporary validation artifact only: `/private/tmp/ai-companion-ai-native-user-journey.png`
 
 **Interfaces:**
@@ -295,7 +296,7 @@ git diff --check -- ai-companion-dual-audience-user-story-flow.html
 Run:
 
 ```bash
-rg -c "Flow A · Adult Companion|Flow B · Teen Story|Agent & LLM System Layer|State Transition Guard|Preference State Guard" ai-companion-dual-audience-user-story-flow.html
+rg -c "Flow A · Adult Companion|Flow B · Teen Story|Agent &amp; LLM|State Transition Guard|Preference State Guard" ai-companion-dual-audience-user-story-flow.html
 ```
 
 Expected: each required label is present and `git diff --check` prints nothing.
