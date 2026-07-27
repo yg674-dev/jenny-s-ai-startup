@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="面向北美青少年与单身中老年人的 AI 陪伴产品市场研究：五个标杆、用户画像、商业模式、模型实践与安全体系。">
+  <title>AI 陪伴产品｜北美市场研究 2026</title>
+  <style>
+    :root {
+      --paper: #f5f3ee;
+      --surface: #fffefa;
+      --ink: #20221f;
+      --muted: #676b64;
+      --line: #d9d7cf;
+      --green: #2f6654;
+      --green-soft: #e5efe9;
+      --blue: #315d77;
+      --blue-soft: #e6eef3;
+      --amber: #815f28;
+      --amber-soft: #f5ecd9;
+      --rose: #854d54;
+      --rose-soft: #f3e7e7;
+      --max: 1240px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      font-size: 16px;
+      line-height: 1.68;
+    }
+    a { color: var(--blue); text-underline-offset: 3px; }
+    a:hover { color: var(--green); }
+    button { font: inherit; }
+    h1, h2, h3, .display, .metric strong {
+      font-family: "Songti SC", STSong, "Noto Serif CJK SC", Georgia, serif;
+      font-weight: 600;
+      letter-spacing: -.025em;
+    }
+    h1 { max-width: 880px; margin: .35rem 0 1rem; font-size: clamp(2.7rem, 6vw, 5.6rem); line-height: .98; }
+    h2 { margin: 0; font-size: clamp(2rem, 3.4vw, 3.15rem); line-height: 1.08; }
+    h3 { margin: 0 0 .55rem; font-size: 1.35rem; line-height: 1.25; }
+    p { margin: .5rem 0 1rem; }
+    .skip-link {
+      position: fixed; left: 1rem; top: -5rem; z-index: 99;
+      padding: .7rem 1rem; background: var(--ink); color: white;
+    }
+    .skip-link:focus { top: 1rem; }
+    .report-header {
+      max-width: var(--max); margin: 0 auto; padding: 4.5rem 2rem 3.5rem;
+      border-bottom: 1px solid var(--ink);
+    }
+    .eyebrow {
+      display: flex; gap: .7rem; flex-wrap: wrap; align-items: center;
+      color: var(--green); font-weight: 700; font-size: .78rem;
+      letter-spacing: .12em; text-transform: uppercase;
+    }
+    .eyebrow span { border: 1px solid currentColor; border-radius: 999px; padding: .2rem .55rem; }
+    .dek { max-width: 850px; font-size: 1.18rem; color: #464a45; }
+    .header-meta {
+      display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+      margin-top: 2.5rem; color: var(--muted); font-size: .9rem;
+    }
+    .action {
+      border: 1px solid var(--ink); background: transparent; color: var(--ink);
+      padding: .55rem .85rem; cursor: pointer;
+    }
+    .action:hover, .action:focus-visible { background: var(--ink); color: white; }
+    .layout {
+      display: grid; grid-template-columns: 220px minmax(0, 1fr);
+      gap: 3rem; max-width: var(--max); margin: 0 auto; padding: 0 2rem 5rem;
+    }
+    .toc { position: sticky; top: 1.25rem; align-self: start; padding-top: 3rem; }
+    .toc strong { display: block; margin-bottom: .7rem; font-size: .75rem; letter-spacing: .1em; color: var(--muted); }
+    .toc a {
+      display: block; border-left: 2px solid var(--line); padding: .3rem .65rem;
+      color: var(--muted); text-decoration: none; font-size: .84rem;
+    }
+    .toc a:hover, .toc a.active { border-color: var(--green); color: var(--ink); }
+    main { min-width: 0; }
+    section { padding: 4rem 0; border-bottom: 1px solid var(--line); scroll-margin-top: 1rem; }
+    .section-head {
+      display: grid; grid-template-columns: 125px 1fr; gap: 1.4rem;
+      align-items: start; margin-bottom: 2.2rem;
+    }
+    .section-number { padding-top: .35rem; color: var(--muted); font: 700 .75rem/1 sans-serif; letter-spacing: .1em; }
+    .section-intro { max-width: 760px; color: var(--muted); font-size: 1.02rem; }
+    .verdict {
+      border: 1px solid var(--ink); background: var(--surface);
+      display: grid; grid-template-columns: 1.15fr .85fr; gap: 2.2rem; padding: 2rem;
+    }
+    .verdict .display { font-size: clamp(1.65rem, 3vw, 2.6rem); line-height: 1.15; margin: 0; }
+    .compact-list { margin: 0; padding-left: 1.2rem; }
+    .compact-list li { margin: .38rem 0; }
+    .metrics, .grid-2, .grid-3, .product-grid, .audience-grid {
+      display: grid; gap: 1rem; margin-top: 1.25rem;
+    }
+    .metrics { grid-template-columns: repeat(4, 1fr); }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .audience-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card, .metric, .product, .audience {
+      background: var(--surface); border: 1px solid var(--line); padding: 1.25rem;
+    }
+    .metric strong { display: block; color: var(--green); font-size: 2.15rem; line-height: 1; }
+    .metric span { display: block; margin-top: .55rem; color: var(--muted); font-size: .82rem; }
+    .source-note { color: var(--muted); font-size: .78rem; }
+    .tag {
+      display: inline-block; border-radius: 999px; padding: .15rem .5rem;
+      font-size: .72rem; font-weight: 700; white-space: nowrap;
+    }
+    .fact { color: var(--green); background: var(--green-soft); }
+    .proxy { color: var(--blue); background: var(--blue-soft); }
+    .inference { color: var(--amber); background: var(--amber-soft); }
+    .risk { color: var(--rose); background: var(--rose-soft); }
+    .callout { border-left: 4px solid var(--green); background: var(--green-soft); padding: 1rem 1.2rem; margin: 1.3rem 0; }
+    .callout.warning { border-color: var(--amber); background: var(--amber-soft); }
+    .filter-row, .tabs {
+      display: flex; gap: .5rem; flex-wrap: wrap; margin: 1.25rem 0;
+    }
+    .filter, .tab {
+      border: 1px solid var(--line); background: var(--surface); padding: .45rem .75rem; cursor: pointer;
+    }
+    .filter[aria-pressed="true"], .tab[aria-selected="true"] { background: var(--ink); color: white; border-color: var(--ink); }
+    .evidence-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; }
+    .evidence-card { border: 1px solid var(--line); background: var(--surface); padding: 1rem; }
+    .evidence-card[hidden] { display: none; }
+    .evidence-card strong { display: block; margin: .55rem 0 .25rem; }
+    .bar-row { display: grid; grid-template-columns: 95px 1fr 60px; align-items: center; gap: .75rem; margin: .65rem 0; }
+    .bar { height: 10px; background: #e4e2da; overflow: hidden; }
+    .bar i { display: block; height: 100%; background: var(--green); }
+    .bar-row small { text-align: right; font-variant-numeric: tabular-nums; }
+    .share-table, .matrix, .pricing { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    .share-table th, .share-table td, .matrix th, .matrix td, .pricing th, .pricing td {
+      border-bottom: 1px solid var(--line); padding: .75rem .65rem; text-align: left; vertical-align: top;
+    }
+    th { color: var(--muted); font-size: .75rem; letter-spacing: .04em; }
+    .table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); }
+    .product { position: relative; }
+    .product-featured { grid-column: 1 / -1; border-color: var(--ink); }
+    .product-kicker { color: var(--muted); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+    .product-title { display: flex; justify-content: space-between; gap: 1rem; align-items: start; margin: .35rem 0 1rem; }
+    .product-title h3 { font-size: 1.8rem; }
+    .product dl { display: grid; grid-template-columns: 86px 1fr; gap: .45rem .8rem; margin: 0; }
+    .product dt { color: var(--muted); font-size: .78rem; }
+    .product dd { margin: 0; }
+    .model-toggle {
+      margin-top: 1rem; border: 0; border-bottom: 1px solid var(--ink);
+      padding: .25rem 0; background: transparent; cursor: pointer; font-weight: 700;
+    }
+    .model-panel { margin-top: .85rem; padding: 1rem; background: #f0efe9; }
+    .model-panel[hidden] { display: none; }
+    .matrix tr[hidden] { display: none; }
+    .audience h3 { min-height: 3.4rem; }
+    .audience.primary { border: 2px solid var(--green); }
+    .audience .fit { font: 600 1.8rem/1 Georgia, serif; color: var(--green); }
+    .architecture { display: grid; gap: .65rem; }
+    .arch-row { display: grid; grid-template-columns: 125px repeat(4, 1fr); gap: .6rem; align-items: stretch; }
+    .arch-label { color: var(--muted); font-size: .78rem; padding: .75rem 0; }
+    .arch-node { border: 1px solid var(--line); background: var(--surface); padding: .75rem; font-size: .83rem; }
+    .arch-node strong { display: block; margin-bottom: .2rem; }
+    .principles { counter-reset: principle; }
+    .principle { display: grid; grid-template-columns: 42px 1fr; gap: .8rem; border-top: 1px solid var(--line); padding: 1rem 0; }
+    .principle::before {
+      counter-increment: principle; content: counter(principle, decimal-leading-zero);
+      color: var(--green); font: 700 .85rem/1.8 Georgia, serif;
+    }
+    .roadmap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .phase { background: var(--surface); border-top: 4px solid var(--ink); padding: 1.2rem; }
+    .phase b { color: var(--green); font-size: .78rem; letter-spacing: .08em; }
+    .sources { columns: 2 360px; column-gap: 2rem; margin: 0; padding-left: 1.25rem; }
+    .sources li { break-inside: avoid; margin: 0 0 .75rem; padding-left: .2rem; font-size: .84rem; }
+    .sources span { display: block; color: var(--muted); font-size: .74rem; }
+    footer { max-width: var(--max); margin: 0 auto; padding: 1.5rem 2rem 3rem; color: var(--muted); font-size: .8rem; }
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+    @media (max-width: 950px) {
+      .layout { display: block; padding: 0 1.2rem 4rem; }
+      .report-header { padding: 3rem 1.2rem 2.5rem; }
+      .toc {
+        position: sticky; top: 0; z-index: 9; display: flex; overflow-x: auto;
+        margin: 0 -1.2rem; padding: .65rem 1.2rem; background: var(--paper); border-bottom: 1px solid var(--line);
+      }
+      .toc strong { display: none; }
+      .toc a { flex: 0 0 auto; border-left: 0; border-bottom: 2px solid var(--line); }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .architecture { overflow-x: auto; }
+      .arch-row { min-width: 820px; }
+    }
+    @media (max-width: 680px) {
+      body { font-size: 15px; }
+      h1 { font-size: 3rem; }
+      .section-head { grid-template-columns: 1fr; gap: .55rem; }
+      .verdict, .grid-2, .grid-3, .product-grid, .audience-grid, .roadmap { grid-template-columns: 1fr; }
+      .product-featured { grid-column: auto; }
+      .metrics, .evidence-list { grid-template-columns: 1fr 1fr; }
+      .product dl { grid-template-columns: 72px 1fr; }
+      .sources { columns: 1; }
+    }
+    @media (max-width: 420px) {
+      .metrics, .evidence-list { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+    @media print {
+      @page { size: A4; margin: 14mm; }
+      body { background: white; color: black; font-size: 10pt; }
+      .toc, .action, .filter-row, .tabs, .model-toggle, .skip-link { display: none !important; }
+      .report-header, .layout, footer { max-width: none; padding-left: 0; padding-right: 0; }
+      section { padding: 18pt 0; break-before: auto; }
+      h2, h3 { break-after: avoid; }
+      .card, .metric, .product, .audience, .phase, .table-wrap, .verdict { break-inside: avoid; background: white; }
+      .model-panel[hidden], .matrix tr[hidden], .evidence-card[hidden] { display: block !important; }
+      a { color: black; text-decoration: none; }
+      .layout { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="report-header">
+    <div class="eyebrow"><span>Market Research</span> North America · 2026</div>
+    <h1>AI 陪伴产品<br>北美市场研究</h1>
+    <p class="dek">以 Replika 的关系选择、Refind Self 的隐性人格、Character.AI Stories 的结构化剧情、Wysa 的安全体系与 ElliQ 的主动陪伴为五个能力支点，评估一个新产品应服务谁、如何赚钱，以及模型层怎样落地。</p>
+    <div class="header-meta">
+      <span>研究访问日 2026.07.26 · 中文高信息密度版</span>
+      <button class="action" type="button" id="print-report">打印 / 保存 PDF</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="toc" aria-label="章节导航">
+      <strong>目录</strong>
+      <a href="#executive-summary">结论摘要</a>
+      <a href="#methodology">口径方法</a>
+      <a href="#north-america-market">北美市场</a>
+      <a href="#product-deep-dives">产品深挖</a>
+      <a href="#comparison-matrix">横向对比</a>
+      <a href="#audience-segments">目标人群</a>
+      <a href="#combined-opportunity">组合机会</a>
+      <a href="#business-model">商业模式</a>
+      <a href="#safety-regulation">安全合规</a>
+      <a href="#recommendations">行动建议</a>
+      <a href="#sources">来源</a>
+    </aside>
+
+    <main id="main-content">
+      <section id="executive-summary">
+        <div class="section-head">
+          <span class="section-number">01 / SUMMARY</span>
+          <div><h2>先说结论</h2><p class="section-intro">市场成立，但“青少年 + 单身中老年人 + 恋人/家人/朋友 + 心理咨询”不能作为同一个开放式产品同时上线。</p></div>
+        </div>
+        <div class="verdict">
+          <div>
+            <p class="display">先做 45–70 岁成年人的 voice-first 陪伴软件；把青少年产品拆成有边界的结构化剧情与真人升级服务。</p>
+            <p>首版定位应是“日常陪伴与情绪支持”，不是 AI 治疗师。先验证主动触达、长期记忆和订阅价值，再决定是否进入硬件。</p>
+          </div>
+          <ul class="compact-list">
+            <li>五个标杆各自验证一个关键能力，但没有产品完成五项组合。</li>
+            <li>美国占全球移动端类别消费 57.4%，是明确的首发市场。</li>
+            <li>青少年采用率高，但监管、依赖与危机风险最高。</li>
+            <li>65+ 在移动端类别仅占 0.4%，提示语音与机构渠道比纯 App 更重要。</li>
+          </ul>
+        </div>
+        <div class="metrics">
+          <div class="metric"><strong>57.4%</strong><span>美国占全球 AI companion 移动端消费，2023–24 <span class="tag proxy">市场代理</span></span></div>
+          <div class="metric"><strong>$120M+</strong><span>2025 全球移动端消费预测 <span class="tag proxy">市场代理</span></span></div>
+          <div class="metric"><strong>72%</strong><span>美国 13–17 岁至少使用过一次 <span class="tag fact">公开事实</span></span></div>
+          <div class="metric"><strong>61.2M</strong><span>美国 65+ 人口，2024 <span class="tag fact">公开事实</span></span></div>
+        </div>
+      </section>
+
+      <section id="methodology">
+        <div class="section-head">
+          <span class="section-number">02 / METHOD</span>
+          <div><h2>不制造“伪市场份额”</h2><p class="section-intro">私营公司很少披露北美 MAU、收入与留存。报告把事实、代理指标和产品推断分开，并注明不可比口径。</p></div>
+        </div>
+        <div class="grid-3">
+          <div class="card"><span class="tag fact">公开事实</span><h3>可直接陈述</h3><p>政府统计、官方功能、条款、定价及公开研究；保留原始年份和地域。</p></div>
+          <div class="card"><span class="tag proxy">市场代理</span><h3>判断相对位置</h3><p>移动下载、IAP、平台 MAU 或部署量；不等于审计营收或总用户份额。</p></div>
+          <div class="card"><span class="tag inference">分析推断</span><h3>用于产品决策</h3><p>由多条证据推导，明确标识，不冒充公司官方架构或用户结论。</p></div>
+        </div>
+        <div class="filter-row" aria-label="证据筛选">
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">全部证据</button>
+          <button class="filter" type="button" data-filter="fact" aria-pressed="false">公开事实</button>
+          <button class="filter" type="button" data-filter="proxy" aria-pressed="false">市场代理</button>
+          <button class="filter" type="button" data-filter="inference" aria-pressed="false">分析推断</button>
+        </div>
+        <div class="evidence-list" aria-live="polite">
+          <div class="evidence-card" data-evidence="proxy"><span class="tag proxy">市场代理</span><strong>头部高度集中</strong><span>头部 10% App 获得 89% 类别收入。</span></div>
+          <div class="evidence-card" data-evidence="fact"><span class="tag fact">公开事实</span><strong>独居是结构性人群</strong><span>美国有 3,850 万个一人户，占家庭户 29%。</span></div>
+          <div class="evidence-card" data-evidence="inference"><span class="tag inference">分析推断</span><strong>硬件应后置</strong><span>先用手机与智能音箱验证语音主动陪伴，再承担硬件成本。</span></div>
+          <div class="evidence-card" data-evidence="proxy"><span class="tag proxy">市场代理</span><strong>年轻男性主导</strong><span>类别 18–24 岁占 65.4%，男性占 69.8%。</span></div>
+          <div class="evidence-card" data-evidence="fact"><span class="tag fact">公开事实</span><strong>加拿大也有需求</strong><span>440 万人独居，一人户占家庭户 29.3%。</span></div>
+          <div class="evidence-card" data-evidence="inference"><span class="tag inference">分析推断</span><strong>双产品而非双人群</strong><span>成人开放陪伴与青少年结构化体验需要不同品牌、数据和安全栈。</span></div>
+        </div>
+      </section>
+
+      <section id="north-america-market">
+        <div class="section-head">
+          <span class="section-number">03 / MARKET</span>
+          <div><h2>北美需求与相对位置</h2><p class="section-intro">移动端收入说明消费热度，人口与机构数据说明未被传统聊天 App 覆盖的需求，两者不能直接相加。</p></div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h3>全球移动端消费地域构成</h3>
+            <div class="bar-row"><span>美国</span><div class="bar"><i style="width:57.4%"></i></div><small>57.4%</small></div>
+            <div class="bar-row"><span>加拿大</span><div class="bar"><i style="width:3.9%"></i></div><small>3.9%</small></div>
+            <div class="bar-row"><span>其他市场</span><div class="bar"><i style="width:38.7%"></i></div><small>38.7%</small></div>
+            <p class="source-note">Appfigures，2023–2024；仅 App Store / Google Play IAP。</p>
+          </div>
+          <div class="card">
+            <h3>年龄结构揭示渠道错配</h3>
+            <div class="bar-row"><span>18–24</span><div class="bar"><i style="width:65.4%"></i></div><small>65.4%</small></div>
+            <div class="bar-row"><span>25–49</span><div class="bar"><i style="width:20.8%"></i></div><small>20.8%</small></div>
+            <div class="bar-row"><span>50–64</span><div class="bar"><i style="width:13.3%"></i></div><small>13.3%</small></div>
+            <div class="bar-row"><span>65+</span><div class="bar"><i style="width:.4%; min-width:3px"></i></div><small>0.4%</small></div>
+            <p class="source-note">类别移动端画像，不代表老年人没有需求；更可能反映发现、输入与付费门槛。</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="share-table">
+            <thead><tr><th>标杆</th><th>可用市场位置代理</th><th>北美判断</th><th>不可得数据</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Replika</strong></td><td>第三方美国 iOS 下载/收入估算</td><td>成熟的一对一关系型消费产品</td><td>北美 MAU、全渠道收入、留存</td></tr>
+              <tr><td><strong>Character.AI</strong></td><td>2023–24 全球移动下载约 4,300 万，类别第一；IAP 约 680 万美元，第二</td><td>规模最大的平台型参照；Stories 无独立份额</td><td>Stories 用户、收入贡献、北美拆分</td></tr>
+              <tr><td><strong>Refind Self</strong></td><td>开发者称全球销量超过 20 万</td><td>行为识别方法参照，不是陪伴竞品</td><td>北美销量与持续使用</td></tr>
+              <tr><td><strong>Wysa</strong></td><td>公司称 600 万用户、1,100 万机构覆盖生命</td><td>B2B2C 心理健康安全参照</td><td>北美用户、合同额、付费转化</td></tr>
+              <tr><td><strong>ElliQ</strong></td><td>纽约州约 900 台；834 名参与者</td><td>老年语音/硬件的代表性案例，仍非全国规模</td><td>全国部署、续费、收入</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout warning"><strong>关键解读：</strong>青少年是现有移动 App 的流量中心；45–70 岁是更可防守、但需要重新设计交互和渠道的空白。不要用 Character.AI 的平台规模为 Stories 背书，也不要用 ElliQ 的单州部署推导全国份额。</div>
+      </section>
+
+      <section id="product-deep-dives">
+        <div class="section-head">
+          <span class="section-number">04 / PRODUCTS</span>
+          <div><h2>五个标杆，五种可复用能力</h2><p class="section-intro">统一观察用户画像、盈利、用户层机制、模型/算法层和不可复制的边界。</p></div>
+        </div>
+        <div class="product-grid">
+          <article class="product product-featured">
+            <div class="product-kicker">01 · Relationship contract</div>
+            <div class="product-title"><h3>Replika</h3><span class="tag fact">18+</span></div>
+            <dl>
+              <dt>核心用户</dt><dd>希望获得稳定一对一朋友、恋人、兄弟姐妹或导师关系的成年人。</dd>
+              <dt>盈利方式</dt><dd>Free / Pro / Ultra / Platinum；用关系身份、活动、自拍/图像、语音、记忆和更强模型分层。</dd>
+              <dt>用户层</dt><dd>先选择关系，再通过连续对话、反馈、等级和共同记忆累积亲密度。</dd>
+              <dt>借鉴</dt><dd>关系必须是“可查看、可切换、有边界的契约”，不是只替换 system prompt。</dd>
+              <dt>风险</dt><dd>情感依赖、关系付费激励与危机应对之间存在天然冲突；官方明确不是医疗服务。</dd>
+            </dl>
+            <button class="model-toggle" type="button" aria-expanded="false" aria-controls="model-replika">查看模型层实践</button>
+            <div class="model-panel" id="model-replika"><strong>关系状态机 + 长期记忆。</strong> 官方称训练使用超过 1 亿段对话，以上下文、历史和反馈个性化；自伤识别触发预写安全回复。基础模型、参数和完整路由未公开，因此不应把体验反推为特定架构。</div>
+          </article>
+
+          <article class="product">
+            <div class="product-kicker">02 · Implicit profiling</div>
+            <div class="product-title"><h3>Refind Self</h3><span class="tag inference">非 LLM</span></div>
+            <dl>
+              <dt>核心用户</dt><dd>喜欢叙事游戏、自我探索、人格测试与分享结果的玩家。</dd>
+              <dt>盈利方式</dt><dd>一次性买断，Steam 美国标价约 7.99 美元；跨 PC、移动与主机发行。</dd>
+              <dt>用户层</dt><dd>不填问卷；玩家在剧情中的行动持续被分析，100% 后展示人格，可重复游玩。</dd>
+              <dt>借鉴</dt><dd>让用户用选择“展示自己”；结论必须是可查看、可纠正的假设。</dd>
+            </dl>
+            <button class="model-toggle" type="button" aria-expanded="false" aria-controls="model-refind">查看算法层实践</button>
+            <div class="model-panel" id="model-refind"><strong>隐性人格 = 行为遥测，不是大模型读心。</strong> 路径、选择、行动和可能的时序信号映射到 23 种人格，最多给出 5 种；匿名 ID 支持与聚合选择比例比较。官方未披露精确打分公式。</div>
+          </article>
+
+          <article class="product">
+            <div class="product-kicker">03 · Guided narrative</div>
+            <div class="product-title"><h3>Character.AI Stories</h3><span class="tag fact">Teen-safe pivot</span></div>
+            <dl>
+              <dt>核心用户</dt><dd>角色扮演、同人、故事创作用户；Stories 特别承接需要明确边界的青少年。</dd>
+              <dt>盈利方式</dt><dd>免费平台 + c.ai+ 订阅，销售增强与实验能力。</dd>
+              <dt>用户层</dt><dd>视觉化、多路径、频繁选择、可重玩和分享的引导式叙事。</dd>
+              <dt>借鉴</dt><dd>有限选项同时承担趣味、画像采集与安全约束，比青少年开放聊天更可控。</dd>
+            </dl>
+            <button class="model-toggle" type="button" aria-expanded="false" aria-controls="model-character">查看模型层实践</button>
+            <div class="model-panel" id="model-character"><strong>结构化剧情 + 角色人格。</strong> 平台披露 Kaiju dense transformer、int8 量化、多查询与滑动窗口注意力、缓存共享，同时采用开源模型。Stories 的剧情规划和生产路由未单独披露。2025-11 起，18 岁以下不再使用开放式聊天。</div>
+          </article>
+
+          <article class="product">
+            <div class="product-kicker">04 · Safety orchestration</div>
+            <div class="product-title"><h3>Wysa</h3><span class="tag fact">Clinical boundary</span></div>
+            <dl>
+              <dt>核心用户</dt><dd>需要低门槛情绪支持、循证练习，或通过雇主、保险和医疗系统获得服务的人。</dd>
+              <dt>盈利方式</dt><dd>消费者订阅 + 雇主/保险/学校/医疗许可 + 人类教练与临床项目。</dd>
+              <dt>用户层</dt><dd>匿名入口、结构化练习、量表、风险识别与人工升级；不做诊断，不替代治疗。</dd>
+              <dt>借鉴</dt><dd>安全编排器必须独立于陪伴人格，危机回复不能只依赖一次生成。</dd>
+            </dl>
+            <button class="model-toggle" type="button" aria-expanded="false" aria-controls="model-wysa">查看模型层实践</button>
+            <div class="model-panel" id="model-wysa"><strong>规则系统与 LLM 的混合。</strong> 临床审阅内容库、条件流、风险分类、量表、资源卡和人工团队包围 LLM。机构版本可配置；Copilot 可将风险提示给照护团队。</div>
+          </article>
+
+          <article class="product">
+            <div class="product-kicker">05 · Proactive companion</div>
+            <div class="product-title"><h3>ElliQ</h3><span class="tag fact">Voice + Hardware</span></div>
+            <dl>
+              <dt>核心用户</dt><dd>独居、居家养老、面临社会孤立或需要日程/习惯支持的老年人。</dd>
+              <dt>盈利方式</dt><dd>249 美元启动租赁费；39–59 美元/月会员；另有政府与照护机构部署。</dd>
+              <dt>用户层</dt><dd>语音、身体动作、灯光、活动和提醒构成“在场”；主动发起而非等待提问。</dd>
+              <dt>借鉴</dt><dd>主动性需要频次预算、静默时间、拒绝学习和触达理由；硬件在 PMF 后再做。</dd>
+            </dl>
+            <button class="model-toggle" type="button" aria-expanded="false" aria-controls="model-elliq">查看模型层实践</button>
+            <div class="model-panel" id="model-elliq"><strong>主动触达 + Relationship Orchestration Engine。</strong> 实时选择脚本动作或生成对话，组合语音与非语言行为；将互动分类并写入用户档案，再安排后续话题、提醒与活动。</div>
+          </article>
+        </div>
+      </section>
+
+      <section id="comparison-matrix">
+        <div class="section-head">
+          <span class="section-number">05 / MATRIX</span>
+          <div><h2>统一对比矩阵</h2><p class="section-intro">切换用户、模型、商业与安全视角；打印时显示全部。</p></div>
+        </div>
+        <div class="tabs" role="tablist" aria-label="对比维度">
+          <button class="tab" type="button" role="tab" data-layer="user" aria-selected="true">用户层</button>
+          <button class="tab" type="button" role="tab" data-layer="model" aria-selected="false">模型层</button>
+          <button class="tab" type="button" role="tab" data-layer="business" aria-selected="false">商业层</button>
+          <button class="tab" type="button" role="tab" data-layer="safety" aria-selected="false">安全层</button>
+        </div>
+        <div class="table-wrap">
+          <table class="matrix">
+            <thead><tr><th>层</th><th>产品</th><th>主机制</th><th>最值得复用</th><th>主要缺口</th></tr></thead>
+            <tbody>
+              <tr data-layer="user"><td>用户</td><td>Replika</td><td>关系身份 + 连续对话</td><td>先建立关系预期</td><td>依赖与付费激励</td></tr>
+              <tr data-layer="user"><td>用户</td><td>Refind Self</td><td>剧情行动代替问卷</td><td>低压力了解用户</td><td>不是长期陪伴</td></tr>
+              <tr data-layer="user"><td>用户</td><td>Stories</td><td>多路径有限选择</td><td>选择即体验与信号</td><td>功能级留存未知</td></tr>
+              <tr data-layer="user"><td>用户</td><td>Wysa</td><td>练习 + 人工升级</td><td>明确服务边界</td><td>娱乐与亲密感弱</td></tr>
+              <tr data-layer="user"><td>用户</td><td>ElliQ</td><td>语音 + 主动活动</td><td>不是等待用户提问</td><td>硬件发现与成本</td></tr>
+              <tr data-layer="model"><td>模型</td><td>Replika</td><td>关系状态、记忆、模型分层</td><td>关系状态机</td><td>架构未完整披露</td></tr>
+              <tr data-layer="model"><td>模型</td><td>Refind Self</td><td>事件遥测 + 规则统计</td><td>可解释的隐性人格</td><td>映射公式未知</td></tr>
+              <tr data-layer="model"><td>模型</td><td>Stories</td><td>角色模型 + 剧情约束</td><td>结构化剧情规划</td><td>Stories 管线未知</td></tr>
+              <tr data-layer="model"><td>模型</td><td>Wysa</td><td>规则系统与 LLM</td><td>独立安全编排器</td><td>风险评估细节有限</td></tr>
+              <tr data-layer="model"><td>模型</td><td>ElliQ</td><td>LLM + 关系编排</td><td>主动触达调度</td><td>全国规模未验证</td></tr>
+              <tr data-layer="business"><td>商业</td><td>Replika</td><td>多级订阅</td><td>深关系/记忆付费</td><td>转化未披露</td></tr>
+              <tr data-layer="business"><td>商业</td><td>Refind Self</td><td>一次性买断</td><td>低价完整体验</td><td>缺少经常性收入</td></tr>
+              <tr data-layer="business"><td>商业</td><td>Stories</td><td>免费 + c.ai+</td><td>规模化内容飞轮</td><td>功能贡献未知</td></tr>
+              <tr data-layer="business"><td>商业</td><td>Wysa</td><td>D2C + B2B2C</td><td>多付费方</td><td>销售周期长</td></tr>
+              <tr data-layer="business"><td>商业</td><td>ElliQ</td><td>租赁会员 + B2G</td><td>硬件形成持续服务</td><td>毛利与履约压力</td></tr>
+              <tr data-layer="safety"><td>安全</td><td>Replika</td><td>危机脚本 + 非医疗声明</td><td>确定性危机回复</td><td>依赖治理需加强</td></tr>
+              <tr data-layer="safety"><td>安全</td><td>Refind Self</td><td>匿名结果 ID</td><td>画像可比较</td><td>用于陪伴时需同意治理</td></tr>
+              <tr data-layer="safety"><td>安全</td><td>Stories</td><td>未成年非开放聊天</td><td>按年龄降自由度</td><td>年龄保障仍有误差</td></tr>
+              <tr data-layer="safety"><td>安全</td><td>Wysa</td><td>分类、内容库、人工升级</td><td>分层防线</td><td>不能替代危机服务</td></tr>
+              <tr data-layer="safety"><td>安全</td><td>ElliQ</td><td>脚本/生成路由</td><td>适龄主动内容</td><td>家庭与照护者隐私</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="audience-segments">
+        <div class="section-head">
+          <span class="section-number">06 / AUDIENCE</span>
+          <div><h2>三个细分，不同产品</h2><p class="section-intro">按进入顺序而非抽象市场大小排序。</p></div>
+        </div>
+        <div class="audience-grid">
+          <article class="audience primary">
+            <span class="tag inference">首发建议</span><div class="fit">01</div>
+            <h3>45–70 岁、独居或弱连接成年人</h3>
+            <p><strong>任务：</strong>有人说话、记住生活、共同活动、维持节律、必要时联系真人。</p>
+            <p><strong>入口：</strong>手机语音优先；朋友/家人/生活伙伴，不默认恋人。</p>
+            <p><strong>付费方：</strong>本人、成年子女；后续雇主、保险和社区机构。</p>
+          </article>
+          <article class="audience">
+            <span class="tag risk">独立产品</span><div class="fit">02</div>
+            <h3>13–17 岁青少年</h3>
+            <p><strong>任务：</strong>自我探索、社交排演、故事创作、情绪命名与求助。</p>
+            <p><strong>入口：</strong>结构化剧情、有限选择、短时长、明确 AI 身份。</p>
+            <p><strong>付费方：</strong>家长、学校、青少年服务机构；不做恋人开放聊天。</p>
+          </article>
+          <article class="audience">
+            <span class="tag fact">第二阶段</span><div class="fit">03</div>
+            <h3>65+ 居家养老与高孤立风险</h3>
+            <p><strong>任务：</strong>陪聊、提醒、活动、家庭连接与社区资源。</p>
+            <p><strong>入口：</strong>免打字语音、简化设置、照护者协作；在验证后考虑硬件。</p>
+            <p><strong>付费方：</strong>成年子女、政府、照护机构与保险。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="combined-opportunity">
+        <div class="section-head">
+          <span class="section-number">07 / PRODUCT</span>
+          <div><h2>两层 User Story 与模型架构</h2><p class="section-intro">用户看到的是关系、剧情与陪伴；后台需要把画像、关系、记忆、安全和主动性分成独立可审计模块。</p></div>
+        </div>
+        <div class="architecture" role="img" aria-label="用户层与大模型层能力架构">
+          <div class="arch-row">
+            <div class="arch-label">用户层</div>
+            <div class="arch-node"><strong>1. 关系契约</strong>朋友 / 家人 / 生活伙伴；边界、语气与主动频次</div>
+            <div class="arch-node"><strong>2. 剧情相识</strong>用选择了解价值观、爱好、冲突方式与人生取向</div>
+            <div class="arch-node"><strong>3. 日常陪伴</strong>对话、共同活动、连续记忆与阶段性关系成长</div>
+            <div class="arch-node"><strong>4. 真人连接</strong>家人、朋友、社区、教练或危机资源升级</div>
+          </div>
+          <div class="arch-row">
+            <div class="arch-label">大模型层</div>
+            <div class="arch-node"><strong>身份与同意</strong>年龄、地区、AI 披露、关系与数据权限</div>
+            <div class="arch-node"><strong>人格与关系</strong>隐性画像假设 + 关系状态机 + 可编辑用户模型</div>
+            <div class="arch-node"><strong>生成与记忆</strong>剧情规划器 + 对话模型 + 分层长期记忆</div>
+            <div class="arch-node"><strong>安全与主动</strong>风险分类器 + 策略引擎 + 主动触达调度 + 审计</div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h3>剧情不是一次性 onboarding</h3>
+            <ol class="compact-list">
+              <li>每个选择同时服务剧情推进和一个画像假设。</li>
+              <li>不直接显示“你是什么人格”，而是展示“我目前这样理解你”。</li>
+              <li>用户可纠正；系统用日常行为继续更新置信度。</li>
+              <li>高敏感推断不自动进入长期记忆。</li>
+            </ol>
+          </div>
+          <div class="card">
+            <h3>主动陪伴不是多发通知</h3>
+            <ol class="compact-list">
+              <li>每次触达必须有理由：承诺、节律、事件或用户目标。</li>
+              <li>有每日预算、静默时间和一键降低频率。</li>
+              <li>拒绝与忽略是负反馈，不能被解释为需要更多消息。</li>
+              <li>商业促销与情绪脆弱信号严格隔离。</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section id="business-model">
+        <div class="section-head">
+          <span class="section-number">08 / BUSINESS</span>
+          <div><h2>订阅为主，多付费方扩张</h2><p class="section-intro">价值锚点应是持续记忆、语音与共同活动，而不是制造关系焦虑后出售安慰。</p></div>
+        </div>
+        <div class="table-wrap">
+          <table class="pricing">
+            <thead><tr><th>层级</th><th>建议价格假设</th><th>核心权益</th><th>验证目标</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Free</strong></td><td>$0</td><td>基础关系、有限剧情、短期记忆、基础安全</td><td>验证需求与激活</td></tr>
+              <tr><td><strong>Companion Plus</strong></td><td>$14–20/月</td><td>更长语音、长期记忆、主动计划、更多共同活动</td><td>D30 留存与付费意愿</td></tr>
+              <tr><td><strong>Family Circle</strong></td><td>$25–35/月</td><td>用户授权的家庭摘要、联络计划、多人共同付费</td><td>成年子女付费与信任</td></tr>
+              <tr><td><strong>Organization</strong></td><td>按覆盖/使用收费</td><td>机构配置、人工升级、匿名群体洞察与审计</td><td>B2B2C 渠道效率</td></tr>
+              <tr><td><strong>Device</strong></td><td>PMF 后评估</td><td>专用语音终端、环境存在感、远程支持</td><td>硬件毛利与续费</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout"><strong>北极星指标：</strong>“有意义互动日”——用户完成一次被其认可为有帮助的对话、活动或真人连接闭环。不要用消息数、时长或情感强度作为唯一增长目标。</div>
+      </section>
+
+      <section id="safety-regulation">
+        <div class="section-head">
+          <span class="section-number">09 / SAFETY</span>
+          <div><h2>安全体系必须先于亲密度</h2><p class="section-intro">California SB 243、FTC 调查、Illinois WOPR 与加拿大隐私原则共同指向：披露、未成年人、危机、画像和商业激励都需要系统级治理。</p></div>
+        </div>
+        <div class="principles">
+          <div class="principle"><div><strong>身份与年龄分流</strong><br>持续说明 AI 身份；成人与未成年人使用不同模型、内容、数据保留和功能权限。</div></div>
+          <div class="principle"><div><strong>不宣称诊断或治疗</strong><br>产品定位为陪伴、情绪支持和自助练习；涉及医疗时转向持证专业人员。</div></div>
+          <div class="principle"><div><strong>分层危机防线</strong><br>高召回分类器 → 确定性安全模板 → 地区资源 → 经同意的真人升级 → 审计与复盘。</div></div>
+          <div class="principle"><div><strong>防依赖设计</strong><br>不贬低真人关系、不威胁离开、不以嫉妒促付费；鼓励睡眠、离线和真实连接。</div></div>
+          <div class="principle"><div><strong>记忆与画像主权</strong><br>敏感信息最小化；用户能查看、纠正、删除与关闭；高敏感推断需明确同意。</div></div>
+          <div class="principle"><div><strong>安全评测与发布门</strong><br>按年龄、关系类型、语言和危机场景建立离线红队集；高风险召回不达标不得发布。</div></div>
+        </div>
+        <div class="callout warning"><strong>产品文案边界：</strong>避免“心理咨询机器人”“治愈孤独”或“永远只爱你”。更合适的是“一个会记住你、陪你行动，并在需要时帮你连接真人支持的 AI 伙伴”。</div>
+      </section>
+
+      <section id="recommendations">
+        <div class="section-head">
+          <span class="section-number">10 / ACTION</span>
+          <div><h2>从 12 周验证开始</h2><p class="section-intro">先证明用户会接受主动语音陪伴和可编辑记忆，再扩大人群、渠道与硬件。</p></div>
+        </div>
+        <div class="roadmap">
+          <article class="phase"><b>PHASE 1 · 0–4 周</b><h3>问题与边界</h3><ul class="compact-list"><li>访谈 20 位 45–70 岁独居/弱连接用户</li><li>访谈 10 位成年子女或照护者</li><li>完成关系契约、危机流程和数据地图</li><li>测试朋友/家人/生活伙伴三种定位</li></ul></article>
+          <article class="phase"><b>PHASE 2 · 5–8 周</b><h3>Wizard-of-Oz MVP</h3><ul class="compact-list"><li>语音对话 + 轻量剧情选择</li><li>可查看/纠正的画像与记忆</li><li>每日一次可解释主动触达</li><li>全量人工复核高风险对话</li></ul></article>
+          <article class="phase"><b>PHASE 3 · 9–12 周</b><h3>付费与留存</h3><ul class="compact-list"><li>测试 $14–20/月订阅</li><li>观察 4 周有意义互动日与静音率</li><li>验证成年子女共同付费</li><li>以安全门决定是否扩大内测</li></ul></article>
+        </div>
+        <div class="grid-2">
+          <div class="card"><h3>继续的门槛</h3><ul class="compact-list"><li>首个关系契约完成率 ≥ 65%</li><li>首章剧情完成率 ≥ 60%</li><li>D30 仍有 ≥ 35% 用户每周 3 个有意义互动日</li><li>主动触达静音/关闭率持续下降</li><li>高风险集达到预设召回且转介可用</li></ul></div>
+          <div class="card"><h3>应立即停止或重做</h3><ul class="compact-list"><li>付费主要由恋爱焦虑或嫉妒驱动</li><li>用户无法理解或删除系统记忆</li><li>青少年与成人数据/模型无法隔离</li><li>危机处理只依赖通用 LLM</li><li>硬件成为验证需求前的主要成本</li></ul></div>
+        </div>
+      </section>
+
+      <section id="sources">
+        <div class="section-head">
+          <span class="section-number">11 / SOURCES</span>
+          <div><h2>主要来源与限制</h2><p class="section-intro">价格与市场估算会变化；以下链接访问于 2026-07-26。第三方移动数据不包含网页、广告、企业采购与硬件。</p></div>
+        </div>
+        <ol class="sources">
+          <li><a href="https://resources-cdn.appfigures.com/industry-reports/appfigures-rise-of-ai-apps-key-trends-shaping-2025-report-v2.2.pdf" target="_blank" rel="noreferrer">Appfigures — Rise of AI Apps 2025</a><span>类别消费、下载、地域和年龄代理</span></li>
+          <li><a href="https://techcrunch.com/2025/08/12/ai-companion-apps-on-track-to-pull-in-120m-in-2025/" target="_blank" rel="noreferrer">TechCrunch / Appfigures — 2025 companion apps</a><span>H1 收入、全年预测、集中度</span></li>
+          <li><a href="https://www.commonsensemedia.org/research/talk-trust-and-trade-offs-how-and-why-teens-use-ai-companions" target="_blank" rel="noreferrer">Common Sense Media — Teens and AI Companions</a><span>美国青少年采用与风险</span></li>
+          <li><a href="https://www.apa.org/news/press/releases/2025/11/nation-suffering-division-loneliness" target="_blank" rel="noreferrer">APA — Loneliness and isolation</a><span>美国成年人陪伴需求</span></li>
+          <li><a href="https://www.census.gov/newsroom/press-releases/2024/families-and-living-arrangements.html" target="_blank" rel="noreferrer">U.S. Census — Living arrangements</a><span>美国一人户</span></li>
+          <li><a href="https://www.census.gov/newsroom/press-releases/2025/older-adults-outnumber-children.html" target="_blank" rel="noreferrer">U.S. Census — Older adults</a><span>美国 65+ 人口</span></li>
+          <li><a href="https://www150.statcan.gc.ca/n1/daily-quotidien/220713/dq220713a-eng.htm" target="_blank" rel="noreferrer">Statistics Canada — Living alone</a><span>加拿大独居人口</span></li>
+          <li><a href="https://help.replika.com/hc/en-us/articles/360046490131-How-do-I-change-my-relationship-status" target="_blank" rel="noreferrer">Replika — Relationship status</a><span>关系类型</span></li>
+          <li><a href="https://help.replika.com/hc/en-us/articles/39551043419149-Choosing-a-Subscription" target="_blank" rel="noreferrer">Replika — Subscriptions</a><span>产品分层与权益</span></li>
+          <li><a href="https://blog.replika.ai/posts/creating-a-safe-replika-experience" target="_blank" rel="noreferrer">Replika — Safety & technology</a><span>训练对话、危机脚本与测试</span></li>
+          <li><a href="https://replika.com/legal/terms/en" target="_blank" rel="noreferrer">Replika — Terms</a><span>18+ 与非医疗声明</span></li>
+          <li><a href="https://playism.com/game/refindself/" target="_blank" rel="noreferrer">PLAYISM — Refind Self</a><span>玩法、23 类人格、匿名 ID</span></li>
+          <li><a href="https://store.steampowered.com/app/2514960/Refind_Self/" target="_blank" rel="noreferrer">Steam — Refind Self</a><span>价格与商店信息</span></li>
+          <li><a href="https://automaton-media.com/en/interviews/interview-how-personality-test-game-refind-self-sold-over-200k-collaboration-developer-publisher/" target="_blank" rel="noreferrer">Automaton — Refind Self interview</a><span>开发者披露销量</span></li>
+          <li><a href="https://blog.character.ai/introducing-stories-a-new-way-to-create-play-and-share-adventures-with-your-favorite-characters/" target="_blank" rel="noreferrer">Character.AI — Stories</a><span>结构化剧情机制</span></li>
+          <li><a href="https://support.character.ai/hc/en-us/articles/42645561782555-Important-Changes-for-Teens-on-Character-ai" target="_blank" rel="noreferrer">Character.AI — Teen changes</a><span>未成年开放聊天调整</span></li>
+          <li><a href="https://blog.character.ai/inside-kaiju-building-conversational-models-at-scale/" target="_blank" rel="noreferrer">Character.AI — Inside Kaiju</a><span>模型架构披露</span></li>
+          <li><a href="https://www.wysa.com/faq" target="_blank" rel="noreferrer">Wysa — FAQ</a><span>规则 + LLM、年龄和服务边界</span></li>
+          <li><a href="https://www.wysa.com/wysa-copilot" target="_blank" rel="noreferrer">Wysa — Copilot</a><span>风险识别与人工升级</span></li>
+          <li><a href="https://elliq.com/products/membership" target="_blank" rel="noreferrer">ElliQ — Membership</a><span>租赁与订阅价格</span></li>
+          <li><a href="https://blog.elliq.com/elliq3" target="_blank" rel="noreferrer">ElliQ 3 — Technology</a><span>关系编排与主动触达</span></li>
+          <li><a href="https://aging.ny.gov/node/11461" target="_blank" rel="noreferrer">New York State — ElliQ program</a><span>机构部署</span></li>
+          <li><a href="https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202520260SB243" target="_blank" rel="noreferrer">California Legislature — SB 243</a><span>companion chatbot 义务</span></li>
+          <li><a href="https://search.ftc.gov/news-events/news/press-releases/2025/09/ftc-launches-inquiry-ai-chatbots-acting-companions" target="_blank" rel="noreferrer">FTC — AI companion inquiry</a><span>儿童、变现、安全与数据</span></li>
+          <li><a href="https://idfpr.illinois.gov/news/2025/gov-pritzker-signs-state-leg-prohibiting-ai-therapy-in-il.html" target="_blank" rel="noreferrer">Illinois — WOPR Act</a><span>AI 心理治疗边界</span></li>
+          <li><a href="https://www.priv.gc.ca/en/privacy-topics/technology/artificial-intelligence/ai-chatbots_ind/" target="_blank" rel="noreferrer">Canada OPC — AI chatbots</a><span>敏感数据、训练与画像提醒</span></li>
+        </ol>
+        <p class="source-note">完整逐条证据、可信度和限制同时保存在项目的研究台账中。本报告不构成医疗、法律或投资建议。</p>
+      </section>
+    </main>
+  </div>
+
+  <footer>AI Companion North America Market Research · Internal product strategy artifact · 2026</footer>
+  <script>
+    document.getElementById("print-report").addEventListener("click", () => window.print());
+
+    const filterButtons = document.querySelectorAll(".filter");
+    const evidenceCards = document.querySelectorAll(".evidence-card");
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.filter;
+        filterButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+        evidenceCards.forEach((card) => {
+          card.hidden = filter !== "all" && card.dataset.evidence !== filter;
+        });
+      });
+    });
+
+    document.querySelectorAll(".model-toggle").forEach((button) => {
+      const panel = document.getElementById(button.getAttribute("aria-controls"));
+      panel.hidden = true;
+      button.addEventListener("click", () => {
+        const expanded = button.getAttribute("aria-expanded") === "true";
+        button.setAttribute("aria-expanded", String(!expanded));
+        panel.hidden = expanded;
+        button.textContent = expanded ? "查看模型层实践" : "收起模型层实践";
+      });
+    });
+
+    const tabs = document.querySelectorAll(".tab");
+    const matrixRows = document.querySelectorAll(".matrix tbody tr");
+    function showLayer(layer) {
+      tabs.forEach((tab) => tab.setAttribute("aria-selected", String(tab.dataset.layer === layer)));
+      matrixRows.forEach((row) => { row.hidden = row.dataset.layer !== layer; });
+    }
+    tabs.forEach((tab) => tab.addEventListener("click", () => showLayer(tab.dataset.layer)));
+    showLayer("user");
+
+    const tocLinks = [...document.querySelectorAll(".toc a")];
+    const sections = tocLinks.map((link) => document.querySelector(link.getAttribute("href")));
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            tocLinks.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${entry.target.id}`));
+          }
+        });
+      }, { rootMargin: "-15% 0px -70% 0px" });
+      sections.forEach((section) => observer.observe(section));
+    }
+  </script>
+</body>
+</html>
