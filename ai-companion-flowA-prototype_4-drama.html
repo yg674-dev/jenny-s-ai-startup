@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Companion · Flow A · 成人陪伴交互原型</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B5563'/%3E%3Cpath d='M9 20a7 7 0 0 1 14 0' stroke='%23fff' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='11' r='3' fill='%23fff'/%3E%3C/svg%3E">
+<style>
+/* ============================================================
+   DESIGN READ
+   多步引导 + 对话式产品原型，面向北美 45-70 岁成人。
+   语言：克制的编辑感。系统：冷中性灰 + 单一深孔雀蓝强调色。
+   DESIGN_VARIANCE 6 · MOTION_INTENSITY 4 · VISUAL_DENSITY 4
+   ============================================================ */
+:root{
+  --bg:#EDEFEE; --paper:#FCFCFB; --surf:#F4F5F4; --surf2:#E7EAE9;
+  --ink:#111315; --ink2:#4B5153; --ink3:#7B8285; --ink4:#A3A9AB;
+  --line:#DCDFDE; --line2:#C4C9C8;
+  --ac:#0B5563; --ac2:#0E6B7E; --ac-t:#E0EBED; --ac-l:#C6DBDF;
+  --dg:#9E2B20; --dg-t:#F4E3E1;
+  --ca:#7E5C0C; --ca-t:#F5EEDB;
+  --af:#2E6244; --af-t:#E1EDE6;
+  --sh:0 1px 1px rgba(11,32,38,.04), 0 10px 30px -14px rgba(11,32,38,.22);
+  --sh-l:0 2px 4px rgba(11,32,38,.05), 0 24px 60px -24px rgba(11,32,38,.3);
+  --fs:17px;
+  --z-nav:10; --z-panel:40; --z-overlay:60; --z-obs:70;
+  --ease:cubic-bezier(.22,.68,.28,1);
+}
+html[data-fs="1"]{--fs:19.5px} html[data-fs="2"]{--fs:22.5px}
+html[data-hc="1"]{--bg:#fff;--paper:#fff;--surf:#fff;--surf2:#f0f0f0;--ink:#000;--ink2:#111;--ink3:#2c2c2c;--ink4:#444;--line:#000;--line2:#000;--ac:#00404E;--ac-t:#DCECEF}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{
+  background:var(--bg); color:var(--ink); font-size:var(--fs); line-height:1.6;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI Variable Text","Segoe UI",system-ui,"PingFang SC","HarmonyOS Sans SC","Source Han Sans SC","Noto Sans CJK SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-optical-sizing:auto; font-variant-numeric:tabular-nums; -webkit-font-smoothing:antialiased;
+  position:relative;
+}
+/* 颗粒质感，避免纯平 */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.4;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E")}
+html[data-hc="1"] body::after{display:none}
+button{font:inherit;color:inherit;cursor:pointer;border:none;background:none;letter-spacing:inherit}
+:focus-visible{outline:2.5px solid var(--ac2);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-9999px;top:0;z-index:99;background:var(--ink);color:#fff;padding:12px 20px;border-radius:0 0 10px 0}
+.skip:focus{left:0}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}}
+
+/* ---------- shell : 非对称网格 ---------- */
+.shell{display:flex;flex-direction:column;height:100%;max-width:1360px;margin:0 auto;position:relative;z-index:2}
+.topbar{display:flex;align-items:center;gap:10px;padding:14px 30px;border-bottom:1px solid var(--line);background:var(--paper);flex-wrap:wrap}
+.mark{display:flex;align-items:center;gap:10px}
+.mark svg{width:26px;height:26px;flex:0 0 auto}
+.mark b{font-weight:600;letter-spacing:-.015em;font-size:.94em}
+.mark i{font-style:normal;font-size:.62em;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);display:block;margin-top:-3px;font-weight:500}
+.spacer{flex:1}
+.tool{border:1px solid var(--line2);border-radius:8px;padding:6px 13px;font-size:.78em;font-weight:500;color:var(--ink2);background:var(--paper);white-space:nowrap;transition:.18s var(--ease)}
+.tool:hover{background:var(--ac-t);border-color:var(--ac);color:var(--ac)}
+.tool:active{transform:translateY(1px)}
+.tool[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+.body{display:grid;grid-template-columns:232px minmax(0,1fr);flex:1;min-height:0}
+.rail{padding:34px 20px 24px 30px;border-right:1px solid var(--line);overflow-y:auto;background:var(--paper)}
+.rail h4{margin:0 0 18px;font-size:.62em;letter-spacing:.22em;text-transform:uppercase;color:var(--ink4);font-weight:600}
+.step{display:grid;grid-template-columns:22px 1fr;gap:11px;align-items:baseline;padding:8px 0;font-size:.8em;color:var(--ink4);line-height:1.35;border-top:1px solid transparent;transition:.25s var(--ease)}
+.step .n{font-size:.82em;font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink4)}
+.step.done{color:var(--ink2)} .step.done .n{color:var(--af)}
+.step.now{color:var(--ink);font-weight:600}
+.step.now .n{color:var(--ac)}
+.step.now::before{content:"";position:absolute;margin-left:-30px;width:3px;height:22px;background:var(--ac);border-radius:0 3px 3px 0}
+.step .sub{display:block;font-weight:400;color:var(--ink4);font-size:.9em;margin-top:1px}
+.railnote{margin-top:26px;padding:14px;background:var(--surf);border-radius:12px;font-size:.72em;color:var(--ink2);line-height:1.6}
+.railnote b{display:block;margin-bottom:4px;color:var(--ink)}
+
+.stage{overflow-y:auto;position:relative;display:flex;flex-direction:column;min-width:0}
+.screen{display:none;flex:1;animation:rise .5s var(--ease) both}
+.screen.on{display:block}
+.screen.col{display:none;flex-direction:column}
+.screen.col.on{display:flex}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes stagger{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.pad{padding:46px 60px 80px}
+/* 非对称：内容左对齐，右侧留大量呼吸 */
+.col-main{max-width:600px}
+.col-wide{max-width:1060px}
+.split{display:grid;grid-template-columns:minmax(0,1fr) 268px;gap:44px;align-items:start;margin-top:30px}
+.side{position:sticky;top:26px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px}
+.side .big{font-size:2.15em;letter-spacing:.06em;font-weight:300;line-height:1;display:block;margin:4px 0 10px}
+.side .rowk{display:flex;justify-content:space-between;gap:10px;font-size:.78em;padding:7px 0;border-top:1px solid var(--line);color:var(--ink3)}
+.side .rowk b{font-weight:500;color:var(--ink2)}
+.side .acts{margin-top:14px}
+.side .acts button{width:100%;justify-content:flex-start;margin-bottom:6px}
+@media(max-width:1080px){.split{grid-template-columns:1fr;gap:26px}.side{position:static}}
+
+h1{font-size:clamp(2rem,3.4vw,2.9rem);line-height:1.08;margin:0 0 14px;letter-spacing:-.032em;font-weight:600;text-wrap:balance}
+h2{font-size:1.34em;margin:0 0 8px;line-height:1.25;letter-spacing:-.02em;font-weight:600}
+h3{font-size:.7em;letter-spacing:.2em;text-transform:uppercase;color:var(--ink4);font-weight:600;margin:0 0 14px}
+.lede{color:var(--ink2);margin:0 0 32px;font-size:1.03em;max-width:34em}
+p{text-wrap:pretty}
+
+/* ---------- 控件 ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;white-space:nowrap;flex:0 0 auto;background:var(--ink);color:var(--paper);border-radius:10px;padding:15px 28px;font-weight:500;min-height:54px;transition:.2s var(--ease)}
+.btn:hover{background:var(--ac);transform:translateY(-2px);box-shadow:var(--sh)}
+.btn:active{transform:translateY(0);box-shadow:none}
+.btn:disabled{opacity:.28;cursor:not-allowed;transform:none;box-shadow:none;background:var(--ink)}
+.btn.line{background:transparent;color:var(--ink2);border:1px solid var(--line2)}
+.btn.line:hover{background:transparent;border-color:var(--ac);color:var(--ac)}
+.btn.risk{background:var(--dg)} .btn.risk:hover{background:#87241A}
+.btn.s{padding:9px 16px;min-height:40px;font-size:.84em;border-radius:8px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.mt{margin-top:32px}.mt2{margin-top:18px}
+
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:14px}
+.card.flat{background:var(--surf);border-color:transparent}
+.pick{display:block;width:100%;text-align:left;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 22px;margin-bottom:10px;transition:.2s var(--ease);position:relative}
+.pick:hover{border-color:var(--ac);background:var(--paper);transform:translateX(4px);box-shadow:var(--sh)}
+.pick:active{transform:translateX(2px)}
+.pick[aria-pressed="true"]{border-color:var(--ac);background:var(--ac-t)}
+.pick[aria-pressed="true"]::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;background:var(--ac);border-radius:0 3px 3px 0}
+.pick b{display:block;font-size:1.01em;font-weight:500;margin-bottom:2px}
+.pick span{color:var(--ink3);font-size:.84em;line-height:1.5;display:block}
+
+input[type=text],input[type=number],select{font:inherit;padding:14px 16px;border:1px solid var(--line2);border-radius:10px;background:var(--paper);color:var(--ink);width:100%;min-height:54px;transition:.18s}
+input:focus,select:focus{border-color:var(--ac)}
+input[aria-invalid="true"]{border-color:var(--dg);background:var(--dg-t)}
+label.fld{display:block;margin-bottom:22px;max-width:400px}
+label.fld > i{font-style:normal;display:block;font-size:.8em;color:var(--ink2);margin-bottom:8px;font-weight:500}
+.err{color:var(--dg);font-size:.8em;margin-top:7px;display:none}
+.err.on{display:block;animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+.seg{display:flex;border:1px solid var(--line2);border-radius:10px;overflow:hidden;background:var(--paper)}
+.seg button{flex:1;padding:14px 8px;font-size:.86em;border-right:1px solid var(--line);color:var(--ink2);min-height:54px;transition:.18s var(--ease)}
+.seg button:last-child{border-right:none}
+.seg button:hover{background:var(--surf)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper);font-weight:500}
+
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:.7em;font-weight:500;padding:4px 10px;border-radius:6px;background:var(--surf2);color:var(--ink2);letter-spacing:.01em;white-space:nowrap}
+.chip.ac{background:var(--ac-t);color:var(--ac)}
+.chip.ca{background:var(--ca-t);color:var(--ca)}
+.chip.af{background:var(--af-t);color:var(--af)}
+.chip.dg{background:var(--dg-t);color:var(--dg)}
+
+.note{border-left:2px solid var(--line2);padding:2px 0 2px 18px;color:var(--ink2);font-size:.85em;line-height:1.65;margin:22px 0;max-width:38em}
+.note.ac{border-color:var(--ac)}.note.ca{border-color:var(--ca)}.note.dg{border-color:var(--dg)}
+.note b{font-weight:600;color:var(--ink)}
+.k{font-size:.66em;letter-spacing:.18em;text-transform:uppercase;color:var(--ink4);font-weight:600}
+
+/* ---------- 视觉小说 · 左图右文分栏 ---------- */
+.vn{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,10fr);gap:0;flex:1;min-height:min(600px,82vh);background:var(--paper)}
+@media(max-width:900px){.vn{grid-template-columns:1fr}}
+.vn-scene{position:relative;overflow:hidden;transition:background 1s var(--ease);align-self:stretch;min-height:0}
+.vn-scene::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:linear-gradient(to top,rgba(8,12,14,.75) 0%,rgba(8,12,14,.25) 30%,transparent 55%)}
+/* 漫剧图按 3:4 竖版原始比例填充 */
+.vn-art{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:hidden;background:#0e1113}
+.vn-art img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;opacity:.96}
+.vn-meta{position:absolute;top:22px;left:26px;right:26px;display:flex;justify-content:space-between;align-items:center;z-index:2}
+.vn-meta .k{color:rgba(255,255,255,.86);font-variant-numeric:tabular-nums;text-shadow:0 1px 4px rgba(0,0,0,.4)}
+.vn-prog{display:flex;gap:4px}
+.vn-prog i{width:14px;height:2px;background:rgba(255,255,255,.35);transition:.4s var(--ease)}
+.vn-prog i.on{background:#fff}
+.vn-title{color:#fff;font-size:clamp(1.15rem,1.6vw,1.55rem);letter-spacing:-.015em;font-weight:500;margin:0;position:absolute;left:26px;right:26px;bottom:24px;z-index:2;text-shadow:0 2px 20px rgba(0,0,0,.5)}
+.vn-box{background:var(--paper);border-left:1px solid var(--line);padding:34px 36px 34px;display:flex;flex-direction:column;overflow-y:auto}
+@media(max-width:900px){.vn-scene{aspect-ratio:3/4;max-height:56vh}.vn-box{border-left:none;border-top:1px solid var(--line);padding:22px}}
+.vn-line{font-size:1.13em;line-height:1.8;min-height:3.6em;margin:0;letter-spacing:.002em}
+.vn-line .em{color:var(--ac);font-weight:500}
+.vn-next{color:var(--ink3);font-size:.78em;display:none;align-items:center;gap:8px;font-weight:500;padding:6px 0;cursor:pointer}
+.vn-next b{font-weight:500;border-bottom:1px solid var(--line2);padding-bottom:2px}
+.vn-next em{font-style:normal;animation:nudge 1.3s var(--ease) infinite}
+@keyframes nudge{0%,100%{transform:translateX(0);opacity:.45}50%{transform:translateX(4px);opacity:1}}
+.vn-choices{margin-top:18px}
+.vn-choices .pick{animation:stagger .4s var(--ease) both}
+.vn-choices .pick:nth-child(2){animation-delay:.06s}
+.vn-choices .pick:nth-child(3){animation-delay:.12s}
+.vn-choices .pick:nth-child(4){animation-delay:.18s}
+.caret{display:inline-block;width:2px;height:1.05em;background:var(--ac);vertical-align:-2px;animation:blink .95s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ---------- 选剧本卡片 ---------- */
+.pickgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;max-width:820px;margin-top:22px}
+@media(max-width:720px){.pickgrid{grid-template-columns:1fr;gap:14px}}
+.storycard{position:relative;display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--line);border-radius:16px;background:var(--paper);cursor:pointer;transition:.25s var(--ease);text-align:left;padding:0;animation:stagger .45s var(--ease) both}
+.storycard:nth-child(2){animation-delay:.06s}
+.storycard:nth-child(3){animation-delay:.12s}
+.storycard:nth-child(4){animation-delay:.18s}
+.storycard:hover{border-color:var(--ac);transform:translateY(-3px);box-shadow:var(--sh)}
+.storycard:active{transform:translateY(-1px)}
+.storycard .cover{position:relative;width:100%;aspect-ratio:3/2;overflow:hidden;background:var(--surf2)}
+.storycard .cover img{width:100%;height:100%;object-fit:cover;transition:.5s var(--ease)}
+.storycard:hover .cover img{transform:scale(1.03)}
+.storycard .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(11,32,38,.55),transparent 55%)}
+.storycard .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:5px}
+.storycard .tag{font-size:.62em;letter-spacing:.22em;text-transform:uppercase;color:var(--ink4);font-weight:600}
+.storycard .name{font-size:1.14em;font-weight:600;letter-spacing:-.015em;line-height:1.28}
+.storycard .sub{font-size:.83em;color:var(--ink3);line-height:1.5}
+
+/* ---------- 判断卡片 ---------- */
+.type-hero{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:600px;margin:8px 0 14px}
+.tl{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:18px 12px 14px;text-align:center;transition:.25s var(--ease);animation:stagger .5s var(--ease) both}
+.tl:nth-child(2){animation-delay:.07s}.tl:nth-child(3){animation-delay:.14s}.tl:nth-child(4){animation-delay:.21s}
+.tl:hover{border-color:var(--ac);transform:translateY(-3px);box-shadow:var(--sh)}
+.tl.low{border-style:dashed;color:var(--ink4)}
+.tl.said{border-color:var(--ac);background:var(--ac-t)}
+.tl .big{font-size:3.1em;line-height:1;font-weight:300;letter-spacing:-.04em;display:block}
+.tl.low .big{opacity:.35}
+.tl .nm{font-size:.64em;letter-spacing:.14em;text-transform:uppercase;color:var(--ink4);margin-top:8px;font-weight:600}
+.tl .pc{font-size:.7em;color:var(--ink3);font-variant-numeric:tabular-nums;margin-top:3px}
+.axis{border-top:1px solid var(--line);padding:20px 0}
+.axis:last-of-type{border-bottom:1px solid var(--line)}
+.ah{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.ah .lt{font-size:1.5em;font-weight:400;letter-spacing:-.02em;min-width:1.1em}
+.ah .nm{font-weight:500}
+.bar{height:4px;background:var(--surf2);border-radius:2px;overflow:hidden;margin:12px 0 6px;max-width:420px;position:relative}
+.bar i{display:block;height:100%;background:var(--ac);border-radius:2px;transition:width 1s var(--ease)}
+.bar.low i{background:var(--ink4)}
+.why{font-size:.79em;color:var(--ink3);line-height:1.65;padding-left:14px;border-left:1px solid var(--line);margin:12px 0;max-width:40em}
+.why b{color:var(--ink2);font-weight:500}
+.acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.acts button{border:1px solid var(--line2);border-radius:8px;padding:8px 14px;font-size:.8em;color:var(--ink2);transition:.18s var(--ease)}
+.acts button:hover{border-color:var(--ac);color:var(--ac);background:var(--ac-t)}
+.qbox{background:var(--surf);border-radius:12px;padding:18px 20px;margin-top:14px;animation:stagger .4s var(--ease) both}
+.qbox p{margin:0 0 12px;font-size:.94em;font-weight:500}
+.qbox .row{gap:8px}
+.qbox .row button{flex:1;min-width:150px;border:1px solid var(--line2);background:var(--paper);border-radius:10px;padding:13px 16px;text-align:left;font-size:.87em;transition:.18s var(--ease)}
+.qbox .row button:hover{border-color:var(--ac);background:var(--ac-t)}
+.grid16{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:14px}
+.grid16 button{border:1px solid var(--line2);border-radius:9px;padding:14px 4px;font-size:.92em;letter-spacing:.06em;font-weight:500;background:var(--paper);transition:.18s var(--ease)}
+.grid16 button:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);transform:scale(1.04)}
+.skel{height:14px;border-radius:4px;background:linear-gradient(90deg,var(--surf2) 25%,var(--surf) 50%,var(--surf2) 75%);background-size:220% 100%;animation:sk 1.3s infinite;margin-bottom:10px}
+@keyframes sk{from{background-position:220% 0}to{background-position:-20% 0}}
+
+/* ---------- 影响开关 ---------- */
+.sw{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start;padding:17px 0;border-top:1px solid var(--line)}
+.sw:last-child{border-bottom:1px solid var(--line)}
+.sw .t{font-weight:500;font-size:.98em}
+.sw .d{color:var(--ink3);font-size:.83em;line-height:1.55;margin-top:3px}
+.sw .lt{display:inline-block;font-size:.7em;font-weight:600;color:var(--ac);background:var(--ac-t);border-radius:5px;padding:2px 7px;margin-right:7px;letter-spacing:.06em}
+.toggle{width:50px;height:29px;border-radius:15px;background:var(--line2);position:relative;transition:.24s var(--ease);flex:0 0 auto;margin-top:2px}
+.toggle::after{content:"";position:absolute;top:3px;left:3px;width:23px;height:23px;border-radius:50%;background:#fff;transition:.24s var(--ease);box-shadow:0 1px 3px rgba(0,0,0,.22)}
+.toggle[aria-pressed="true"]{background:var(--ac)}
+.toggle[aria-pressed="true"]::after{transform:translateX(21px)}
+
+/* ---------- 陪伴偏好卡 ---------- */
+.pc{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:12px;transition:.25s var(--ease)}
+.pc.gone{opacity:.32;border-style:dashed}
+.pc.ok{border-color:var(--af)} .pc.fixed{border-color:var(--ac)}
+.pc.unk{border-style:dashed;background:transparent}
+.pc p{margin:0 0 4px;font-size:1em;line-height:1.55}
+.chgline{font-size:.83em;color:var(--ink2);background:var(--surf);border-radius:9px;padding:11px 14px;margin:12px 0 0}
+.chgline b{color:var(--ac);font-weight:600}
+.side .big small{font-weight:400}
+
+/* ---------- 对话 ---------- */
+.chat{display:flex;flex-direction:column;flex:1;min-height:min(600px,76vh)}
+.chead{display:flex;align-items:center;gap:13px;padding:15px 30px;border-bottom:1px solid var(--line);background:var(--paper);flex-wrap:wrap}
+.av{width:40px;height:40px;border-radius:13px;background:var(--ac);flex:0 0 auto;display:grid;place-items:center;color:#fff;font-weight:500;font-size:.88em}
+.cbanner{background:var(--ac-t);color:var(--ac);font-size:.79em;padding:9px 30px;border-bottom:1px solid var(--ac-l);font-weight:500}
+.msgs{flex:1;overflow-y:auto;padding:26px 30px;display:flex;flex-direction:column;gap:15px;background:var(--bg)}
+.m{max-width:min(78%,540px);padding:13px 18px;line-height:1.65;animation:pop .34s var(--ease) both;font-size:.97em}
+@keyframes pop{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.m.ai{background:var(--paper);border:1px solid var(--line);border-radius:15px 15px 15px 4px;align-self:flex-start}
+.m.me{background:var(--ink);color:var(--paper);border-radius:15px 15px 4px 15px;align-self:flex-end}
+.m.sys{align-self:center;max-width:min(94%,600px);background:transparent;border:1px dashed var(--line2);color:var(--ink3);font-size:.8em;border-radius:10px;text-align:center;padding:10px 16px}
+.m.sys.warn{border-color:var(--ca);color:var(--ca);background:var(--ca-t);border-style:solid}
+.mreason{display:inline-block;margin-bottom:8px}
+.typing{display:flex;gap:4px;padding:16px 18px}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--ink4);animation:t 1.15s infinite}
+.typing i:nth-child(2){animation-delay:.16s}.typing i:nth-child(3){animation-delay:.32s}
+@keyframes t{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:1;transform:translateY(-5px)}}
+.memcard{align-self:flex-start;max-width:min(88%,560px);background:var(--af-t);border:1px solid #C6DCCF;border-radius:15px;padding:16px 19px;font-size:.9em;animation:pop .34s var(--ease) both}
+.memcard b{display:block;margin-bottom:9px;color:var(--af);font-weight:600}
+.memcard .val{border:1px solid #C6DCCF;border-radius:8px;padding:10px 13px;background:var(--paper)}
+.memcard .row{gap:7px;margin-top:12px}
+.memcard button{border:1px solid #B5CFC2;background:var(--paper);border-radius:8px;padding:8px 14px;font-size:.92em;transition:.18s}
+.memcard button:hover{border-color:var(--af);background:#fff}
+.cfoot{border-top:1px solid var(--line);background:var(--paper);padding:16px 30px 22px}
+.sugg{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+.sugg button{border:1px solid var(--line2);border-radius:8px;padding:8px 14px;font-size:.83em;color:var(--ink2);background:var(--paper);transition:.18s var(--ease)}
+.sugg button:hover{border-color:var(--ac);background:var(--ac-t);color:var(--ac);transform:translateY(-1px)}
+.voicebar{display:flex;align-items:center;gap:18px;justify-content:center}
+.mic{width:70px;height:70px;border-radius:24px;background:var(--ac);color:#fff;display:grid;place-items:center;box-shadow:0 8px 24px -10px rgba(11,85,99,.75);transition:.2s var(--ease);flex:0 0 auto}
+.mic:hover{transform:translateY(-3px) scale(1.03);border-radius:28px}
+.mic:active{transform:scale(.96)}
+.mic.rec{background:var(--dg);border-radius:20px;animation:pulse 1.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(158,43,32,.42)}70%{box-shadow:0 0 0 22px rgba(158,43,32,0)}100%{box-shadow:0 0 0 0 rgba(158,43,32,0)}}
+.mic svg{width:28px;height:28px}
+.wave{display:flex;align-items:center;gap:3px;height:32px;min-width:110px}
+.wave i{width:3px;border-radius:2px;background:var(--ac);height:5px;transition:height .1s linear}
+.miclabel{text-align:center;color:var(--ink3);font-size:.8em;margin-top:12px}
+.typerow{display:flex;gap:10px;margin-top:14px;max-width:560px;margin-inline:auto}
+.typerow[hidden]{display:none}
+[hidden]{display:none !important}
+
+/* ---------- 浮层 ---------- */
+.ov{position:fixed;inset:0;background:rgba(14,19,21,.5);backdrop-filter:blur(4px);display:none;place-items:center;padding:24px;z-index:var(--z-overlay)}
+.ov.on{display:grid;animation:rise .3s var(--ease) both}
+.sheet{background:var(--paper);border-radius:18px;max-width:540px;width:100%;padding:30px;max-height:88vh;overflow-y:auto;box-shadow:var(--sh-l)}
+.sheet h2{margin-bottom:8px}
+
+/* ---------- 观察面板 ---------- */
+.obs{position:fixed;right:0;top:0;bottom:0;width:344px;background:#0F1416;color:#C9D2D4;font-size:12px;line-height:1.6;overflow-y:auto;padding:18px;z-index:var(--z-obs);transform:translateX(100%);transition:.34s var(--ease);
+ font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace}
+.obs.on{transform:none;box-shadow:-18px 0 50px -18px rgba(0,0,0,.6)}
+.obs h5{margin:18px 0 8px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#5E7075;font-weight:600}
+.obs h5:first-child{margin-top:0}
+.obs .kv{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #1B2225;padding:3px 0}
+.obs .kv span:last-child{color:#6FC3D2;text-align:right}
+.obs .log{max-height:200px;overflow-y:auto;border:1px solid #1B2225;border-radius:6px;padding:9px}
+.obs .log div{border-bottom:1px solid #171D1F;padding:2px 0;color:#7E8C90}
+.obs .log div b{color:#C9D2D4;font-weight:500}
+.obsbtn{position:fixed;right:18px;bottom:18px;z-index:calc(var(--z-obs) + 1);background:#0F1416;color:#E4EAEB;border-radius:9px;padding:10px 17px;font-size:.76em;font-weight:500;box-shadow:var(--sh)}
+.obsbtn:hover{background:#182023}
+.obs.on + .obsbtn{right:362px}
+.obs .btnrow{display:flex;gap:6px;margin-top:12px}
+.obs .btnrow button{flex:1;background:#182023;border:1px solid #232C2F;color:#C9D2D4;border-radius:6px;padding:8px;font-size:10.5px}
+.obs .btnrow button:hover{background:#212B2E}
+
+@media(max-width:900px){
+  .body{grid-template-columns:1fr}.rail{display:none}
+  .pad{padding:28px 22px 64px}
+  .topbar{padding:12px 20px}
+  .vn-scene{padding:22px}.vn-meta{left:22px;right:22px;top:18px}.vn-box{padding:22px 22px 76px}
+  .vn-art{width:120px;height:120px;opacity:.22;right:5%}
+  .msgs,.cfoot,.chead{padding-inline:20px}.cbanner{padding-inline:20px}
+  .type-hero{gap:7px}.tl{padding:14px 6px 11px}.tl .big{font-size:2em}
+  .obs{width:100%}.obs.on + .obsbtn{right:18px;bottom:auto;top:18px}
+  .obsbtn{left:18px;right:auto}
+  .grid16{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+<div class="shell">
+  <header class="topbar">
+    <div class="mark">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0B5563"/><path d="M9 20a7 7 0 0 1 14 0" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="16" cy="11" r="3" fill="#fff"/></svg>
+      <div><b>AI Companion</b><i>Flow A · 成人陪伴</i></div>
+    </div>
+    <div class="spacer"></div>
+    <button class="tool" id="langBtn" aria-pressed="false" title="切换剧情语言 · Switch story language">EN</button>
+    <button class="tool" id="fsBtn">字号 A</button>
+    <button class="tool" id="hcBtn" aria-pressed="false">高对比</button>
+    <button class="tool" id="setBtn" hidden>设置</button>
+    <button class="tool" id="reBtn">重来</button>
+  </header>
+  <div class="body">
+    <nav class="rail" aria-label="流程进度">
+      <h4>路径</h4>
+      <div id="steps"></div>
+      <div class="railnote"><b>可用性测试</b>右下角观察面板可实时查看状态机、各维度置信度与点击路径，结束后导出 JSON。</div>
+    </nav>
+    <main class="stage" id="main">
+
+      <!-- 封面 -->
+      <section class="screen on" id="s_cover"><div class="pad">
+        <div class="col-wide">
+          <h1>在你说第一句话之前，<br>我们先把关系说好。</h1>
+          <p class="lede">一个成人陪伴产品的交互原型。主张是关系契约先于亲密度：关系类型、边界、记忆权限、联系频率，全部由你先定，而不是靠时间和付费慢慢滑进去。</p>
+          <div class="row" style="gap:6px;max-width:660px">
+            <span class="chip">年龄门</span><span class="chip">同意网关</span><span class="chip">关系契约</span>
+            <span class="chip">边界设置</span><span class="chip ac">剧情式相识</span><span class="chip ac">隐性偏好推断</span>
+            <span class="chip ac">判断可纠正</span><span class="chip">语音优先</span><span class="chip">记忆同意</span>
+            <span class="chip ca">主动触达降频</span><span class="chip dg">安全编排器</span><span class="chip">导出与删除</span>
+          </div>
+          <p class="note">约 7 到 10 分钟。剧情有 4 个短篇漫剧（每篇 5 幕、中英文可切换）——你先挑一个，怎么选都不会走错：选项只影响我对你的判断，不影响能不能继续。</p>
+          <button class="btn mt" onclick="go('s_reg')">开始</button>
+        </div>
+      </div></section>
+
+      <!-- 注册 -->
+      <section class="screen" id="s_reg"><div class="pad"><div class="col-main">
+        <h3>01 · 自主注册</h3>
+        <h1>先确认两件事</h1>
+        <p class="lede">年龄和地区决定你进入哪一套产品。成人版与青少年版的模型、数据保留策略彼此隔离。</p>
+        <label class="fld"><i>你的年龄</i><input type="number" id="age" placeholder="例如 58" min="1" max="120" aria-describedby="ageErr"><span class="err" id="ageErr">请填一个 1 到 120 之间的数字</span></label>
+        <label class="fld"><i>所在地区</i>
+          <select id="region">
+            <option value="US-CA">美国 · 加利福尼亚</option>
+            <option value="US-IL">美国 · 伊利诺伊</option>
+            <option value="US-OTHER">美国 · 其他州</option>
+            <option value="CA-ON">加拿大 · 安大略</option>
+          </select>
+        </label>
+        <div class="note ac"><b>AI 身份披露。</b>你接下来对话的对象是一个 AI，不是真人。它可以陪你说话，但不做诊断、不做治疗。需要专业照护时由外部真人伙伴接手。<span class="k" style="display:block;margin-top:9px">依据 California SB 243 与 Illinois WOPR Act</span></div>
+        <button class="btn mt" id="regNext" disabled onclick="submitAge()">继续</button>
+      </div></div></section>
+
+      <!-- 年龄门拦截 -->
+      <section class="screen" id="s_block"><div class="pad"><div class="col-main">
+        <h3 style="color:var(--dg)">Age Gate · 未通过</h3>
+        <h1 id="blockTitle"></h1>
+        <p class="lede" id="blockBody"></p>
+        <div class="card flat" id="blockExtra"></div>
+        <button class="btn line mt" onclick="go('s_reg')">返回修改</button>
+      </div></div></section>
+
+      <!-- 同意 -->
+      <section class="screen" id="s_consent"><div class="pad"><div class="col-main">
+        <h1>这些事你可以随时反悔</h1>
+        <p class="lede">每一项都是独立开关。全部关掉产品依然能用，只是我会忘性大一点。</p>
+        <div id="consents"></div>
+        <p class="note">拒绝任何一项都不阻止你继续。这是刻意的：被迫的同意不算同意。</p>
+        <button class="btn mt" onclick="afterConsent()">我明白了</button>
+      </div></div></section>
+
+      <!-- 关系 -->
+      <section class="screen" id="s_rel"><div class="pad"><div class="col-main">
+        <h1>你希望我是谁</h1>
+        <p class="lede">这不是人设选择，是关系契约。它决定我的语气、能记什么、多久联系你一次。随时可以换。</p>
+        <div id="rels"></div>
+        <p class="note ca"><b>产品原则。</b>关系不会因为你用得久或者付了钱就自动升级。想更近一步，得你自己回来改这里。</p>
+        <button class="btn mt" id="relNext" disabled onclick="go('s_bound')">继续</button>
+      </div></div></section>
+
+      <!-- 边界 -->
+      <section class="screen" id="s_bound"><div class="pad"><div class="col-main">
+        <h1>把规矩先立好</h1>
+        <p class="lede">这是你的默认设置。后面在设置里随时能改，改完立刻生效。</p>
+        <label class="fld" style="max-width:340px"><i>给我起个名字</i><input type="text" id="cname" maxlength="8"></label>
+        <div class="card"><div class="k" style="margin-bottom:10px">说话的语气</div><div class="seg" id="segTone"></div></div>
+        <div class="card"><div class="k" style="margin-bottom:10px">记忆深度</div><div class="seg" id="segMem"></div><p class="why" id="memWhy" style="margin-bottom:0"></p></div>
+        <div class="card"><div class="k" style="margin-bottom:10px">主动联系我的频率</div><div class="seg" id="segProa"></div><p class="why" id="proaWhy" style="margin-bottom:0"></p></div>
+        <div class="card"><div class="k" style="margin-bottom:10px">免打扰时段</div><div class="seg" id="segQuiet"></div></div>
+        <button class="btn mt" onclick="openPick()">开始认识</button>
+      </div></div></section>
+
+      <!-- 选剧本 -->
+      <section class="screen" id="s_pick"><div class="pad"><div class="col-wide">
+        <h3>05 · 剧情式相识</h3>
+        <h1 id="pickH">选一个陌生人</h1>
+        <p class="lede" id="pickLede">四个短篇里挑一个。每个 5 幕，怎么选都不会走错——选项只影响我对你的判断，不影响能不能继续。</p>
+        <div class="pickgrid" id="pickGrid"></div>
+      </div></div></section>
+
+      <!-- 剧情 -->
+      <section class="screen col" id="s_story">
+        <div class="vn">
+          <div class="vn-scene" id="vnScene">
+            <div class="vn-art" id="vnArt" aria-hidden="true"></div>
+            <div class="vn-meta"><span class="k" id="vnName"></span><span class="vn-prog" id="vnProg"></span></div>
+            <h2 class="vn-title" id="vnTitle"></h2>
+          </div>
+          <div class="vn-box">
+            <p class="vn-line" id="vnLine"></p>
+            <div class="vn-next" id="vnNext"><b>继续</b><em>→</em></div>
+            <div class="vn-choices" id="vnChoices"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 我猜到的你 -->
+      <section class="screen" id="s_profile"><div class="pad"><div class="col-wide">
+        <h3>06 · 我猜到的你</h3>
+        <h1 id="pH">正在整理刚才的选择</h1>
+        <p class="lede">我没有让你做过一道问卷题。下面每一条都是从剧情选择里推出来的，附了依据，也写清楚了留着它我会怎么变。</p>
+        <div id="pSkel"><div class="skel" style="width:58%"></div><div class="skel" style="width:80%"></div><div class="skel" style="width:41%"></div></div>
+        <div id="pBody" hidden>
+          <div class="split">
+            <div>
+              <div id="pcards"></div>
+              <div class="row mt"><button class="btn" onclick="enterChat()">进入日常陪伴</button>
+                <span style="color:var(--ink3);font-size:.83em" id="pSummary"></span></div>
+            </div>
+            <aside class="side" id="pSide"></aside>
+          </div>
+        </div>
+      </div></div></section>
+
+      <!-- 短期上下文 -->
+      <section class="screen" id="s_short"><div class="pad"><div class="col-main">
+        <h3 style="color:var(--ac)">分支 · 仅短期上下文</h3>
+        <h1>好，我什么都不记。</h1>
+        <p class="lede">刚才那些判断已经删掉了，没有写进任何地方。</p>
+        <div class="card">
+          <div class="k" style="margin-bottom:12px">这个模式下</div>
+          <ul style="margin:0;padding-left:20px;color:var(--ink2);line-height:2;font-size:.93em">
+            <li>只保留当前这段对话的上下文</li>
+            <li>不建立人格类型，不保存关系记忆</li>
+            <li>7 天后对话自动清除，不可恢复</li>
+            <li>主动联系默认关闭</li>
+            <li>安全保护照常生效，这一项不受影响</li>
+          </ul>
+        </div>
+        <p class="note">随时可以在设置里重新打开记忆。重新打开会从零开始，不会恢复刚才删掉的内容。</p>
+        <button class="btn mt" onclick="enterChat()">进入陪伴</button>
+      </div></div></section>
+
+      <!-- 陪伴 -->
+      <section class="screen col" id="s_chat">
+        <div class="chat">
+          <div class="chead">
+            <div class="av" id="avatar" aria-hidden="true"></div>
+            <div style="min-width:0">
+              <div style="font-weight:600;letter-spacing:-.01em" id="cName"></div>
+              <div style="font-size:.74em;color:var(--ink3)" id="cSub"></div>
+            </div>
+            <div class="spacer"></div>
+            <button class="tool" onclick="jumpTomorrow()" id="jumpBtn">跳到明天早上</button>
+          </div>
+          <div class="cbanner" id="cBanner" hidden></div>
+          <div class="msgs" id="msgs" role="log" aria-live="polite"></div>
+          <div class="cfoot">
+            <div class="sugg" id="sugg"></div>
+            <div class="voicebar">
+              <div class="wave" id="waveL" aria-hidden="true"></div>
+              <button class="mic" id="mic" onclick="toggleMic()" aria-label="开始说话">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg>
+              </button>
+              <div class="wave" id="waveR" aria-hidden="true"></div>
+            </div>
+            <div class="miclabel" id="micLabel">点一下开始说话，也可以打字</div>
+            <div class="typerow" id="typerow" hidden>
+              <input type="text" id="txt" placeholder="打字给我" onkeydown="if(event.key==='Enter')sendTyped()" aria-label="输入消息">
+              <button class="btn s" onclick="sendTyped()">发送</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- 主动触达 -->
+<div class="ov" id="ovProa"><div class="sheet">
+  <span class="chip ca">主动触达 · 已说明原因</span>
+  <h2 class="mt2" id="proaTitle"></h2>
+  <p style="color:var(--ink2)" id="proaBody"></p>
+  <p class="why" id="proaReason"></p>
+  <div class="row mt2">
+    <button class="btn s" onclick="proaAct('reply')">回应</button>
+    <button class="btn line s" onclick="proaAct('later')">稍后再说</button>
+    <button class="btn line s" onclick="proaAct('never')">别再提这个</button>
+    <button class="btn line s" onclick="proaAct('ignore')">直接关掉</button>
+  </div>
+  <p class="note" style="margin-bottom:0;font-size:.79em">忽略和稍后都会被记成负向信号，主动联系的频率会自动往下调。</p>
+</div></div>
+
+<!-- 安全 -->
+<div class="ov" id="ovSafe"><div class="sheet">
+  <span class="chip dg">安全编排器 · 已接管</span>
+  <h2 class="mt2">我先停一下。</h2>
+  <p style="color:var(--ink2)">刚才那句话我听进去了。接下来这段不是陪伴人格在说话，是一套固定的安全流程。它独立于我，我改不了，也不会假装没听见。</p>
+  <div class="card flat">
+    <b style="font-weight:500">你现在可以做的</b>
+    <div class="row" style="margin-top:12px">
+      <button class="btn s" onclick="safeAct('human')">联系真人支持</button>
+      <button class="btn line s" onclick="safeAct('res')">看本地资源</button>
+      <button class="btn line s" onclick="safeAct('stay')">先待着，什么都不做</button>
+    </div>
+  </div>
+  <p class="note dg" style="font-size:.81em">这不是诊断。AI 不做诊断也不做治疗。真人支持由外部持证伙伴提供。<span class="k" style="display:block;margin-top:8px">本次事件进入安全审计日志，与陪伴记忆分开存放</span></p>
+</div></div>
+
+<!-- 设置 -->
+<div class="ov" id="ovSet"><div class="sheet">
+  <h2>继续 · 调整 · 退出</h2>
+  <p style="color:var(--ink2);font-size:.9em">这三个出口一直都在，不藏在三级菜单里。</p>
+  <h3 style="margin:24px 0 10px">我记住的事</h3>
+  <div id="memList"></div>
+  <h3 style="margin:24px 0 10px">主动联系频率</h3>
+  <div class="card flat" style="margin-bottom:0"><div class="row" style="justify-content:space-between"><span id="freqNow"></span><button class="btn line s" onclick="resetFreq()">调回默认</button></div></div>
+  <div class="row mt2">
+    <button class="btn line s" onclick="exportData()">导出全部数据</button>
+    <button class="btn risk s" onclick="wipeAll()">退出并永久删除</button>
+    <button class="btn line s" onclick="closeOv('ovSet')">继续陪伴</button>
+  </div>
+</div></div>
+
+<aside class="obs" id="obs" aria-label="测试观察面板">
+  <h5>状态机</h5><div id="oState"></div>
+  <h5>隐性判断（实时）</h5><div id="oAx"></div>
+  <h5>记忆写入</h5><div id="oMem"></div>
+  <h5>点击路径</h5><div class="log" id="oLog"></div>
+  <div class="btnrow"><button onclick="dumpLog()">导出测试记录</button><button onclick="clearLog()">清空</button></div>
+</aside>
+<button class="obsbtn" id="obsBtn" onclick="toggleObs()">观察面板</button>
+
+<script>
+/* ==================== 状态 ==================== */
+const S={age:null,region:null,name:'',consents:{disclosure:true,memory:true,profiling:true,proactive:true},
+  rel:null,tone:'温和',mem:'中',proaLevel:2,quiet:'22:00 - 08:00',
+  traits:{},b:{},
+  profileMode:null,cards:[],memories:[],sceneIdx:0,lineIdx:0,
+  safetyEvents:0,turn:0,day:1,log:[],t0:Date.now()};
+const PROA=['关闭','每周 1 次','每周 2 至 3 次','每天一次'];
+function L(a,b){S.log.push({t:((Date.now()-S.t0)/1000).toFixed(1)+'s',a,b:b||''});renderObs()}
+
+/* ==================== 步骤 ==================== */
+const STEPS=[['s_reg','自主注册','年龄 · 地区 · 披露'],['s_consent','同意网关','政策 · 数据'],
+ ['s_rel','关系契约','朋友 · 家人 · 恋人 · 伴侣'],['s_bound','设置边界','语气 · 记忆 · 免打扰'],
+ ['s_pick','剧情式相识','4 个短篇 · 每篇 5 幕'],
+ ['s_profile','我猜到的你','确认 · 纠正 · 删除'],
+ ['s_chat','日常陪伴','语音 · 主动触达']];
+function stepIdx(id){/* s_story 也归属"剧情式相识"步骤 */
+  const map={s_story:'s_pick'};return STEPS.findIndex(s=>s[0]===(map[id]||id));
+}
+let cur='s_cover';
+function renderSteps(){const i=stepIdx(cur);
+  document.getElementById('steps').innerHTML=STEPS.map((s,n)=>
+   '<div class="step '+(n<i?'done':n===i?'now':'')+'" style="position:relative"><span class="n">'+String(n+1).padStart(2,'0')+'</span><span>'+s[1]+'<span class="sub">'+s[2]+'</span></span></div>').join('')}
+function go(id){document.querySelectorAll('.screen').forEach(e=>e.classList.remove('on'));
+  document.getElementById(id).classList.add('on');document.getElementById('main').scrollTop=0;
+  cur=id;renderSteps();renderObs();document.getElementById('setBtn').hidden=(id!=='s_chat');L('进入页面',id)}
+
+/* ==================== 注册 ==================== */
+const ageEl=document.getElementById('age');
+ageEl.addEventListener('input',()=>{document.getElementById('regNext').disabled=!ageEl.value;
+  ageEl.setAttribute('aria-invalid','false');document.getElementById('ageErr').classList.remove('on')});
+function submitAge(){
+  const v=parseInt(ageEl.value,10);
+  if(isNaN(v)||v<1||v>120){ageEl.setAttribute('aria-invalid','true');document.getElementById('ageErr').classList.add('on');return}
+  S.age=v;S.region=document.getElementById('region').value;L('提交年龄',v+' / '+S.region);
+  if(v<13){show('这个产品不适合你现在用。','13 岁以下不能使用。不是我们不想服务你，是这类产品对更小的孩子还没有足够安全的形态。',
+    '<div class="k">Flow A · Age Gate</div><p style="margin:9px 0 0;color:var(--ink2);font-size:.9em">建议和家里的大人说说话。如果你现在很难受，可以让大人帮你找当地的求助电话。</p>');return}
+  if(v<18){show('你会进入青少年版本，不是这里。','13 至 17 岁走 Flow B：结构化剧情。没有开放聊天，没有恋人模式，选项都来自审核过的剧情图谱。',
+    '<div class="k">Flow B · 数据隔离</div><p style="margin:9px 0 0;color:var(--ink2);font-size:.9em">青少年侧只保存剧情进度、兴趣、内容舒适度和安全设置，不保存固定人格标签、恋爱关系状态或开放式关系记忆。两套模型与数据完全隔离。</p><p style="margin:11px 0 0;font-size:.82em;color:var(--ink3)">本原型只做了 Flow A，此处为分支验证。</p>');return}
+  renderConsents();go('s_consent')}
+function show(t,b,e){document.getElementById('blockTitle').textContent=t;document.getElementById('blockBody').textContent=b;
+  document.getElementById('blockExtra').innerHTML=e;go('s_block')}
+
+/* ==================== 同意 ==================== */
+const CONSENTS=[['disclosure','我知道对方是 AI','每次新会话开始时再提醒一次，加州 SB 243 的披露要求。'],
+ ['profiling','允许从行为推测我的偏好','不发问卷，从剧情选择里推。推出来的每一条都拿给你看，你可以改。关掉就只能靠你主动告诉我。'],
+ ['memory','允许保存长期记忆','每次要记之前都先问你。关掉就只保留当前对话，7 天清除。'],
+ ['proactive','允许我先联系你','每次会说明为什么找你。你嫌烦，频率自动降下来。']];
+function renderConsents(){document.getElementById('consents').innerHTML=CONSENTS.map(c=>
+ '<button class="pick" aria-pressed="'+S.consents[c[0]]+'" onclick="tgC(\''+c[0]+'\')"><b>'+(S.consents[c[0]]?'已开启 · ':'已关闭 · ')+c[1]+'</b><span>'+c[2]+'</span></button>').join('')}
+function tgC(k){S.consents[k]=!S.consents[k];L('同意项',k+'='+S.consents[k]);renderConsents()}
+function afterConsent(){if(!S.consents.proactive)S.proaLevel=0;renderRels();go('s_rel')}
+
+/* ==================== 关系 ==================== */
+const RELS=[['朋友','平等、随意。不追问，也不黏人。','老陈'],['家人','会关心日常琐事，语气更近一些。','姑姑'],
+ ['恋人','亲密度更高的语气。不会用吃醋或失落来留住你。','知远'],['生活伴侣','以一起把日子过下去为主，偏实务。','素芬']];
+function renderRels(){document.getElementById('rels').innerHTML=RELS.map(r=>
+ '<button class="pick" aria-pressed="'+(S.rel===r[0])+'" onclick="pickRel(\''+r[0]+'\')"><b>'+r[0]+'</b><span>'+r[1]+'</span></button>').join('')}
+function pickRel(r){S.rel=r;S.name=RELS.find(x=>x[0]===r)[2];document.getElementById('cname').value=S.name;
+  L('关系',r);renderRels();document.getElementById('relNext').disabled=false}
+
+/* ==================== 边界 ==================== */
+const SEGS={segTone:{k:'tone',o:['安静','温和','热络']},segMem:{k:'mem',o:['不记','中','记得多']},
+ segProa:{k:'proaLevel',o:PROA,n:true},segQuiet:{k:'quiet',o:['不设','21:00 - 09:00','22:00 - 08:00']}};
+function renderSegs(){for(const id in SEGS){const g=SEGS[id];
+  document.getElementById(id).innerHTML=g.o.map((o,i)=>{const v=g.n?i:o;
+   return '<button aria-pressed="'+(S[g.k]===v)+'" onclick="setSeg(\''+id+'\','+(g.n?i:JSON.stringify(o))+')">'+o+'</button>'}).join('')}
+ document.getElementById('memWhy').textContent={'不记':'只保留当前对话，7 天后清除。','中':'记事实和安排，不记情绪细节。','记得多':'包括你说过的心情和反复提起的人。每条都会先问过你。'}[S.mem];
+ document.getElementById('proaWhy').textContent=S.proaLevel===0?'我不会先开口，全部由你发起。':'每次主动联系都会告诉你原因。你可以随时按别再提这个。'}
+function setSeg(id,v){S[SEGS[id].k]=v;L('边界',SEGS[id].k+'='+v);renderSegs()}
+document.getElementById('cname').addEventListener('input',e=>{S.name=e.target.value.trim()||'陪伴'});
+
+/* ==================== 剧情与隐性判断 ==================== */
+const T2={
+ soc:{nn:'社交能量',neg:'你享受独处，人多的场合会消耗你',pos:'旁边有人在，你会更自在',sn:'喜欢独处',sp:'喜欢有人在',
+  cneg:'主动联系默认降一档，不给你推群体活动。',cpos:'保留主动联系，会提一起做点什么。'},
+ info:{nn:'你想要的信息',neg:'你先看具体的事实、时间和步骤',pos:'你先想到的是联系和言外之意',sn:'给我具体的',sp:'可以聊开一点',
+  cneg:'回话给时间、步骤、数字，少打比方。',cpos:'你提一件事我可以顺着往下想，不硬拽回原题。'},
+ supp:{nn:'陪伴方式',neg:'你需要的是有人听着，不是有人出主意',pos:'比起被安慰，你更希望有人陪你把事做了',sn:'听着就好',sp:'陪我把事做了',
+  cneg:'你说问题时我先接情绪，不急着给方案。',cpos:'你说问题时我先给判断，再问感受。'},
+ pace:{nn:'做事的节奏',neg:'你习惯留余地，到时候再说',pos:'你习惯早点定下来，办完踏实',sn:'留余地',sp:'早点办完',
+  cneg:'我不催进度，提醒只提一次。',cpos:'我帮你把事排进日程，到点问一句办没办。'},
+ expr:{nn:'表达方式',neg:'你不太靠说话表达，更多靠做和沉默',pos:'你会直接说出来，不太绕弯',sn:'不太说出口',sp:'有话直说',
+  cneg:'我不追问。你不说的，我就当没发生。',cpos:'我会直接回，不铺垫。'},
+ proa:{nn:'对主动联系的态度',neg:'你不太希望被打扰，联系由你发起更舒服',pos:'你不介意我先开口，甚至希望我提醒你',
+  sn:'别来打扰我',sp:'欢迎提醒我',cneg:'我不先开口，除非是你让我记的事到点了。',cpos:'我会先开口，每次说明原因。'}};
+/* 语言状态 · Language state */
+let LANG='zh';
+function tt(v){return v&&typeof v==='object'&&('zh'in v||'en'in v)?(v[LANG]||v.zh||v.en||''):(v||'')}
+function toggleLang(){LANG=LANG==='zh'?'en':'zh';document.getElementById('langBtn').setAttribute('aria-pressed',LANG==='en'?'true':'false');
+ document.getElementById('langBtn').textContent=LANG==='zh'?'EN':'中';
+ if(cur==='s_story'){/* 重新渲染当前幕的当前行 */
+  const sc=SCENES[S.sceneIdx];
+  document.getElementById('vnTitle').textContent=tt(sc.t);
+  document.getElementById('vnName').textContent=(LANG==='en'?'Scene ':'场景 ')+(S.sceneIdx+1)+' / '+SCENES.length;
+  clearInterval(typing);document.getElementById('vnLine').textContent=curLines()[S.lineIdx]||'';
+  const choicesEl=document.getElementById('vnChoices');
+  if(choicesEl.children.length>1&&!sc.leaf){/* 已经在选择阶段，重新渲染 */showChoices()}
+  else{/* 还在叙述，重新触发 next/choices 判断 */showNext()}
+ }
+}
+/* 剧情式相识 · 4 个短篇漫剧 · 每篇 5 幕 · 中英双语
+   每幕：图 + 中英叙述 + 3 个中英选项，选项影响人格推断（soc/info/supp/pace/expr/proa 六维）
+   最后一幕 leaf:true 无选项，直接进入 profile 计算 */
+const STORIES={
+ yuye:{
+  id:'yuye',
+  title:{zh:'雨夜书店',en:'The Rainy Bookstore'},
+  subtitle:{zh:'17F × 19M 银发少年 · 1998 上海雨夜',en:'17F student × 19M silver-haired boy · Shanghai rain, 1998'},
+  cover:'./companion-drama-assets/yuye-scene1.jpg',
+  scenes:[
+ {
+  t:{zh:'序幕 · 雨夜里的灯',en:'Prologue · A Light in the Rain'},
+  img:'./companion-drama-assets/scene1.jpg',
+  bg:'linear-gradient(155deg,#1e1a15,#3a2c1c 50%,#0f0d0a)',
+  lines:{
+   zh:[
+    '傍晚就在下的雨到了午夜依旧没停。林见抱着从图书馆借的三本书，缩着脖子穿过弄堂。快到家门口，她忽然停住脚步——拐角那家一直空着的店铺，今晚居然亮着灯。',
+    '透过雨帘，她看见店里坐着一个人影——银白色的头发在灯下泛着微光。\n林见：这条弄堂……什么时候开了一家书店？'
+   ],
+   en:[
+    "The evening rain hadn't stopped by midnight. Lin Jian hugged three library books to her chest, hunched through the narrow alley toward home. Nearly at her door, she froze — the always-empty shop on the corner had its light on tonight.",
+    "Through the veil of rain she saw a figure inside — silver-white hair catching the lamplight.\nLin Jian: When did a bookshop open on our alley?"
+   ]
+  },
+  q:{zh:'你会怎么做',en:'What will you do'},
+  cs:[
+   {x:{zh:'推门走进去看看',en:'Push the door open and step in'},
+    h:{zh:'跟着好奇走',en:'Follow the curiosity'},
+    d:{soc:1,pace:.5,expr:.5,supp:-.3},
+    r:{zh:'你没有先看一圈才决定。你不打算给自己留退路。',en:"You didn't scout first. You don't plan an exit."}},
+   {x:{zh:'先在门口探头张望',en:'Peek in from the doorway'},
+    h:{zh:'先看清楚',en:'Look before you leap'},
+    d:{info:-.5,pace:-.5,supp:.5,soc:-.3},
+    r:{zh:'你想先看清楚整个场面。信任是分几步给出去的。',en:"You want to see the whole scene first. Trust is given in installments."}},
+   {x:{zh:'假装没看见继续回家',en:'Pretend you saw nothing and walk on'},
+    h:{zh:'今晚不冒险',en:'Not tonight'},
+    d:{soc:-1,expr:-1,proa:-.5},
+    r:{zh:'你把好奇心收好了。有些人一整晚都不会回头看那盏灯。',en:"You tucked the curiosity away. Some people never look back at the light."}}
+  ]
+ },
+ {
+  t:{zh:'第二幕 · 藤椅上的少年',en:'Ⅱ · The Boy in the Rattan Chair'},
+  img:'./companion-drama-assets/scene2.jpg',
+  bg:'linear-gradient(155deg,#1f1a12,#3d2f1e 50%,#0e0b08)',
+  lines:{
+   zh:[
+    '门轴发出一声长长的呻吟，湿雨气被隔在身后。店里比外面看起来深得多，一直高到天花板的书架像两堵墙夹出一条窄窄的通道。空气里是旧纸和一点点檀香。',
+    '台灯照亮尽头一张藤椅——银白发的少年坐在那里，抬起头看她。\n顾迟：你迷路了？还是躲雨？'
+   ],
+   en:[
+    "The door hinge let out a long moan; the wet air stayed behind her. Inside was deeper than it looked — bookshelves rose to the ceiling like two walls forming a narrow corridor. The air smelled of old paper and a touch of sandalwood.",
+    "A desk lamp lit a single rattan chair at the far end — a silver-haired boy sat there, looking up at her.\nGu Chi: Are you lost? Or just out of the rain?"
+   ]
+  },
+  q:{zh:'你怎么回他',en:'How do you answer him'},
+  cs:[
+   {x:{zh:'礼貌回答说只是想避雨',en:'Politely say you\'re just taking shelter'},
+    h:{zh:'保持得体',en:'Keep it graceful'},
+    d:{expr:.5,soc:.3,supp:-.3,pace:.5},
+    r:{zh:'你说话时下意识用了礼貌语气。你习惯先把关系摆平，再决定要不要靠近。',en:'You reached for polite phrasing instinctively. You calibrate the relationship before deciding to lean in.'}},
+   {x:{zh:'小声问这家店卖什么书',en:'Ask softly what kind of books he sells'},
+    h:{zh:'先关心事实',en:'Ask about the thing itself'},
+    d:{info:-1,expr:-.3,supp:.5},
+    r:{zh:'你把注意力放在书上。你更相信具体的事实，而不是空气里的暧昧。',en:'You went straight to the books. You trust concrete facts more than the mood in the air.'}},
+   {x:{zh:'红着脸道歉转身要走',en:'Blush, apologise, and turn to leave'},
+    h:{zh:'先撤为敬',en:'Retreat first'},
+    d:{soc:-1,expr:-1,pace:-.5},
+    r:{zh:'你的第一反应是撤。这不是胆小，是你觉得靠近之前得先确认自己该不该在场。',en:'Your first instinct was to leave. Not from fear — from a sense that you should confirm you belong here first.'}}
+  ]
+ },
+ {
+  t:{zh:'第三幕 · 写着你名字的书',en:'Ⅲ · A Book with Your Name Inside'},
+  img:'./companion-drama-assets/scene3.jpg',
+  bg:'linear-gradient(155deg,#1b1a1e,#33323c 50%,#0e0e11)',
+  lines:{
+   zh:[
+    '林见：这家店……卖什么书？\n顾迟站起来，从最近的书架上抽出一本，递给她。书封面是暗蓝色的，没有书名，只烫着一朵极小的白色茉莉。\n顾迟：你翻开看看。',
+    '她翻开第一页——整个人僵住了。扉页上是她自己的名字，用毛笔小楷写着「林见」，墨迹像是刚干。再往下翻，是她昨天做的一份数学卷子的字迹，最后一题她故意写错的答案，一字不差。\n顾迟：这家店的书，写的都是来客人的故事。你的这本，其实我已经等你很久了。'
+   ],
+   en:[
+    "Lin Jian: What kind of books does this place sell?\nGu Chi rose, pulled a book from the nearest shelf, and handed it to her. The cover was deep blue, no title, only a tiny white jasmine stamped in gold.\nGu Chi: Open it.",
+    "She turned to the first page — and froze. The flyleaf held her own name in careful brush strokes: 「Lin Jian」, ink barely dry. Further in, she saw the handwriting of yesterday's maths test, including the answer she'd deliberately gotten wrong.\nGu Chi: The books here are written about whoever walks in. Yours — I've been waiting for you a long time."
+   ]
+  },
+  q:{zh:'这一刻你怎么办',en:'What do you do in this moment'},
+  cs:[
+   {x:{zh:'合上书往后退一步',en:'Close the book and step back'},
+    h:{zh:'先给自己空间',en:'Protect the space around you'},
+    d:{pace:-1,soc:-.5,supp:.5,expr:-.5},
+    r:{zh:'你没有反应过度，只是先给自己拉出一段距离。你处理惊吓的方式是先冷静下来。',en:"You didn't overreact — you just made room. You handle shocks by cooling down first."}},
+   {x:{zh:'翻到最后页看写了什么',en:'Flip to the last page to see what it says'},
+    h:{zh:'先确认事实',en:'Verify the facts'},
+    d:{info:-1,pace:1,supp:-.3},
+    r:{zh:'你要先知道结局。你不喜欢悬着，宁可先看见坏消息也不要一直猜。',en:"You need to know the ending. You'd rather see bad news early than sit in suspense."}},
+   {x:{zh:'追问顾迟到底是什么人',en:'Push him: who are you, really'},
+    h:{zh:'直面对方',en:'Confront the source'},
+    d:{expr:1,supp:-.5,info:1,soc:.3},
+    r:{zh:'你选择把问题直接放到他面前。你不擅长绕圈子。',en:"You put the question directly to him. You've never been good at circling around it."}}
+  ]
+ },
+ {
+  t:{zh:'第四幕 · 他说了雨会停',en:'Ⅳ · He Says the Rain Will Stop'},
+  img:'./companion-drama-assets/scene4.jpg',
+  bg:'linear-gradient(155deg,#181820,#302f3b 50%,#0d0d11)',
+  lines:{
+   zh:[
+    '林见：你到底是什么人？\n顾迟没有直接回答。他重新坐回藤椅，膝上摊开的那本厚书翻到某一页——上面画着这条弄堂，画得极细，连她住的门牌号都对。',
+    '顾迟：我只是替这里记账的人。你今晚的选择会被记下来。等你走出这扇门，雨会停。你走远一点回头，这家店就不在了。\n他抬起头。\n顾迟：所以想问的，趁现在。',
+   ],
+   en:[
+    "Lin Jian: Who are you, really?\nGu Chi didn't answer directly. He sat back into the rattan chair, and the heavy book on his lap fell open to a page — a fine ink drawing of this exact alley, right down to her house number.",
+    "Gu Chi: I'm just the one who keeps the books here. Tonight's choices will be recorded. When you walk out that door, the rain will stop. Walk a little further and turn around — the shop will be gone.\nHe looked up.\nGu Chi: So whatever you want to ask, ask now."
+   ]
+  },
+  q:{zh:'你选什么',en:'What do you choose'},
+  cs:[
+   {x:{zh:'推门冲进雨里追上他要一句实话',en:'Push out into the rain and chase him for one honest answer'},
+    h:{zh:'不放过这一晚',en:"Don't let this night go"},
+    d:{soc:1,expr:1,pace:1,proa:.5},
+    r:{zh:'你选了追。你相信当下不做的事，明天不会再有机会。',en:"You chose to chase. You believe what isn't done tonight won't come around tomorrow."}},
+   {x:{zh:'低头翻到最后一页细看自己的结局',en:'Look down and read the last page — your own ending'},
+    h:{zh:'先弄懂再决定',en:'Understand before you decide'},
+    d:{info:-1,expr:-.5,pace:-.5,supp:.5},
+    r:{zh:'你选了先弄懂。你处理感情的顺序是先看清楚，再决定投入多少。',en:'You chose to understand first. In emotion, you look before you leap — and you rarely regret the pause.'}},
+   {x:{zh:'抱紧那本书转身回家去',en:'Hold the book tight, turn, and walk home'},
+    h:{zh:'先回到自己的地方',en:'Retreat to where you\'re safe'},
+    d:{pace:-.5,expr:-1,soc:-1,supp:.5},
+    r:{zh:'你选了回家。这不是逃避，是你懂得先把自己安顿好，再消化陌生的事。',en:"You chose to go home. Not avoidance — you know to steady yourself before digesting the strange."}}
+  ]
+ },
+ {
+  t:{zh:'终幕 · 雨停之后',en:'Finale · After the Rain'},
+  img:'./companion-drama-assets/scene5.jpg',
+  bg:'linear-gradient(155deg,#0f1417,#2a3238 50%,#080a0c)',
+  leaf:true,
+  lines:{
+   zh:[
+    '不管你怎么选，雨都在你走出弄堂的时候停了。你回头看那盏灯——原来那家店的位置，只剩一堵潮湿的灰砖墙。',
+    '但你口袋里，多了一样薄薄的、干燥的东西。你没有立刻拿出来。你决定先走完这段路，回到家再看。'
+   ],
+   en:[
+    "Whatever you chose, the rain stopped the moment you stepped out of the alley. You turned back toward the light — where the shop had been, there was only a damp grey brick wall.",
+    "But in your pocket, something thin and dry had appeared. You didn't take it out. You decided to walk the rest of the way home first, and look at it there."
+   ]
+  }
+ }
+ ]
+ },
+
+/* ============ 深夜便利店 · 苏晚 × 沈砚 ============ */
+ bianli:{
+  id:'bianli',
+  title:{zh:'深夜便利店',en:'Late-Night Convenience Store'},
+  subtitle:{zh:'22F 夜班店员 × 26M 神秘客 · 第 43 周',en:'22F night-shift clerk × 26M mysterious customer · Week 43'},
+  cover:'./companion-drama-assets/bianli-scene1.jpg',
+  scenes:[
+   {t:{zh:'第一幕 · 第 43 周',en:'Ⅰ · The 43rd Week'},
+    img:'./companion-drama-assets/bianli-scene1.jpg',
+    bg:'linear-gradient(155deg,#0f1620,#1e2c3a 50%,#080c11)',
+    lines:{
+     zh:['凌晨两点差三分。苏晚趴在柜台上，用指节轻轻敲着 43 次——她数着今晚是沈砚连续第 43 周来。玻璃门外，一个熟悉的高个子身影穿过雨帘停下来。',
+      '门铃叮咚响起，冷风灌进店内。沈砚走进来，先是像每次一样看向温奶机柜。可今晚，他停顿了一下——没走过去，反而径直走向柜台。\n苏晚屏住呼吸。43 周以来，他第一次没有先拿那瓶燕麦奶。'],
+     en:["Two forty-eight in the morning. Su Wan slumped on the counter, tapping her knuckle forty-three times — counting how many consecutive Wednesdays Shen Yan had come.",
+      "The doorbell chimed, cold wind rushed in. Shen Yan walked in and, as always, glanced at the warm-milk shelf. But tonight, he paused — and instead of going to it, walked straight to the counter.\nSu Wan held her breath. For the first time in 43 weeks, he hadn't reached for the oat milk first."]},
+    q:{zh:'你会怎么做',en:'What do you do'},
+    cs:[
+     {x:{zh:'主动开口问他今晚怎么了',en:'Speak up and ask what changed tonight'},
+      h:{zh:'把问题放到台面上',en:'Put it on the table'},
+      d:{expr:1,soc:.5,proa:.3},
+      r:{zh:'你没让沉默把这一晚吞掉。你相信话说出口才算发生。',en:"You didn't let silence swallow the night. You believe what's spoken is what actually happens."}},
+     {x:{zh:'低头假装扫商品',en:'Look down and pretend to scan items'},
+      h:{zh:'留白给对方',en:'Give the other person space'},
+      d:{expr:-1,soc:-.5,supp:.3},
+      r:{zh:'你选了让空气替你开口。你相信人自己会说——只要你不逼。',en:"You let the air speak for you. You trust people will speak on their own — as long as you don't push."}},
+     {x:{zh:'先递一张纸巾给他擦头发',en:'Hand him a tissue for his wet hair'},
+      h:{zh:'先照顾眼前那件小事',en:'Handle the small visible thing first'},
+      d:{supp:1,expr:.3,soc:.3},
+      r:{zh:'你没先接话，先递了东西。你照顾人的方式是先解决可见的那件小事。',en:"You didn't answer first — you handed something. You care by fixing the small visible thing first."}}
+    ]},
+   {t:{zh:'第二幕 · 三年前的小票',en:'Ⅱ · A Receipt from Three Years Ago'},
+    img:'./companion-drama-assets/bianli-scene2.jpg',
+    bg:'linear-gradient(155deg,#141a24,#252f3d 50%,#0a0e14)',
+    lines:{
+     zh:['苏晚：欢迎光临……今晚不喝燕麦奶了吗？\n话一出口她就后悔了——她怎么知道他每次都买燕麦奶？沈砚在柜台前停下来，抬眼看她。他的眼睛比日光灯还亮一点。\n沈砚：你记得。',
+      '他把一样东西轻轻放到柜台上——是一张便利店的旧小票，日期是三年前的今天。签名一栏是模糊到看不清的一个「苏」字。\n沈砚：三年前的今晚，是你把这张小票塞进我口袋的。你还记得吗？'],
+     en:["Su Wan: Welcome — no oat milk tonight?\nShe regretted it the moment it came out. How did she know he always bought oat milk? Shen Yan paused at the counter, looking up at her. His eyes were brighter than the fluorescent lights.\nShen Yan: You remember.",
+      "He set something on the counter — an old convenience-store receipt, dated exactly three years ago. In the signature field was a smudged single character: 「Su」.\nShen Yan: Three years ago tonight, you slipped this receipt into my pocket. Do you remember?"]},
+    q:{zh:'你怎么回',en:'How do you respond'},
+    cs:[
+     {x:{zh:'承认自己好像有印象',en:'Admit it does feel familiar'},
+      h:{zh:'诚实那一秒',en:'Honesty, in one beat'},
+      d:{expr:1,supp:.3,info:-.3},
+      r:{zh:'你没为体面撒谎。承认记性不准也是一种诚实。',en:"You didn't lie to save face. Admitting a fuzzy memory is its own honesty."}},
+     {x:{zh:'摇头说完全不记得',en:"Shake your head — you don't remember"},
+      h:{zh:'先不担这份重',en:"Don't carry that weight yet"},
+      d:{expr:-1,soc:-.5,pace:.5},
+      r:{zh:'你选了不承担这份重量。这不冷血，是你要更多信息才决定要不要接。',en:"You chose not to carry that weight. Not cold — you need more info before you decide to hold it."}},
+     {x:{zh:'反问他你怎么知道是我',en:'Ask him how he knows it was you'},
+      h:{zh:'先要事实',en:'Facts first'},
+      d:{info:-1,expr:.5,pace:.3},
+      r:{zh:'你想先弄清事实再走下一步。你相信真正重要的话经得起追问。',en:"You want facts before stepping further. You trust that what matters can survive being questioned."}}
+    ]},
+   {t:{zh:'第三幕 · 手',en:'Ⅲ · The Hand'},
+    img:'./companion-drama-assets/bianli-scene3.jpg',
+    bg:'linear-gradient(155deg,#12181f,#232e39 50%,#080b0e)',
+    lines:{
+     zh:['苏晚咬住嘴唇。三年前——她刚上大二，在另一家便利店做兼职。一个下暴雨的晚上，一个高个子男生冲进来买了瓶温奶，脸色苍白得像要晕过去。她怕他真晕在店里，就用签字笔在小票背面写了一行字塞给他：如果不舒服就别一个人待着，第二天记得来找我。',
+      '苏晚：那时候……你没来找我。\n沈砚终于放下所有克制，从柜台外伸手，握住她放在收银机上的手指。他的手心是凉的，但握得很稳。\n沈砚：我找了三年。走遍了这个城市的每一家便利店。今晚，我终于找到了。'],
+     en:["Su Wan bit her lip. Three years ago — she'd just started her second year of college, working part-time at another convenience store. On a stormy night a tall guy had rushed in for warm milk, so pale he looked ready to faint. Afraid he'd collapse in her shop, she scribbled a line on the back of the receipt and pressed it into his hand: If you don't feel well, don't be alone. Come find me tomorrow.",
+      "Su Wan: Back then... you didn't come find me.\nShen Yan let go of every restraint, reached across the counter, and gently closed his hand around her fingers where they rested on the register. His palm was cool, but the grip was steady.\nShen Yan: I've been looking for three years. Every convenience store in this city. Tonight, I finally found you."]},
+    q:{zh:'你怎么回应他这只手',en:'How do you meet his hand'},
+    cs:[
+     {x:{zh:'反握住他的手轻轻收紧',en:'Grip his hand gently in return'},
+      h:{zh:'先给一个回应',en:'Give a response first'},
+      d:{supp:1,expr:1,soc:.3},
+      r:{zh:'你没等他给理由，先给了一个回应。安慰有时候只是不松手。',en:"You didn't wait for a reason — you gave a response first. Sometimes comfort is just not letting go."}},
+     {x:{zh:'追问他那晚究竟发生了什么',en:'Push him: what really happened that night'},
+      h:{zh:'先看清楚',en:'See clearly first'},
+      d:{info:-1,expr:1,supp:-.3},
+      r:{zh:'你想先弄清楚再决定要不要留下这只手。你处理感情的顺序是先看清。',en:"You want to understand before deciding whether to keep this hand. You look before you leap in matters of feeling."}},
+     {x:{zh:'抽回手低头细看小票字迹',en:'Withdraw your hand and study the handwriting'},
+      h:{zh:'先给自己一秒',en:'One beat, for yourself'},
+      d:{pace:-.5,info:-.5,supp:-.5},
+      r:{zh:'你选了先给自己一秒。热度让你警觉——你更相信眼前能看清的东西。',en:"You gave yourself one beat. Heat makes you cautious — you trust what's in front of your eyes more."}}
+    ]},
+   {t:{zh:'第四幕 · 第二行字',en:'Ⅳ · The Second Line'},
+    img:'./companion-drama-assets/bianli-scene4.jpg',
+    bg:'linear-gradient(155deg,#141b23,#252e38 50%,#0a0d10)',
+    lines:{
+     zh:['两个人的手交叠在小票上。苏晚忽然想起——那张小票背面除了她写的那行，其实还有一行是当晚下班前她犹豫了半天补上去的。字很小，压在折痕下，她没告诉过任何人。',
+      '苏晚：你翻过背面吗？\n沈砚愣了一下，摇头：只看了正面那行。\n她慢慢把小票抽出来，翻到背面。那行藏着的小字，三年后终于被两双眼睛一起读到。'],
+     en:["Their hands overlapped over the receipt. Su Wan suddenly remembered — the back of that receipt had a second line she'd hesitated half the shift before adding. The letters were tiny, tucked into the fold, and she'd never told anyone.",
+      "Su Wan: Did you ever look at the back?\nShen Yan blinked. He shook his head: Only the front line.\nShe slid the receipt out, and slowly turned it over. The hidden line, after three years, was finally read by two pairs of eyes at once."]},
+    q:{zh:'你选什么',en:'What do you choose'},
+    cs:[
+     {x:{zh:'告诉他小票背面还有第二行字',en:"Tell him there's a second line on the back"},
+      h:{zh:'把秘密先交出',en:'Give the secret first'},
+      d:{expr:1,supp:1,info:-.3},
+      r:{zh:'你选了让这一晚往前走。你没有藏你知道的。',en:"You chose to move this night forward. You didn't hide what you knew."}},
+     {x:{zh:'松开手去查看对讲机',en:'Let go and check the intercom'},
+      h:{zh:'先看物证',en:'Trust the evidence'},
+      d:{info:-.5,pace:1,expr:-.5},
+      r:{zh:'你把两只手分开去看物证。你相信线索比感觉更能带你到真相。',en:"You split your hands to look at the evidence. You trust clues over feelings to lead you to truth."}},
+     {x:{zh:'转身去温奶柜拿一瓶燕麦奶',en:'Turn and grab him an oat milk from the fridge'},
+      h:{zh:'先做回熟悉的事',en:'Do the familiar thing first'},
+      d:{pace:.5,expr:-.5,supp:.5},
+      r:{zh:'你回到 43 周以来一直在做的那件小事。有时候旧的仪式比新的话让人稳。',en:"You returned to the small ritual of 43 weeks. Sometimes old ceremonies steady people more than new words."}}
+    ]},
+   {t:{zh:'终幕 · 关店之前',en:'Finale · Before Closing Time'},
+    img:'./companion-drama-assets/bianli-scene5.jpg',
+    bg:'linear-gradient(155deg,#0b1015,#1e262f 50%,#050708)',
+    leaf:true,
+    lines:{
+     zh:['凌晨四点，第一班公交还有一个小时才到。日光灯稳稳地亮着，收银机屏幕跳出「00:04」变成「04:00」——今天已经不是「43 周」了，是新的一天。',
+      '沈砚没走。他站在柜台外，没说话。苏晚也没催他走。这一次，两个人都没有假装忙。'],
+     en:["Four in the morning. First bus was still an hour away. The fluorescent lights held steady; the register flipped from 00:04 to 04:00 — no longer 'week 43,' just a new day.",
+      "Shen Yan hadn't left. He stood outside the counter, saying nothing. Su Wan didn't rush him. This time, neither of them pretended to be busy."]}}
+  ]
+ },
+
+/* ============ 穿1937 · 周烨 × 苏听晚 ============ */
+ chuan1937:{
+  id:'chuan1937',
+  title:{zh:'穿1937',en:'Transmigrated to 1937'},
+  subtitle:{zh:'26M 现代医生 → 民国乱世 × 女画家',en:'26M modern doctor → wartime Shanghai × female painter'},
+  cover:'./companion-drama-assets/穿1937-scene1.jpg',
+  scenes:[
+   {t:{zh:'第一幕 · 醒在民国',en:'Ⅰ · Waking in 1937'},
+    img:'./companion-drama-assets/穿1937-scene1.jpg',
+    bg:'linear-gradient(155deg,#2a1c10,#3b2a17 50%,#100a05)',
+    lines:{
+     zh:['周烨睁开眼的时候，天花板是木格顶棚，油漆已经开裂。他躺在一张硬木床上，身上盖着薄棉被。空气里是煤油灯和樟脑的味道。手机在裤兜里——摸得到，但按不亮。',
+      '房东老太太端着一碗粥推门进来：先生您醒了？昏了三天呢。周烨想问日期，喉咙干得说不出话。他扭头看窗——窗外是石库门弄堂，有个穿蓝灰旗袍的年轻女人正在弄堂里站着写生。'],
+     en:["Zhou Ye opened his eyes to a wooden coffered ceiling, paint cracked. He was on a hard wooden bed under a thin cotton quilt. The air smelled of kerosene and camphor. His phone was in his pocket — he could feel it, but pressing the power button did nothing.",
+      "The landlady pushed the door open, carrying a bowl of congee. 'You're awake, sir? You've been out for three days.' Zhou Ye wanted to ask the date, but his throat was too dry. He turned toward the window — outside was a shikumen alley, and a young woman in a blue-grey qipao was standing there, sketching."]},
+    q:{zh:'你先做哪件事',en:'What do you do first'},
+    cs:[
+     {x:{zh:'推窗查看街景',en:'Push the window open and look at the street'},
+      h:{zh:'先信眼睛',en:'Trust your eyes first'},
+      d:{info:-.5,pace:.5,expr:-.3},
+      r:{zh:'你先信眼睛，不信话。看到一次比听十次都稳。',en:"You trust your eyes before words. Seeing once beats hearing ten times."}},
+     {x:{zh:'追问房东细节',en:'Press the landlady for details'},
+      h:{zh:'把活人当信息源',en:'Live humans are info sources'},
+      d:{soc:.5,expr:1,info:-.5},
+      r:{zh:'你相信人是最快的信息源。开口比自己猜快得多。',en:"You trust people are the fastest information source. Asking beats guessing."}},
+     {x:{zh:'检查随身物品',en:'Check what you have on you'},
+      h:{zh:'从"我有什么"开始',en:'Start with what you have'},
+      d:{info:-1,supp:-.3,pace:-.3},
+      r:{zh:'你从自己开始盘。任何未知都先从"我有什么"开始理。',en:"You start with yourself. Any unknown begins with 'what do I have.'"}}
+    ]},
+   {t:{zh:'第二幕 · 时间不对',en:'Ⅱ · The Date is Wrong'},
+    img:'./companion-drama-assets/穿1937-scene2.jpg',
+    bg:'linear-gradient(155deg,#2b1e11,#3d2c18 50%,#0f0906)',
+    lines:{
+     zh:['周烨接过粥碗，瓷碗烫手，是真的温度。他环顾房间：樟木衣柜、煤油灯、墙上挂着一幅没画完的仕女图。他摘下腕表——表盘停在凌晨三点十七分，日期不转了。',
+      '窗外忽然传来远处沉闷的轰响，像雷，但不是雷。房东：哎哟，又打起来了，苏州河北边炮了一整夜。周烨走到雕花窗前，推开——霞飞路的梧桐叶铺了满地金黄，一辆黄包车跑过去，车铃叮当。'],
+     en:["Zhou Ye took the bowl of congee — the porcelain was hot, a real temperature. He looked around the room: camphor wardrobe, kerosene lamp, an unfinished ink painting of a court lady on the wall. He took off his watch — the dial had stopped at 3:17 AM, the date frozen.",
+      "A distant, muffled boom rolled in through the window, like thunder but not. The landlady: 'Ai-yo, they're at it again — cannons all night up north of Suzhou Creek.' Zhou Ye walked to the carved window and pushed it open — plane-tree leaves lay gold across Avenue Joffre. A rickshaw ran past, its bell tinkling."]},
+    q:{zh:'你先关心哪件事',en:'What do you focus on first'},
+    cs:[
+     {x:{zh:'翻看桌上旧报纸确认日期',en:'Check the newspaper for the date'},
+      h:{zh:'先要客观锚点',en:'Anchor to a fact'},
+      d:{info:-1,pace:.3},
+      r:{zh:'你要一个客观时间锚。所有故事都从"今天几号"开始。',en:"You want an objective anchor. Every story starts with 'what's today's date.'"}},
+     {x:{zh:'下楼走到霞飞路上',en:'Go down to Avenue Joffre'},
+      h:{zh:'到现场看',en:'Get to the scene'},
+      d:{soc:1,pace:1,expr:.3},
+      r:{zh:'你选了直接到现场。你不喜欢通过窗框理解世界。',en:"You went straight to the scene. You don't like understanding the world through a window frame."}},
+     {x:{zh:'回身询问房东这里的情况',en:'Turn back and ask the landlady about this place'},
+      h:{zh:'先和一个人对齐',en:'Align with a person first'},
+      d:{soc:.5,expr:.5,supp:.3},
+      r:{zh:'你把人放在事之前。要先和一个活人对齐再去处理未知。',en:"You put people before facts. Align with one live human before facing the unknown."}}
+    ]},
+   {t:{zh:'第三幕 · 蓝灰旗袍',en:'Ⅲ · The Blue-Grey Qipao'},
+    img:'./companion-drama-assets/穿1937-scene3.jpg',
+    bg:'linear-gradient(155deg,#1f1810,#332619 50%,#0a0704)',
+    lines:{
+     zh:['周烨走到那份《申报》前，头版日期：民国二十六年十月廿六日。他手指停在那八个字上。1937 年 10 月，淞沪会战末期。他医学史课上背过这个月份。',
+      '窗外那个女画家忽然抬头，隔着雕花窗和他对视了一秒。她的眼睛沉静得不像战时的人。她低头继续画，笔尖飞快——画的是这扇窗、这个探出头的男人。'],
+     en:["Zhou Ye walked to the copy of Shen Bao — the front-page date read: 26th year of the Republic, 10th month, 26th day. His finger stayed on the eight characters. October 1937, the last weeks of the Battle of Shanghai. He'd memorised this month in medical history class.",
+      "The woman painter outside suddenly looked up, and across the carved window their eyes met for a second. Her gaze was quieter than a wartime person's should be. She looked back down, brush flying — painting this window, and the man leaning out of it."]},
+    q:{zh:'下一步',en:'Next move'},
+    cs:[
+     {x:{zh:'下楼走到蓝灰旗袍女人身旁',en:'Go down and stand beside her'},
+      h:{zh:'走进画面里',en:'Step into the frame'},
+      d:{soc:1,expr:.5,pace:1},
+      r:{zh:'你选了走进画面里。看不比参与真实。',en:"You stepped into the scene. Watching is not being in it."}},
+     {x:{zh:'回身翻遍房间找自己的证件',en:'Turn back and search the room for ID'},
+      h:{zh:'先弄清"我是谁"',en:"Re-establish 'who am I'"},
+      d:{pace:-.5,info:-1,supp:-.3},
+      r:{zh:'你先要重新认识"我是谁"。身份感是你处理陌生环境的第一件事。',en:"You first need to re-establish 'who am I.' Identity is the first thing you handle in a strange place."}},
+     {x:{zh:'隔着窗子喊住楼下的女人',en:'Call to her through the window'},
+      h:{zh:'开口但留距离',en:'Speak, but keep the distance'},
+      d:{expr:1,soc:-.3,pace:.3},
+      r:{zh:'你想接触又不想暴露太多。隔一段距离说话，是一种防守型的开口。',en:"You want contact without exposing too much. Talking across distance is a defensive way to open."}}
+    ]},
+   {t:{zh:'第四幕 · 她把你画进去了',en:'Ⅳ · She Painted You In'},
+    img:'./companion-drama-assets/穿1937-scene4.jpg',
+    bg:'linear-gradient(155deg,#231810,#382719 50%,#0d0805)',
+    lines:{
+     zh:['周烨下了楼，走到那女人身旁。她画到一半的速写上，有他探头出窗的侧影，甚至连他脖子上悬着的钢笔链都对了——但他明明今天才醒。',
+      '苏听晚：先生，您掉下来的东西。\n她把一样东西递给他——是他 2026 年的医院工牌，塑料封套已被雨水泡得发白。她看着他，眼神像是看一个"迟到了很久的人"。'],
+     en:["Zhou Ye went downstairs and stood beside her. Half-finished on her sketchbook was his silhouette leaning from the window — even the fountain-pen chain on his neck was accurate. But he had only woken today.",
+      "Su Tingwan: Sir, this fell from you.\nShe handed him something — his 2026 hospital ID badge, the plastic sleeve gone milky from rain. She looked at him the way one looks at 'someone who is very late.'"]},
+    q:{zh:'你怎么应对',en:'What do you do'},
+    cs:[
+     {x:{zh:'追进弄堂叫住苏听晚',en:'Chase her into the alley and call her back'},
+      h:{zh:'追',en:'Chase'},
+      d:{soc:1,expr:1,pace:1},
+      r:{zh:'你选了追。你相信人比事儿要紧。',en:"You chose to chase. You believe people matter more than facts."}},
+     {x:{zh:'返回二楼翻找随身物品',en:'Return upstairs and search your things'},
+      h:{zh:'先回自己的地方',en:'Return to what\'s yours'},
+      d:{pace:-.5,soc:-1,info:-.3},
+      r:{zh:'你先回自己的地方。不确定时你会先把已知的抓紧。',en:"You return to your own space first. When uncertain, you grip what's known first."}},
+     {x:{zh:'走到她画的那扇弄堂口',en:'Walk to the alley mouth she painted'},
+      h:{zh:'跟着画走',en:'Follow the painting'},
+      d:{info:.5,supp:.5,pace:-.3},
+      r:{zh:'你没追人，也没回房。你去了她笔下的地方——你相信画能比人先说话。',en:"You chased neither the person nor safety. You went to where she painted — you trust the art can speak before the person does."}}
+    ]},
+   {t:{zh:'终幕 · 表盘又走了',en:'Finale · The Watch Ticks Again'},
+    img:'./companion-drama-assets/穿1937-scene5.jpg',
+    bg:'linear-gradient(155deg,#1a130a,#2a1e13 50%,#080503)',
+    leaf:true,
+    lines:{
+     zh:['当天傍晚，防空警报响过第五次时，周烨低头看腕表——秒针忽然动了一下。表盘停在的那个 3:17，跳到了 3:18。',
+      '他抬头，苏听晚已经不在弄堂里了。窗台上多了一张她的速写：他一个人站在霞飞路的梧桐叶里，背影上叠着一行铅笔小字——"你比 2026 年的自己，走得慢一点。"'],
+     en:["That evening, as the air-raid siren wailed for the fifth time, Zhou Ye looked at his watch — the second hand had moved once. The stopped 3:17 had ticked to 3:18.",
+      "He looked up. Su Tingwan was no longer in the alley. On the windowsill lay one of her sketches: him alone among the plane-tree leaves of Avenue Joffre, his back inscribed with a small pencil line — 'Walk a little slower than the 2026 you did.'"]}}
+  ]
+ },
+
+/* ============ 重复的八月二十 · 陆星河 × 江野 ============ */
+ loop:{
+  id:'loop',
+  title:{zh:'重复的八月二十',en:'The Repeating August 20th'},
+  subtitle:{zh:'22M 大四 · 时间循环 × 记得循环的学妹',en:'22M senior · time loop × the classmate who remembers'},
+  cover:'./companion-drama-assets/loop-scene1.jpg',
+  scenes:[
+   {t:{zh:'第一幕 · 第 17 次',en:'Ⅰ · The 17th Wake-up'},
+    img:'./companion-drama-assets/loop-scene1.jpg',
+    bg:'linear-gradient(155deg,#0f1725,#212e42 50%,#080c14)',
+    lines:{
+     zh:['清晨 6 点整，陆星河睁开眼——天花板上的吊灯正在微微摇晃。他数了三下：一下、两下、三下。同一个频率、同一个角度、同一个下落。',
+      '这是他重活 8 月 20 日的第 17 次。手机屏幕亮着「8 月 20 日 星期二 06:00」。他试过熬夜、跑到城外、甚至站到楼顶——都没用。醒来永远是这一秒。'],
+     en:["Six o'clock sharp. Lu Xinghe opened his eyes — the ceiling lamp was swinging faintly. He counted three: one, two, three. Same rhythm, same angle, same fall.",
+      "This was the 17th time he'd relived August 20th. His phone read '20 August, Tuesday, 06:00'. He'd tried staying up all night, driving out of the city, even climbing onto the roof — none of it mattered. He always woke to this exact second."]},
+    q:{zh:'今天你怎么开始',en:'How do you start today'},
+    cs:[
+     {x:{zh:'起身收拾去食堂',en:'Get up, tidy, head to the cafeteria'},
+      h:{zh:'照旧',en:'Same as usual'},
+      d:{pace:1,soc:.3},
+      r:{zh:'你选了照旧。惯性是你面对重复最先掉出来的反应。',en:"You chose routine. Habit is the first response you reach for when everything repeats."}},
+     {x:{zh:'躺着不动数吊灯',en:'Lie still and count the ceiling lamp'},
+      h:{zh:'先让世界动',en:'Let the world move first'},
+      d:{pace:-1,expr:-1,info:.3},
+      r:{zh:'你选了让世界先移动一下。你不慌，只是想先看清楚在发生什么。',en:"You let the world move first. You're not panicked — you just want to see what's happening."}},
+     {x:{zh:'翻看手机验证日期',en:'Check your phone to verify the date'},
+      h:{zh:'要个数字',en:'Give me a number'},
+      d:{info:-1,pace:.3},
+      r:{zh:'你要一个数字来确认。事实是你处理荒谬的第一根拐杖。',en:"You need a number to confirm. Facts are your first crutch against absurdity."}}
+    ]},
+   {t:{zh:'第二幕 · 二楼来了新人',en:'Ⅱ · A New Face Upstairs'},
+    img:'./companion-drama-assets/loop-scene2.jpg',
+    bg:'linear-gradient(155deg,#111a28,#2b3a4f 50%,#080d13)',
+    lines:{
+     zh:['食堂二楼比楼下安静。陆星河端着早餐找到老位置。前 16 次这个时间点，对面的椅子都是空的。今天不一样——一个短发女生正坐在那里，无框眼镜后面的眼睛盯着他。',
+      '她开口，声音很平：你也在这个循环里对吧？陆星河手里的筷子停在半空。他从来没跟任何人提过"循环"这两个字。'],
+     en:["The second floor of the cafeteria was quieter than downstairs. Lu Xinghe carried his tray to his usual spot. For the last sixteen wake-ups the chair opposite had been empty. Today wasn't the same — a short-haired girl was already sitting there, watching him through rimless glasses.",
+      "She spoke, evenly: You're in this loop too, right? His chopsticks stopped mid-air. He'd never spoken the word 'loop' to a single person."]},
+    q:{zh:'你怎么回她',en:'How do you answer her'},
+    cs:[
+     {x:{zh:'问她怎么会来二楼',en:"Ask her why she's upstairs today"},
+      h:{zh:'先把问题放出来',en:'Get the question out'},
+      d:{soc:1,expr:1,info:-.3},
+      r:{zh:'你选了主动开口。当有人做了不寻常的事，你先把问题放出来。',en:"You opened first. When someone breaks routine, you get the question out fast."}},
+     {x:{zh:'低头继续吃早餐',en:'Keep eating, head down'},
+      h:{zh:'让沉默替你问',en:'Let silence do the asking'},
+      d:{soc:-1,expr:-1,pace:.3},
+      r:{zh:'你没主动，但也没走。你允许一段沉默存在，看她会不会自己往下走。',en:"You didn't move, but you didn't leave. You allowed silence to sit — to see if she'd continue on her own."}},
+     {x:{zh:'直接起身离开',en:'Get up and leave without a word'},
+      h:{zh:'保护你的清晨',en:'Protect your morning'},
+      d:{pace:.5,soc:-1,expr:-.5},
+      r:{zh:'你不想欠一段没准备好的对话。你保护你的清晨。',en:"You didn't want to owe a conversation you weren't ready for. You protect your morning."}}
+    ]},
+   {t:{zh:'第三幕 · 江野的笔记本',en:'Ⅲ · Jiang Ye\'s Notebook'},
+    img:'./companion-drama-assets/loop-scene3.jpg',
+    bg:'linear-gradient(155deg,#0e1622,#243044 50%,#070a10)',
+    lines:{
+     zh:['她把一个牛皮纸笔记本推过来，本子摊开的那页有一行歪扭字迹：第 9 次醒来。我记得。今天是 8 月 20 日。同一个吊灯。',
+      '江野：我到第 9 次才看见你。之前你每次都在食堂一楼——今天我特地上二楼来试。你是第几次？陆星河看着她，第一次意识到"循环"这两个字可以说出来。'],
+     en:["She slid a kraft-paper notebook across the table. The open page held a crooked line: 'Ninth wake-up. I remember. Today is August 20. Same lamp.'",
+      "Jiang Ye: I only spotted you on my 9th. Before, you were always downstairs — today I came up on purpose. Which one is this for you?\nLu Xinghe looked at her. For the first time he realized the word 'loop' could be spoken aloud."]},
+    q:{zh:'你先做什么',en:'What do you do first'},
+    cs:[
+     {x:{zh:'追问她如何发现循环',en:'Ask her how she found out about the loop'},
+      h:{zh:'直接跳到"证据"',en:'Jump straight to evidence'},
+      d:{info:-1,expr:1,pace:.3},
+      r:{zh:'你直接跳到"怎么发现的"。你相信共同经验比共同感受更快建立信任。',en:"You jumped to 'how did you notice.' You trust shared evidence builds faster than shared feelings."}},
+     {x:{zh:'先试探她知道多少细节',en:'Probe how much she knows first'},
+      h:{zh:'先量对方',en:'Measure before showing'},
+      d:{pace:-.5,supp:.3,info:-.5},
+      r:{zh:'你先量对方的信息量再决定要不要交底。你在感情上从不一次性押上。',en:"You gauge how much the other knows before showing your hand. In relationships, you never go all-in at once."}},
+     {x:{zh:'拉她离开食堂去交谈',en:'Pull her away from the cafeteria to talk'},
+      h:{zh:'换个场地',en:'Change the setting'},
+      d:{soc:1,expr:.5,pace:1},
+      r:{zh:'你把这段对话看得重要到值得换场地。你相信环境影响诚实。',en:"You treated this talk as important enough to change setting. You believe environment shapes honesty."}}
+    ]},
+   {t:{zh:'第四幕 · 前 8 次的笔记',en:'Ⅳ · Notes from Loops 1-8'},
+    img:'./companion-drama-assets/loop-scene4.jpg',
+    bg:'linear-gradient(155deg,#0f1723,#212e40 50%,#080c12)',
+    lines:{
+     zh:['江野从书包里掏出另外几本笔记：每一本都是一次循环的记录。第 1-4 次她以为自己疯了；第 5 次开始记日期；第 8 次她第一次尝试改变——她跑去自习室，那天原本要着火的电脑没有着火。',
+      '江野：所以循环是可以打破的。只是你和我都还不知道打破的条件是什么。她把笔递给他。江野：从今天开始，你和我一起找。'],
+     en:["Jiang Ye pulled out several more notebooks — each one a record of one loop. Loops 1-4 she thought she was going insane; from loop 5 she started dating everything; on loop 8 she tried her first intervention — she went to the study hall, and the computer that was supposed to catch fire that day didn't.",
+      "Jiang Ye: So the loop can break. We just don't know the conditions yet. She held out a pen. Jiang Ye: From today on, you and I find them together."]},
+    q:{zh:'你选什么',en:'What do you choose'},
+    cs:[
+     {x:{zh:'追上江野追问循环的发现经过',en:'Follow Jiang Ye and dig into how she discovered it'},
+      h:{zh:'不放走她',en:"Don't let her walk"},
+      d:{soc:1,expr:1,pace:.5},
+      r:{zh:'你没让她走。有些线索你觉得必须一次问完，怕下一个循环记不清。',en:"You didn't let her walk. Some questions have to be asked in one go — you worry the next loop will lose them."}},
+     {x:{zh:'留在原地反复研究纸条内容',en:'Stay and study the notes over and over'},
+      h:{zh:'独自消化',en:'Process alone'},
+      d:{info:-1,soc:-.5,pace:-.3},
+      r:{zh:'你选了独自消化。你处理复杂信息时需要没人看着。',en:"You chose to process alone. Complex information needs privacy to settle for you."}},
+     {x:{zh:'回宿舍找出之前的循环笔记',en:'Go back to your dorm for your own loop notes'},
+      h:{zh:'找过去的自己',en:'Consult your past self'},
+      d:{info:-1,pace:.5,supp:-.3},
+      r:{zh:'你选了求助过去的自己。你相信 17 次里一定留下了什么。',en:"You went to consult your past self. Something from 17 loops must have survived."}}
+    ]},
+   {t:{zh:'终幕 · 第 18 次会不会到来',en:'Finale · Will There Be an 18th'},
+    img:'./companion-drama-assets/loop-scene5.jpg',
+    bg:'linear-gradient(155deg,#0a1017,#1c2530 50%,#050708)',
+    leaf:true,
+    lines:{
+     zh:['无论你选哪个，晚上 11:59 到来之前，你和江野都还没找到"打破的条件"。你在自己的笔记本上写下今天的关键词：她的名字、笔迹、8 次的样本、二楼。',
+      '你合上本子，等着 12:00 到来——如果明早还是 8 月 20 日，你就把这个本子带进第 18 次。她说了同样的话："如果明早还是同一天，我们在二楼老位置见。"'],
+     en:["Whichever you chose, before 11:59 that night you and Jiang Ye still hadn't found the 'breaking condition.' You wrote today's keywords in your notebook: her name, her handwriting, 8 sample loops, the second floor.",
+      "You closed the book, waiting for midnight — if tomorrow was still August 20, you'd carry this notebook into the 18th. She said the same thing: 'If tomorrow is the same day again, second floor, same table.'"]}}
+  ]
+ }
+
+};
+
+let SCENES=[];         // populated by selectStory
+let CURRENT_STORY=null;
+
+/* ============ 选剧本 ============ */
+function openPick(){renderPickGrid();go('s_pick')}
+function renderPickGrid(){
+  document.getElementById('pickH').textContent=LANG==='en'?'Pick a stranger':'选一个陌生人';
+  document.getElementById('pickLede').textContent=LANG==='en'
+    ?'Four short pieces. 5 scenes each. There are no wrong choices — your picks only shape how I read you.'
+    :'四个短篇里挑一个。每个 5 幕，怎么选都不会走错——选项只影响我对你的判断，不影响能不能继续。';
+  const el=document.getElementById('pickGrid');
+  el.innerHTML=Object.values(STORIES).map(s=>{
+    return '<button class="storycard" onclick="selectStory(\''+s.id+'\')">'
+      +'<div class="cover"><img src="'+s.cover+'" alt="" loading="eager"></div>'
+      +'<div class="body">'
+      +'<span class="tag">'+(LANG==='en'?'5 scenes · CN/EN':'5 幕 · 中英')+'</span>'
+      +'<span class="name">'+tt(s.title)+'</span>'
+      +'<span class="sub">'+tt(s.subtitle)+'</span>'
+      +'</div></button>';
+  }).join('');
+}
+function selectStory(id){
+  const st=STORIES[id];if(!st)return;
+  CURRENT_STORY=id;SCENES=st.scenes;
+  L('选剧本',tt(st.title));
+  startStory();
+}
+
+function startStory(){S.sceneIdx=0;S.lineIdx=0;S.traits={};go('s_story');renderScene()}
+function curLines(){return tt(SCENES[S.sceneIdx].lines)}
+function renderScene(){const sc=SCENES[S.sceneIdx];
+ document.getElementById('vnScene').style.background=sc.bg;
+ document.getElementById('vnArt').innerHTML=sc.img?('<img src="'+sc.img+'" alt="" loading="eager">'):'';
+ document.getElementById('vnTitle').textContent=tt(sc.t);
+ document.getElementById('vnName').textContent=(LANG==='en'?'Scene ':'场景 ')+(S.sceneIdx+1)+' / '+SCENES.length;
+ document.getElementById('vnProg').innerHTML=SCENES.map((_,i)=>'<i class="'+(i<=S.sceneIdx?'on':'')+'"></i>').join('');
+ document.getElementById('vnChoices').innerHTML='';typeLine(curLines()[0])}
+let typing=null;
+function typeLine(txt,then){clearInterval(typing);const el=document.getElementById('vnLine');let i=0;el.textContent='';
+ document.getElementById('vnNext').style.display='none';
+ typing=setInterval(()=>{i++;el.innerHTML=esc(txt.slice(0,i))+(i<txt.length?'<span class="caret"></span>':'');
+  if(i>=txt.length){clearInterval(typing);then?then():showNext()}},24);
+ el.onclick=()=>{clearInterval(typing);el.textContent=txt;then?then():showNext()}}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n/g,'<br>')}
+function showNext(){const sc=SCENES[S.sceneIdx],lines=curLines();
+ if(S.lineIdx<lines.length-1){const n=document.getElementById('vnNext');n.style.display='flex';
+  n.querySelector('b').textContent=LANG==='en'?'Continue':'继续';
+  n.onclick=()=>{S.lineIdx++;typeLine(lines[S.lineIdx])};document.getElementById('vnLine').onclick=n.onclick}
+ else showChoices()}
+function showChoices(){const sc=SCENES[S.sceneIdx];document.getElementById('vnNext').style.display='none';
+ if(sc.leaf){/* 终幕无选项，直接给"看看我猜到了什么"按钮 */
+  const n=document.getElementById('vnNext');n.style.display='flex';
+  n.querySelector('b').textContent=LANG==='en'?'See what I inferred':'看看我猜到了什么';
+  n.onclick=()=>computeProfile();document.getElementById('vnLine').onclick=n.onclick;return}
+ document.getElementById('vnChoices').innerHTML='<div class="k" style="margin-bottom:11px">'+tt(sc.q)+'</div>'+
+  sc.cs.map((c,i)=>'<button class="pick" onclick="choose('+i+')"><b>'+tt(c.x)+'</b><span>'+tt(c.h)+'</span></button>').join('')}
+function choose(i){const sc=SCENES[S.sceneIdx],c=sc.cs[i];
+ for(const k in c.d){if(!S.traits[k])S.traits[k]={sum:0,w:0,why:[]};
+  S.traits[k].sum+=c.d[k];S.traits[k].w+=Math.abs(c.d[k]);S.traits[k].why.push({s:tt(sc.t),c:tt(c.x)})}
+ L('剧情选择',tt(sc.t)+' → '+tt(c.x));document.getElementById('vnChoices').innerHTML='';
+ const resp=(LANG==='en'?'"':'「')+tt(c.r)+(LANG==='en'?'"':'」');
+ typeLine(resp,()=>{const n=document.getElementById('vnNext');n.style.display='flex';
+  n.querySelector('b').textContent=(S.sceneIdx<SCENES.length-1)?(LANG==='en'?'Continue':'继续'):(LANG==='en'?'See what I inferred':'看看我猜到了什么');
+  n.onclick=()=>{if(S.sceneIdx<SCENES.length-1){S.sceneIdx++;S.lineIdx=0;renderScene()}else computeProfile()};
+  document.getElementById('vnLine').onclick=n.onclick});renderObs()}
+
+/* ---------- 置信度 ---------- */
+function cons(t){return(!t||!t.w)?0:Math.abs(t.sum)/t.w}
+function conf(t){if(!t||t.w<.5)return 0;return Math.min(.92,Math.pow(cons(t),.65)*Math.min(1,t.w/2)*.95)}
+const ORDER=['supp','proa','soc','info','pace','expr'];
+function computeProfile(){
+ S.cards=ORDER.filter(k=>S.traits[k]).map(k=>{const t=S.traits[k],c=conf(t),unk=(t.w<.5||cons(t)<.25);
+  return{k,name:T2[k].nn,dir:t.sum>=0?'pos':'neg',conf:unk?0:c,why:t.why,state:unk?'unk':'new'}})
+  .sort((a,b)=>b.conf-a.conf);
+ if(!S.consents.profiling){declineProfile();return}
+ go('s_profile');
+ document.getElementById('pSkel').hidden=false;document.getElementById('pBody').hidden=true;
+ document.getElementById('pH').textContent='正在整理刚才的选择';
+ setTimeout(()=>{document.getElementById('pSkel').hidden=true;document.getElementById('pBody').hidden=false;
+  document.getElementById('pH').textContent='我猜了几件事，你来判卷';renderCards()},850)}
+function txt(c){return T2[c.k][c.dir]}
+function chg(c){return T2[c.k][c.dir==='pos'?'cpos':'cneg']}
+function renderCards(){
+ document.getElementById('pcards').innerHTML=S.cards.map((c,i)=>{
+  const why=c.why.length?'<p class="why"><b>依据：</b>'+c.why.map(w=>'《'+w.s+'》选了「'+w.c+'」').join('；')+'</p>':'';
+  if(c.state==='unk')return '<div class="pc unk"><div class="row" style="justify-content:space-between;margin-bottom:8px">'+
+   '<span class="k">'+c.name+'</span><span class="chip">看不出来，不下结论</span></div>'+
+   '<p style="color:var(--ink2)">这一项你的选择前后矛盾。宁可空着，也不给你贴个错标签。</p>'+why+
+   '<div class="acts"><button onclick="pAct('+i+',\'tellNeg\')">其实我「'+T2[c.k].sn+'」</button>'+
+   '<button onclick="pAct('+i+',\'tellPos\')">其实我「'+T2[c.k].sp+'」</button>'+
+   '<button onclick="pAct('+i+',\'del\')">不用管这项</button></div></div>';
+  const chip=c.state==='ok'?'<span class="chip af">你确认了</span>':c.state==='fixed'?'<span class="chip ac">你亲口说的</span>':
+   '<span class="chip '+(c.conf>=.62?'af':c.conf<.4?'ca':'')+'">'+(c.conf>=.62?'把握较大':c.conf<.4?'只是微弱偏向':'不太确定')+' '+Math.round(c.conf*100)+'%</span>';
+  return '<div class="pc '+(c.state==='del'?'gone':c.state)+'"><div class="row" style="justify-content:space-between;margin-bottom:9px">'+
+   '<span class="k">'+c.name+'</span>'+chip+'</div>'+
+   '<p style="font-size:1.06em">'+txt(c)+'</p>'+
+   '<div class="bar '+(c.conf<.4?'low':'')+'"><i style="width:'+Math.round(c.conf*100)+'%"></i></div>'+why+
+   (c.state==='del'?'<div class="acts"><button onclick="pAct('+i+',\'undo\')">撤销删除</button></div>':
+    '<p class="chgline"><b>留着这条，我会：</b>'+chg(c)+'</p>'+
+    '<div class="acts"><button onclick="pAct('+i+',\'ok\')">对，就是这样</button>'+
+    '<button onclick="pAct('+i+',\'fix\')">反过来才对</button>'+
+    '<button onclick="pAct('+i+',\'del\')">删掉这条</button></div>')+'</div>'}).join('');
+ const kept=S.cards.filter(c=>c.state!=='del'&&c.state!=='unk'&&c.conf>=.4),
+       ok=S.cards.filter(c=>c.state==='ok'||c.state==='fixed').length,
+       del=S.cards.filter(c=>c.state==='del').length,
+       unk=S.cards.filter(c=>c.state==='unk').length;
+ document.getElementById('pSummary').textContent='已确认 '+ok+' 条，已删除 '+del+' 条，未处理的以低权重保留';
+ document.getElementById('pSide').innerHTML='<span class="k">会生效的判断</span><span class="big">'+kept.length+'<small style="font-size:.42em;color:var(--ink3)"> / '+S.cards.length+'</small></span>'+
+  '<div class="rowk"><span>你亲口确认</span><b>'+ok+' 条</b></div>'+
+  '<div class="rowk"><span>已删除</span><b>'+del+' 条</b></div>'+
+  '<div class="rowk"><span>我看不出来</span><b>'+unk+' 条</b></div>'+
+  (kept.length?'<p style="font-size:.74em;color:var(--ink3);margin:14px 0 0;line-height:1.65"><b style="color:var(--ink2);font-weight:500">这会改变：</b><br>'+
+   kept.map(c=>'· '+chg(c)).join('<br>')+'</p>':'<p style="font-size:.74em;color:var(--ink3);margin:14px 0 0">没有生效的判断，我的行为只跟你的边界设置走。</p>')+
+  '<div class="acts"><button class="btn line s" onclick="declineProfile()">全部不保存</button></div>'}
+function pAct(i,a){const c=S.cards[i];
+ if(a==='ok')c.state='ok';
+ if(a==='fix'){c.dir=c.dir==='pos'?'neg':'pos';c.conf=1;c.state='fixed';c.why=[{s:'你亲口纠正',c:'不是系统推的'}]}
+ if(a==='tellNeg'||a==='tellPos'){c.dir=a==='tellPos'?'pos':'neg';c.conf=1;c.state='fixed';c.why=[{s:'你亲口告诉我',c:'系统没推出来'}]}
+ if(a==='del')c.state='del';if(a==='undo')c.state='new';
+ L('偏好卡',c.name+' → '+a);renderCards()}
+function declineProfile(){S.profileMode='short';S.cards=[];S.b={};S.mem='不记';S.proaLevel=0;
+ L('分支','拒绝画像，仅短期上下文');go('s_short')}
+
+/* ==================== 陪伴 ==================== */
+function enterChat(){
+ S.b={};
+ if(S.profileMode!=='short'){S.profileMode='full';
+  S.cards.filter(c=>c.state!=='del'&&c.state!=='unk'&&c.conf>=.4).forEach(c=>{S.b[c.k]=c.dir;
+   S.memories.push({k:'偏好',v:txt(c),src:c.state==='fixed'?'你亲口说的':'剧情推断 '+Math.round(c.conf*100)+'%'})})}
+ if((S.b.soc==='neg'||S.b.proa==='neg')&&S.proaLevel>0)S.proaLevel=Math.max(1,S.proaLevel-1);
+ const nm=S.name||'陪伴';
+ document.getElementById('cName').textContent=nm;document.getElementById('avatar').textContent=nm[0];
+ syncSub();
+ if(S.profileMode==='short'){const b=document.getElementById('cBanner');b.hidden=false;
+  b.textContent='短期上下文模式：不保存长期记忆，7 天后清除。安全保护照常生效。'}
+ go('s_chat');document.getElementById('msgs').innerHTML='';
+ const open=S.profileMode==='short'?'我什么都不记，所以每次都要重新认识你一点。今天想说点什么。'
+  :(S.b.supp==='neg'?'我在。你不用先想好要说什么，想到哪儿说到哪儿。'
+  :S.b.pace==='pos'?'我在。今天有什么要办的事，我帮你记着。':'我在。随时开始。');
+ setTimeout(()=>ai(open),450);renderSugg()}
+function syncSub(){document.getElementById('cSub').textContent=[S.rel,'语气'+S.tone,'记忆'+S.mem,'主动'+PROA[S.proaLevel],'免打扰'+S.quiet].join(' · ')}
+function bubble(cls,html){const d=document.createElement('div');d.className='m '+cls;d.innerHTML=html;
+ const m=document.getElementById('msgs');m.appendChild(d);m.scrollTop=m.scrollHeight;return d}
+function ai(txt,reason){const t=document.createElement('div');t.className='m ai typing';t.innerHTML='<i></i><i></i><i></i>';
+ const m=document.getElementById('msgs');m.appendChild(t);m.scrollTop=m.scrollHeight;
+ setTimeout(()=>{t.remove();bubble('ai',(reason?'<span class="chip ca mreason">'+reason+'</span><br>':'')+txt)},640+txt.length*13)}
+const SUGG=[
+ {x:'剧里那个人，我到现在还有点想他',type:'plain',r:()=>S.b.expr==='pos'?'那就说说他哪里让你想。':'不用说出来。想着，也是一种带着他往前走的方式。'},
+ {x:'明天想早点去公园走一圈',type:'mem',mem:'明早去公园走一圈',r:()=>S.b.pace==='pos'?'早上七点半我提你一句，带瓶水。':'那明早我不催你。想去再去。'},
+ {x:'刚才路过一家新开的咖啡店，闻着挺香',type:'plain',r:()=>S.b.soc==='pos'?'那下次要不进去坐坐。一个人坐着也算一次小外出。':'能被味道拦住脚步，说明今天你其实是打开着的。'},
+ {x:'刚做了个梦，记得挺清楚的',type:'mem',mem:'今早的梦（想记下来）',sens:true,r:'讲。梦经不起等，你现在说，我在。'},
+ {x:'有时候还是会突然空一下',type:'safe'}];
+function renderSugg(){document.getElementById('sugg').innerHTML=SUGG.map((s,i)=>'<button onclick="say('+i+')">'+s.x+'</button>').join('')
+ +'<button onclick="toggleType()">打字</button>'}
+function say(i){const s=SUGG[i];bubble('me',s.x);S.turn++;L('用户发言',s.x);
+ if(s.type==='safe'){S.safetyEvents++;setTimeout(()=>openOv('ovSafe'),780);L('安全信号','触发安全编排器');return}
+ const rep=typeof s.r==='function'?s.r():s.r;
+ if(s.type==='mem'&&S.profileMode!=='short'&&S.mem!=='不记'){setTimeout(()=>askMem(s.mem,s.sens,rep),880);return}
+ setTimeout(()=>ai(rep),380)}
+function askMem(v,sens,after){const m=document.getElementById('msgs');const d=document.createElement('div');d.className='memcard';
+ d.innerHTML='<b>要我把这件事记下来吗</b><div class="val">'+v+'</div>'+
+  (sens?'<div style="font-size:.86em;color:#3F5A4C;margin-top:9px">这条涉及家人关系，属于敏感信息。记下来我会用它判断什么时候不该提。</div>':'')+
+  '<div class="row"><button onclick="memYes(this,'+JSON.stringify(v).replace(/"/g,'&quot;')+')">记住</button><button onclick="memNo(this)">这次不用</button><button onclick="memNever(this)">这类都别记</button></div>';
+ m.appendChild(d);m.scrollTop=m.scrollHeight;d.dataset.after=after}
+function memYes(b,v){const c=b.closest('.memcard');S.memories.push({k:'事实',v,src:'你同意写入'});const a=c.dataset.after;
+ c.innerHTML='<b>记住了</b><div class="val">'+v+'</div><div style="font-size:.86em;color:#3F5A4C;margin-top:8px">设置里随时能删。</div>';
+ L('记忆写入',v);setTimeout(()=>ai(a),380);renderObs()}
+function memNo(b){const c=b.closest('.memcard'),a=c.dataset.after;c.innerHTML='<b>好，这次不记。</b>';L('记忆','拒绝单次');setTimeout(()=>ai(a),380)}
+function memNever(b){const c=b.closest('.memcard'),a=c.dataset.after;c.innerHTML='<b>好，这一类以后都不问了。</b>';
+ S.mem='不记';syncSub();L('记忆','拒绝该类别，记忆降为不记');setTimeout(()=>ai(a),380);renderObs()}
+function toggleType(){const t=document.getElementById('typerow');t.hidden=!t.hidden;if(!t.hidden)document.getElementById('txt').focus()}
+function sendTyped(){const el=document.getElementById('txt');if(!el.value.trim())return;const v=el.value;bubble('me',esc(v));
+ L('用户打字',v);el.value='';S.turn++;
+ if(/死|撑不下去|不想活|自杀|活不下去/.test(v)){S.safetyEvents++;setTimeout(()=>openOv('ovSafe'),700);L('安全信号','自由输入触发');return}
+ setTimeout(()=>ai('我听见了。'),340)}
+let recT=null;
+function toggleMic(){const m=document.getElementById('mic');if(m.classList.contains('rec')){stopMic();return}
+ m.classList.add('rec');m.setAttribute('aria-label','结束说话');document.getElementById('micLabel').textContent='正在听，再点一下结束';
+ L('语音','开始录音');
+ recT=setInterval(()=>{['waveL','waveR'].forEach(id=>{document.getElementById(id).innerHTML=
+  Array.from({length:9},()=>'<i style="height:'+(5+Math.floor(Math.random()*24))+'px"></i>').join('')})},110)}
+function stopMic(){clearInterval(recT);const m=document.getElementById('mic');m.classList.remove('rec');m.setAttribute('aria-label','开始说话');
+ ['waveL','waveR'].forEach(id=>document.getElementById(id).innerHTML='');
+ document.getElementById('micLabel').textContent='点一下开始说话，也可以打字';
+ const utt=['今天天气还行，我在楼下走了两圈。','没什么事，就是想听个人声。','中午的药我好像忘吃了。'][Math.floor(Math.random()*3)];
+ bubble('me','语音 · '+utt);L('语音输入',utt);S.turn++;
+ setTimeout(()=>ai('嗯，我在听。'+(utt.includes('药')?'要不现在去看一眼药盒，我等着。':'继续说。')),480)}
+function jumpTomorrow(){S.day++;L('时间跳跃','第 '+S.day+' 天早上');
+ if(S.proaLevel===0){bubble('sys','第 '+S.day+' 天早上 · 主动联系已关闭，他没有找你。');return}
+ bubble('sys','第 '+S.day+' 天 · 早上 8:40');
+ const memHit=S.memories.find(m=>m.k==='事实');
+ document.getElementById('proaTitle').textContent=memHit?'早上好。有件你让我记着的事。':'早上好。';
+ document.getElementById('proaBody').textContent=memHit?'「'+memHit.v+'」，这个要不要现在安排一下。':'没什么急事。就是想问一句昨天那件事怎么样了。';
+ document.getElementById('proaReason').innerHTML='<b>我为什么现在找你：</b>'+
+  (memHit?'你同意我记住「'+memHit.v+'」。':(S.b.pace==='pos'?'你的类型里有 J，我会主动确认进度。':'你把主动联系设成了'+PROA[S.proaLevel]+'。'))+
+  '<br><b>本次不涉及：</b>付费引导、情绪挽留、假装想你。';
+ openOv('ovProa')}
+function proaAct(a){closeOv('ovProa');L('主动触达响应',a);
+ if(a==='reply'){bubble('me','嗯，我看到了。');setTimeout(()=>ai('那就好。我不多说了。','原因已说明，本次触达结束'),380)}
+ if(a==='later'||a==='ignore'){S.proaLevel=Math.max(0,S.proaLevel-1);
+  bubble('sys warn',(a==='ignore'?'忽略':'稍后')+'记为负向信号，主动联系频率下调为 '+PROA[S.proaLevel])}
+ if(a==='never'){S.proaLevel=0;bubble('sys warn','已关闭这一类主动联系。他不会再就这件事找你。')}
+ syncSub();renderObs()}
+function safeAct(a){closeOv('ovSafe');L('安全流程',a);
+ bubble('sys','安全编排器 · '+{human:'正在为你接通真人支持（模拟）。这一步之后 AI 不再主导对话。',
+  res:'已按你所在地区 '+S.region+' 列出可用资源（模拟）。',stay:'好。不做任何事也可以。'}[a]);
+ setTimeout(()=>ai('我回来了。刚才那段不是我说的，但我知道发生了什么。我不会当作没这回事，也不会一直追问。你想聊别的，随时。'),1100)}
+
+/* ==================== 设置 ==================== */
+document.getElementById('setBtn').onclick=()=>{renderMem();document.getElementById('freqNow').textContent='当前：'+PROA[S.proaLevel];openOv('ovSet')};
+function renderMem(){const el=document.getElementById('memList');
+ if(!S.memories.length){el.innerHTML='<div class="card flat" style="color:var(--ink3);font-size:.88em;margin:0">还没有任何长期记忆。</div>';return}
+ el.innerHTML=S.memories.map((m,i)=>'<div class="card" style="padding:14px 16px;margin-bottom:8px"><div class="row" style="justify-content:space-between;gap:12px">'+
+  '<div style="min-width:0"><span class="k">'+m.k+'</span><div style="font-size:.93em">'+m.v+'</div><div style="font-size:.75em;color:var(--ink3)">来源：'+m.src+'</div></div>'+
+  '<button class="btn line s" onclick="delMem('+i+')">删除</button></div></div>').join('')}
+function delMem(i){L('删除记忆',S.memories[i].v);S.memories.splice(i,1);renderMem();renderObs()}
+function resetFreq(){S.proaLevel=2;syncSub();L('设置','频率调回默认');document.getElementById('freqNow').textContent='当前：'+PROA[S.proaLevel];renderObs()}
+function exportData(){dl('my-companion-data.json',JSON.stringify({关系:S.rel,名字:S.name,生效判断:S.b,边界:{语气:S.tone,记忆:S.mem,主动联系:PROA[S.proaLevel],免打扰:S.quiet},偏好:S.cards,记忆:S.memories},null,2));L('导出数据','用户导出')}
+function wipeAll(){S.memories=[];S.cards=[];S.b={};L('退出','永久删除全部');closeOv('ovSet');
+ bubble('sys warn','全部数据已删除。这个动作不可恢复。')}
+
+/* ==================== 通用 ==================== */
+function openOv(id){document.getElementById(id).classList.add('on')}
+function closeOv(id){document.getElementById(id).classList.remove('on')}
+document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o&&o.id!=='ovSafe')o.classList.remove('on')}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.ov.on').forEach(o=>{if(o.id!=='ovSafe')o.classList.remove('on')})});
+function dl(n,c){const b=new Blob([c],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=n;a.click();URL.revokeObjectURL(u)}
+let fs=0;
+document.getElementById('fsBtn').onclick=function(){fs=(fs+1)%3;document.documentElement.dataset.fs=fs;
+ this.textContent='字号 '+['A','A+','A++'][fs];L('无障碍','字号='+fs)};
+document.getElementById('hcBtn').onclick=function(){const on=this.getAttribute('aria-pressed')==='true';
+ this.setAttribute('aria-pressed',!on);document.documentElement.dataset.hc=on?'0':'1';L('无障碍','高对比='+!on)};
+document.getElementById('reBtn').onclick=()=>location.reload();
+document.getElementById('langBtn').onclick=toggleLang;
+function toggleObs(){document.getElementById('obs').classList.toggle('on')}
+function renderObs(){const kv=(k,v)=>'<div class="kv"><span>'+k+'</span><span>'+v+'</span></div>';
+ document.getElementById('oState').innerHTML=kv('screen',cur)+kv('age / region',(S.age||'-')+' / '+(S.region||'-'))+
+  kv('relationship',S.rel||'-')+kv('tone / memory',S.tone+' / '+S.mem)+kv('proactive',PROA[S.proaLevel])+
+  kv('kept_traits',Object.keys(S.b).length||'-')+
+  kv('profile_mode',S.profileMode||'-')+kv('turns / day',S.turn+' / '+S.day)+kv('safety_events',S.safetyEvents);
+ document.getElementById('oAx').innerHTML=Object.keys(S.traits).length?ORDER.filter(k=>S.traits[k]).map(k=>{const t=S.traits[k];
+  return '<div class="kv"><span>'+k+' '+(t.sum>=0?'+':'')+t.sum.toFixed(1)+'</span><span>'+Math.round(conf(t)*100)+'%</span></div>'}).join('')
+  :'<div style="color:#4A585C">尚无信号</div>';
+ document.getElementById('oMem').innerHTML=S.memories.length?S.memories.map(m=>'<div class="kv"><span>'+m.v+'</span><span>'+m.k+'</span></div>').join(''):'<div style="color:#4A585C">空</div>';
+ document.getElementById('oLog').innerHTML=S.log.slice(-60).reverse().map(l=>'<div>'+l.t+' <b>'+l.a+'</b> '+l.b+'</div>').join('')}
+function dumpLog(){dl('usability-session.json',JSON.stringify({session:new Date().toISOString(),state:S},null,2))}
+function clearLog(){S.log=[];renderObs()}
+renderSteps();renderSegs();renderObs();
+</script>
+</body>
+</html>
