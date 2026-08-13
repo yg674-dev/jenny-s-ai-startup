@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "title": "AI 互动漫剧",
+    "description": "AI 生成的分支剧情漫剧"
+  },
+  "nav": {
+    "home": "首页",
+    "newScript": "新建剧本",
+    "myScripts": "我的剧本"
+  },
+  "home": {
+    "heading": "AI 互动漫剧",
+    "subheading": "设定角色与世界观，让 AI 陪你走一段分支剧情",
+    "empty": "还没有剧本，点击右上角新建一个",
+    "createButton": "开始创作"
+  },
+  "editor": {
+    "title": "新建剧本",
+    "scriptTitleLabel": "剧本标题",
+    "scriptTitlePlaceholder": "例：雨夜画廊",
+    "characterLabel": "主角设定",
+    "characterPlaceholder": "外貌 / 性别 / 年龄 / 性格 / 常穿的衣服",
+    "worldLabel": "世界观 / 场景",
+    "worldPlaceholder": "故事发生的世界、时间背景、氛围、核心冲突",
+    "styleLabel": "画风描述（可选）",
+    "stylePlaceholder": "例：日系少女漫风，线条清晰，柔和色调",
+    "submit": "生成开局",
+    "generating": "AI 正在建档..."
+  },
+  "player": {
+    "loading": "生成中...",
+    "generatingText": "正在写剧情...",
+    "generatingImage": "正在画分镜...",
+    "chooseHint": "你的选择：",
+    "backToTree": "查看剧情树",
+    "backHome": "回到首页",
+    "regenerate": "重新生成这一幕",
+    "failed": "生成失败，点击重试"
+  },
+  "tree": {
+    "title": "剧情树",
+    "backToPlay": "继续游玩",
+    "resumeHint": "点击任意节点跳回",
+    "you": "你走过的路"
+  },
+  "common": {
+    "cancel": "取消",
+    "confirm": "确认",
+    "delete": "删除",
+    "confirmDelete": "确定要删除这个剧本吗？"
+  }
+}

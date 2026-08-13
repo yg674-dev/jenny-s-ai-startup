@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "title": "AI Interactive Drama",
+    "description": "AI-generated branching drama comics"
+  },
+  "nav": {
+    "home": "Home",
+    "newScript": "New Script",
+    "myScripts": "My Scripts"
+  },
+  "home": {
+    "heading": "AI Interactive Drama",
+    "subheading": "Set a character and a world, let AI walk you through a branching story.",
+    "empty": "No scripts yet. Click the top-right button to create one.",
+    "createButton": "Start Creating"
+  },
+  "editor": {
+    "title": "New Script",
+    "scriptTitleLabel": "Script Title",
+    "scriptTitlePlaceholder": "e.g. Gallery on a Rainy Night",
+    "characterLabel": "Main Character",
+    "characterPlaceholder": "Appearance / gender / age / personality / usual outfit",
+    "worldLabel": "World / Setting",
+    "worldPlaceholder": "The world, time period, atmosphere, and core conflict",
+    "styleLabel": "Art Style (optional)",
+    "stylePlaceholder": "e.g. Shoujo manga style, clean lines, soft palette",
+    "submit": "Generate Opening",
+    "generating": "AI is building the file..."
+  },
+  "player": {
+    "loading": "Generating...",
+    "generatingText": "Writing the scene...",
+    "generatingImage": "Drawing the panel...",
+    "chooseHint": "Your choice:",
+    "backToTree": "View story tree",
+    "backHome": "Back to home",
+    "regenerate": "Regenerate this scene",
+    "failed": "Generation failed. Click to retry."
+  },
+  "tree": {
+    "title": "Story Tree",
+    "backToPlay": "Resume playing",
+    "resumeHint": "Click any node to jump back",
+    "you": "Your path"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "confirmDelete": "Delete this script?"
+  }
+}
