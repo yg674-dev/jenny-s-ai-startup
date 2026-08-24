@@ -339,7 +339,7 @@ label.fld > i{font-style:normal;display:block;font-size:.8em;color:var(--ink2);m
       <div><b>AI Companion</b><i>Flow A · 成人陪伴</i></div>
     </div>
     <div class="spacer"></div>
-    <button class="tool" id="langBtn" aria-pressed="false" title="切换剧情语言 · Switch story language">EN</button>
+    <button class="tool" id="langBtn" aria-pressed="false" title="切换语言 · Switch language">EN</button>
     <button class="tool" id="fsBtn">字号 A</button>
     <button class="tool" id="hcBtn" aria-pressed="false">高对比</button>
     <button class="tool" id="setBtn" hidden>设置</button>
@@ -371,20 +371,20 @@ label.fld > i{font-style:normal;display:block;font-size:.8em;color:var(--ink2);m
 
       <!-- 注册 -->
       <section class="screen" id="s_reg"><div class="pad"><div class="col-main">
-        <h3>01 · 自主注册</h3>
-        <h1>先确认两件事</h1>
-        <p class="lede">年龄和地区决定你进入哪一套产品。成人版与青少年版的模型、数据保留策略彼此隔离。</p>
-        <label class="fld"><i>你的年龄</i><input type="number" id="age" placeholder="例如 58" min="1" max="120" aria-describedby="ageErr"><span class="err" id="ageErr">请填一个 1 到 120 之间的数字</span></label>
-        <label class="fld"><i>所在地区</i>
+        <h3 data-zh="01 · 自主注册" data-en="01 · Self-registration">01 · 自主注册</h3>
+        <h1 data-zh="先确认两件事" data-en="Two things first">先确认两件事</h1>
+        <p class="lede" data-zh="年龄和地区决定你进入哪一套产品。成人版与青少年版的模型、数据保留策略彼此隔离。" data-en="Your age and region decide which product you enter. The adult and teen versions run on separate models and separate data-retention policies.">年龄和地区决定你进入哪一套产品。成人版与青少年版的模型、数据保留策略彼此隔离。</p>
+        <label class="fld"><i data-zh="你的年龄" data-en="Your age">你的年龄</i><input type="number" id="age" placeholder="例如 58" data-zh-ph="例如 58" data-en-ph="e.g. 58" min="1" max="120" aria-describedby="ageErr"><span class="err" id="ageErr" data-zh="请填一个 1 到 120 之间的数字" data-en="Enter a number between 1 and 120">请填一个 1 到 120 之间的数字</span></label>
+        <label class="fld"><i data-zh="所在地区" data-en="Your region">所在地区</i>
           <select id="region">
-            <option value="US-CA">美国 · 加利福尼亚</option>
-            <option value="US-IL">美国 · 伊利诺伊</option>
-            <option value="US-OTHER">美国 · 其他州</option>
-            <option value="CA-ON">加拿大 · 安大略</option>
+            <option value="US-CA" data-zh="美国 · 加利福尼亚" data-en="United States · California">美国 · 加利福尼亚</option>
+            <option value="US-IL" data-zh="美国 · 伊利诺伊" data-en="United States · Illinois">美国 · 伊利诺伊</option>
+            <option value="US-OTHER" data-zh="美国 · 其他州" data-en="United States · other states">美国 · 其他州</option>
+            <option value="CA-ON" data-zh="加拿大 · 安大略" data-en="Canada · Ontario">加拿大 · 安大略</option>
           </select>
         </label>
-        <div class="note ac"><b>AI 身份披露。</b>你接下来对话的对象是一个 AI，不是真人。它可以陪你说话，但不做诊断、不做治疗。需要专业照护时由外部真人伙伴接手。<span class="k" style="display:block;margin-top:9px">依据 California SB 243 与 Illinois WOPR Act</span></div>
-        <button class="btn mt" id="regNext" disabled onclick="submitAge()">继续</button>
+        <div class="note ac"><b data-zh="AI 身份披露。" data-en="AI disclosure.">AI 身份披露。</b><span data-zh="你接下来对话的对象是一个 AI，不是真人。它可以陪你说话，但不做诊断、不做治疗。需要专业照护时由外部真人伙伴接手。" data-en="What you are about to talk to is an AI, not a person. It can keep you company, but it does not diagnose and does not treat. When you need professional care, a real human partner outside this product takes over.">你接下来对话的对象是一个 AI，不是真人。它可以陪你说话，但不做诊断、不做治疗。需要专业照护时由外部真人伙伴接手。</span><span class="k" style="display:block;margin-top:9px" data-zh="依据 California SB 243 与 Illinois WOPR Act" data-en="Per California SB 243 and the Illinois WOPR Act">依据 California SB 243 与 Illinois WOPR Act</span></div>
+        <button class="btn mt" id="regNext" disabled onclick="submitAge()" data-zh="继续" data-en="Continue">继续</button>
       </div></div></section>
 
       <!-- 年龄门拦截 -->
@@ -666,8 +666,15 @@ const T2={
 /* 语言状态 · Language state */
 let LANG='zh';
 function tt(v){return v&&typeof v==='object'&&('zh'in v||'en'in v)?(v[LANG]||v.zh||v.en||''):(v||'')}
+/* 声明式静态文案翻译：任何带 data-zh/data-en 的元素都会被切换。
+   新增页面只要给节点加这两个属性即可，不需要改这里。 */
+function applyI18n(root){const sc=root||document;
+ sc.querySelectorAll('[data-zh][data-en]').forEach(el=>{const t=el.getAttribute('data-'+LANG);if(t!==null)el.textContent=t});
+ sc.querySelectorAll('[data-zh-ph][data-en-ph]').forEach(el=>{const t=el.getAttribute('data-'+LANG+'-ph');if(t!==null)el.placeholder=t});
+ document.documentElement.lang=LANG==='en'?'en':'zh-CN'}
 function toggleLang(){LANG=LANG==='zh'?'en':'zh';document.getElementById('langBtn').setAttribute('aria-pressed',LANG==='en'?'true':'false');
  document.getElementById('langBtn').textContent=LANG==='zh'?'EN':'中';
+ applyI18n();
  if(cur==='s_story'){/* 重新渲染当前幕的当前行 */
   const sc=SCENES[S.sceneIdx];
   document.getElementById('vnTitle').textContent=tt(sc.t);
@@ -1409,7 +1416,7 @@ function renderObs(){const kv=(k,v)=>'<div class="kv"><span>'+k+'</span><span>'+
  document.getElementById('oLog').innerHTML=S.log.slice(-60).reverse().map(l=>'<div>'+l.t+' <b>'+l.a+'</b> '+l.b+'</div>').join('')}
 function dumpLog(){dl('usability-session.json',JSON.stringify({session:new Date().toISOString(),state:S},null,2))}
 function clearLog(){S.log=[];renderObs()}
-renderSteps();renderSegs();renderObs();
+renderSteps();renderSegs();renderObs();applyI18n();
 </script>
 </body>
 </html>
