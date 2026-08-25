@@ -1,5 +1,7 @@
 # jenny's ai startup
 
+[English](./README.en.md) · **中文**
+
 早期探索：**面向北美 45–70 岁成人的 AI 陪伴产品**。
 
 核心主张：
