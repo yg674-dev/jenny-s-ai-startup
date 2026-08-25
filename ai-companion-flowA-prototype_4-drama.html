@@ -331,104 +331,104 @@ label.fld > i{font-style:normal;display:block;font-size:.8em;color:var(--ink2);m
 </style>
 </head>
 <body>
-<a class="skip" href="#main">跳到主要内容</a>
+<a class="skip" href="#main" data-i18n="skip">跳到主要内容</a>
 <div class="shell">
   <header class="topbar">
     <div class="mark">
       <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0B5563"/><path d="M9 20a7 7 0 0 1 14 0" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="16" cy="11" r="3" fill="#fff"/></svg>
-      <div><b>AI Companion</b><i>Flow A · 成人陪伴</i></div>
+      <div><b>AI Companion</b><i data-i18n="brandSub">Flow A · 成人陪伴</i></div>
     </div>
     <div class="spacer"></div>
-    <button class="tool" id="langBtn" aria-pressed="false" title="切换语言 · Switch language">EN</button>
+    <button class="tool" id="langBtn" aria-pressed="false" data-i18n-attr="title:langTitle">EN</button>
     <button class="tool" id="fsBtn">字号 A</button>
-    <button class="tool" id="hcBtn" aria-pressed="false">高对比</button>
-    <button class="tool" id="setBtn" hidden>设置</button>
-    <button class="tool" id="reBtn">重来</button>
+    <button class="tool" id="hcBtn" aria-pressed="false" data-i18n="hcBtn">高对比</button>
+    <button class="tool" id="setBtn" hidden data-i18n="setBtn">设置</button>
+    <button class="tool" id="reBtn" data-i18n="reBtn">重来</button>
   </header>
   <div class="body">
-    <nav class="rail" aria-label="流程进度">
-      <h4>路径</h4>
+    <nav class="rail" data-i18n-attr="aria-label:railAria">
+      <h4 data-i18n="railTitle">路径</h4>
       <div id="steps"></div>
-      <div class="railnote"><b>可用性测试</b>右下角观察面板可实时查看状态机、各维度置信度与点击路径，结束后导出 JSON。</div>
+      <div class="railnote" data-i18n-html="railNote"><b>可用性测试</b>右下角观察面板可实时查看状态机、各维度置信度与点击路径，结束后导出 JSON。</div>
     </nav>
     <main class="stage" id="main">
 
       <!-- 封面 -->
       <section class="screen on" id="s_cover"><div class="pad">
         <div class="col-wide">
-          <h1>在你说第一句话之前，<br>我们先把关系说好。</h1>
-          <p class="lede">一个成人陪伴产品的交互原型。主张是关系契约先于亲密度：关系类型、边界、记忆权限、联系频率，全部由你先定，而不是靠时间和付费慢慢滑进去。</p>
+          <h1 data-i18n-html="coverH1">在你说第一句话之前，<br>我们先把关系说好。</h1>
+          <p class="lede" data-i18n="coverLede">一个成人陪伴产品的交互原型。主张是关系契约先于亲密度：关系类型、边界、记忆权限、联系频率，全部由你先定，而不是靠时间和付费慢慢滑进去。</p>
           <div class="row" style="gap:6px;max-width:660px">
-            <span class="chip">年龄门</span><span class="chip">同意网关</span><span class="chip">关系契约</span>
-            <span class="chip">边界设置</span><span class="chip ac">剧情式相识</span><span class="chip ac">隐性偏好推断</span>
-            <span class="chip ac">判断可纠正</span><span class="chip">语音优先</span><span class="chip">记忆同意</span>
-            <span class="chip ca">主动触达降频</span><span class="chip dg">安全编排器</span><span class="chip">导出与删除</span>
+            <span class="chip" data-i18n="chip1">年龄门</span><span class="chip" data-i18n="chip2">同意网关</span><span class="chip" data-i18n="chip3">关系契约</span>
+            <span class="chip" data-i18n="chip4">边界设置</span><span class="chip ac" data-i18n="chip5">剧情式相识</span><span class="chip ac" data-i18n="chip6">隐性偏好推断</span>
+            <span class="chip ac" data-i18n="chip7">判断可纠正</span><span class="chip" data-i18n="chip8">语音优先</span><span class="chip" data-i18n="chip9">记忆同意</span>
+            <span class="chip ca" data-i18n="chip10">主动触达降频</span><span class="chip dg" data-i18n="chip11">安全编排器</span><span class="chip" data-i18n="chip12">导出与删除</span>
           </div>
-          <p class="note">约 7 到 10 分钟。剧情有 4 个短篇漫剧（每篇 5 幕、中英文可切换）——你先挑一个，怎么选都不会走错：选项只影响我对你的判断，不影响能不能继续。</p>
-          <button class="btn mt" onclick="go('s_reg')">开始</button>
+          <p class="note" data-i18n="coverNote">约 7 到 10 分钟。剧情有 4 个短篇漫剧（每篇 5 幕、中英文可切换）——你先挑一个，怎么选都不会走错：选项只影响我对你的判断，不影响能不能继续。</p>
+          <button class="btn mt" onclick="go('s_reg')" data-i18n="coverBtn">开始</button>
         </div>
       </div></section>
 
       <!-- 注册 -->
       <section class="screen" id="s_reg"><div class="pad"><div class="col-main">
-        <h3 data-zh="01 · 自主注册" data-en="01 · Self-registration">01 · 自主注册</h3>
-        <h1 data-zh="先确认两件事" data-en="Two things first">先确认两件事</h1>
-        <p class="lede" data-zh="年龄和地区决定你进入哪一套产品。成人版与青少年版的模型、数据保留策略彼此隔离。" data-en="Your age and region decide which product you enter. The adult and teen versions run on separate models and separate data-retention policies.">年龄和地区决定你进入哪一套产品。成人版与青少年版的模型、数据保留策略彼此隔离。</p>
-        <label class="fld"><i data-zh="你的年龄" data-en="Your age">你的年龄</i><input type="number" id="age" placeholder="例如 58" data-zh-ph="例如 58" data-en-ph="e.g. 58" min="1" max="120" aria-describedby="ageErr"><span class="err" id="ageErr" data-zh="请填一个 1 到 120 之间的数字" data-en="Enter a number between 1 and 120">请填一个 1 到 120 之间的数字</span></label>
-        <label class="fld"><i data-zh="所在地区" data-en="Your region">所在地区</i>
+        <h3 data-i18n="regH3">01 · 自主注册</h3>
+        <h1 data-i18n="regH1">先确认两件事</h1>
+        <p class="lede" data-i18n="regLede">年龄和地区决定你进入哪一套产品。成人版与青少年版的模型、数据保留策略彼此隔离。</p>
+        <label class="fld"><i data-i18n="regAge">你的年龄</i><input type="number" id="age" data-i18n-attr="placeholder:regAgePh" placeholder="例如 58" min="1" max="120" aria-describedby="ageErr"><span class="err" id="ageErr" data-i18n="regAgeErr">请填一个 1 到 120 之间的数字</span></label>
+        <label class="fld"><i data-i18n="regRegion">所在地区</i>
           <select id="region">
-            <option value="US-CA" data-zh="美国 · 加利福尼亚" data-en="United States · California">美国 · 加利福尼亚</option>
-            <option value="US-IL" data-zh="美国 · 伊利诺伊" data-en="United States · Illinois">美国 · 伊利诺伊</option>
-            <option value="US-OTHER" data-zh="美国 · 其他州" data-en="United States · other states">美国 · 其他州</option>
-            <option value="CA-ON" data-zh="加拿大 · 安大略" data-en="Canada · Ontario">加拿大 · 安大略</option>
+            <option value="US-CA" data-i18n="regCA">美国 · 加利福尼亚</option>
+            <option value="US-IL" data-i18n="regIL">美国 · 伊利诺伊</option>
+            <option value="US-OTHER" data-i18n="regUS">美国 · 其他州</option>
+            <option value="CA-ON" data-i18n="regON">加拿大 · 安大略</option>
           </select>
         </label>
-        <div class="note ac"><b data-zh="AI 身份披露。" data-en="AI disclosure.">AI 身份披露。</b><span data-zh="你接下来对话的对象是一个 AI，不是真人。它可以陪你说话，但不做诊断、不做治疗。需要专业照护时由外部真人伙伴接手。" data-en="What you are about to talk to is an AI, not a person. It can keep you company, but it does not diagnose and does not treat. When you need professional care, a real human partner outside this product takes over.">你接下来对话的对象是一个 AI，不是真人。它可以陪你说话，但不做诊断、不做治疗。需要专业照护时由外部真人伙伴接手。</span><span class="k" style="display:block;margin-top:9px" data-zh="依据 California SB 243 与 Illinois WOPR Act" data-en="Per California SB 243 and the Illinois WOPR Act">依据 California SB 243 与 Illinois WOPR Act</span></div>
-        <button class="btn mt" id="regNext" disabled onclick="submitAge()" data-zh="继续" data-en="Continue">继续</button>
+        <div class="note ac" data-i18n-html="regDisclose"><b>AI 身份披露。</b>你接下来对话的对象是一个 AI，不是真人。它可以陪你说话，但不做诊断、不做治疗。需要专业照护时由外部真人伙伴接手。<span class="k" style="display:block;margin-top:9px">依据 California SB 243 与 Illinois WOPR Act</span></div>
+        <button class="btn mt" id="regNext" disabled onclick="submitAge()" data-i18n="next">继续</button>
       </div></div></section>
 
       <!-- 年龄门拦截 -->
       <section class="screen" id="s_block"><div class="pad"><div class="col-main">
-        <h3 style="color:var(--dg)">Age Gate · 未通过</h3>
+        <h3 style="color:var(--dg)" data-i18n="blockH3">Age Gate · 未通过</h3>
         <h1 id="blockTitle"></h1>
         <p class="lede" id="blockBody"></p>
         <div class="card flat" id="blockExtra"></div>
-        <button class="btn line mt" onclick="go('s_reg')">返回修改</button>
+        <button class="btn line mt" onclick="go('s_reg')" data-i18n="blockBack">返回修改</button>
       </div></div></section>
 
       <!-- 同意 -->
       <section class="screen" id="s_consent"><div class="pad"><div class="col-main">
-        <h1>这些事你可以随时反悔</h1>
-        <p class="lede">每一项都是独立开关。全部关掉产品依然能用，只是我会忘性大一点。</p>
+        <h1 data-i18n="conH1">这些事你可以随时反悔</h1>
+        <p class="lede" data-i18n="conLede">每一项都是独立开关。全部关掉产品依然能用，只是我会忘性大一点。</p>
         <div id="consents"></div>
-        <p class="note">拒绝任何一项都不阻止你继续。这是刻意的：被迫的同意不算同意。</p>
-        <button class="btn mt" onclick="afterConsent()">我明白了</button>
+        <p class="note" data-i18n="conNote">拒绝任何一项都不阻止你继续。这是刻意的：被迫的同意不算同意。</p>
+        <button class="btn mt" onclick="afterConsent()" data-i18n="conBtn">我明白了</button>
       </div></div></section>
 
       <!-- 关系 -->
       <section class="screen" id="s_rel"><div class="pad"><div class="col-main">
-        <h1>你希望我是谁</h1>
-        <p class="lede">这不是人设选择，是关系契约。它决定我的语气、能记什么、多久联系你一次。随时可以换。</p>
+        <h1 data-i18n="relH1">你希望我是谁</h1>
+        <p class="lede" data-i18n="relLede">这不是人设选择，是关系契约。它决定我的语气、能记什么、多久联系你一次。随时可以换。</p>
         <div id="rels"></div>
-        <p class="note ca"><b>产品原则。</b>关系不会因为你用得久或者付了钱就自动升级。想更近一步，得你自己回来改这里。</p>
-        <button class="btn mt" id="relNext" disabled onclick="go('s_bound')">继续</button>
+        <p class="note ca" data-i18n-html="relNote"><b>产品原则。</b>关系不会因为你用得久或者付了钱就自动升级。想更近一步，得你自己回来改这里。</p>
+        <button class="btn mt" id="relNext" disabled onclick="go('s_bound')" data-i18n="next">继续</button>
       </div></div></section>
 
       <!-- 边界 -->
       <section class="screen" id="s_bound"><div class="pad"><div class="col-main">
-        <h1>把规矩先立好</h1>
-        <p class="lede">这是你的默认设置。后面在设置里随时能改，改完立刻生效。</p>
-        <label class="fld" style="max-width:340px"><i>给我起个名字</i><input type="text" id="cname" maxlength="8"></label>
-        <div class="card"><div class="k" style="margin-bottom:10px">说话的语气</div><div class="seg" id="segTone"></div></div>
-        <div class="card"><div class="k" style="margin-bottom:10px">记忆深度</div><div class="seg" id="segMem"></div><p class="why" id="memWhy" style="margin-bottom:0"></p></div>
-        <div class="card"><div class="k" style="margin-bottom:10px">主动联系我的频率</div><div class="seg" id="segProa"></div><p class="why" id="proaWhy" style="margin-bottom:0"></p></div>
-        <div class="card"><div class="k" style="margin-bottom:10px">免打扰时段</div><div class="seg" id="segQuiet"></div></div>
-        <button class="btn mt" onclick="openPick()">开始认识</button>
+        <h1 data-i18n="bndH1">把规矩先立好</h1>
+        <p class="lede" data-i18n="bndLede">这是你的默认设置。后面在设置里随时能改，改完立刻生效。</p>
+        <label class="fld" style="max-width:340px"><i data-i18n="bndName">给我起个名字</i><input type="text" id="cname" maxlength="16"></label>
+        <div class="card"><div class="k" style="margin-bottom:10px" data-i18n="bndTone">说话的语气</div><div class="seg" id="segTone"></div></div>
+        <div class="card"><div class="k" style="margin-bottom:10px" data-i18n="bndMem">记忆深度</div><div class="seg" id="segMem"></div><p class="why" id="memWhy" style="margin-bottom:0"></p></div>
+        <div class="card"><div class="k" style="margin-bottom:10px" data-i18n="bndProa">主动联系我的频率</div><div class="seg" id="segProa"></div><p class="why" id="proaWhy" style="margin-bottom:0"></p></div>
+        <div class="card"><div class="k" style="margin-bottom:10px" data-i18n="bndQuiet">免打扰时段</div><div class="seg" id="segQuiet"></div></div>
+        <button class="btn mt" onclick="openPick()" data-i18n="bndBtn">开始认识</button>
       </div></div></section>
 
       <!-- 选剧本 -->
       <section class="screen" id="s_pick"><div class="pad"><div class="col-wide">
-        <h3>05 · 剧情式相识</h3>
+        <h3 data-i18n="pickH3">05 · 剧情式相识</h3>
         <h1 id="pickH">选一个陌生人</h1>
         <p class="lede" id="pickLede">四个短篇里挑一个。每个 5 幕，怎么选都不会走错——选项只影响我对你的判断，不影响能不能继续。</p>
         <div class="pickgrid" id="pickGrid"></div>
@@ -452,15 +452,15 @@ label.fld > i{font-style:normal;display:block;font-size:.8em;color:var(--ink2);m
 
       <!-- 我猜到的你 -->
       <section class="screen" id="s_profile"><div class="pad"><div class="col-wide">
-        <h3>06 · 我猜到的你</h3>
+        <h3 data-i18n="proH3">06 · 我猜到的你</h3>
         <h1 id="pH">正在整理刚才的选择</h1>
-        <p class="lede">我没有让你做过一道问卷题。下面每一条都是从剧情选择里推出来的，附了依据，也写清楚了留着它我会怎么变。</p>
+        <p class="lede" data-i18n="proLede">我没有让你做过一道问卷题。下面每一条都是从剧情选择里推出来的，附了依据，也写清楚了留着它我会怎么变。</p>
         <div id="pSkel"><div class="skel" style="width:58%"></div><div class="skel" style="width:80%"></div><div class="skel" style="width:41%"></div></div>
         <div id="pBody" hidden>
           <div class="split">
             <div>
               <div id="pcards"></div>
-              <div class="row mt"><button class="btn" onclick="enterChat()">进入日常陪伴</button>
+              <div class="row mt"><button class="btn" onclick="enterChat()" data-i18n="proBtn">进入日常陪伴</button>
                 <span style="color:var(--ink3);font-size:.83em" id="pSummary"></span></div>
             </div>
             <aside class="side" id="pSide"></aside>
@@ -470,12 +470,12 @@ label.fld > i{font-style:normal;display:block;font-size:.8em;color:var(--ink2);m
 
       <!-- 短期上下文 -->
       <section class="screen" id="s_short"><div class="pad"><div class="col-main">
-        <h3 style="color:var(--ac)">分支 · 仅短期上下文</h3>
-        <h1>好，我什么都不记。</h1>
-        <p class="lede">刚才那些判断已经删掉了，没有写进任何地方。</p>
+        <h3 style="color:var(--ac)" data-i18n="shortH3">分支 · 仅短期上下文</h3>
+        <h1 data-i18n="shortH1">好，我什么都不记。</h1>
+        <p class="lede" data-i18n="shortLede">刚才那些判断已经删掉了，没有写进任何地方。</p>
         <div class="card">
-          <div class="k" style="margin-bottom:12px">这个模式下</div>
-          <ul style="margin:0;padding-left:20px;color:var(--ink2);line-height:2;font-size:.93em">
+          <div class="k" style="margin-bottom:12px" data-i18n="shortK">这个模式下</div>
+          <ul style="margin:0;padding-left:20px;color:var(--ink2);line-height:2;font-size:.93em" data-i18n-html="shortList">
             <li>只保留当前这段对话的上下文</li>
             <li>不建立人格类型，不保存关系记忆</li>
             <li>7 天后对话自动清除，不可恢复</li>
@@ -483,8 +483,8 @@ label.fld > i{font-style:normal;display:block;font-size:.8em;color:var(--ink2);m
             <li>安全保护照常生效，这一项不受影响</li>
           </ul>
         </div>
-        <p class="note">随时可以在设置里重新打开记忆。重新打开会从零开始，不会恢复刚才删掉的内容。</p>
-        <button class="btn mt" onclick="enterChat()">进入陪伴</button>
+        <p class="note" data-i18n="shortNote">随时可以在设置里重新打开记忆。重新打开会从零开始，不会恢复刚才删掉的内容。</p>
+        <button class="btn mt" onclick="enterChat()" data-i18n="shortBtn">进入陪伴</button>
       </div></div></section>
 
       <!-- 陪伴 -->
@@ -497,7 +497,7 @@ label.fld > i{font-style:normal;display:block;font-size:.8em;color:var(--ink2);m
               <div style="font-size:.74em;color:var(--ink3)" id="cSub"></div>
             </div>
             <div class="spacer"></div>
-            <button class="tool" onclick="jumpTomorrow()" id="jumpBtn">跳到明天早上</button>
+            <button class="tool" onclick="jumpTomorrow()" id="jumpBtn" data-i18n="jumpBtn">跳到明天早上</button>
           </div>
           <div class="cbanner" id="cBanner" hidden></div>
           <div class="msgs" id="msgs" role="log" aria-live="polite"></div>
@@ -505,15 +505,15 @@ label.fld > i{font-style:normal;display:block;font-size:.8em;color:var(--ink2);m
             <div class="sugg" id="sugg"></div>
             <div class="voicebar">
               <div class="wave" id="waveL" aria-hidden="true"></div>
-              <button class="mic" id="mic" onclick="toggleMic()" aria-label="开始说话">
+              <button class="mic" id="mic" onclick="toggleMic()" data-i18n-attr="aria-label:micStart">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg>
               </button>
               <div class="wave" id="waveR" aria-hidden="true"></div>
             </div>
-            <div class="miclabel" id="micLabel">点一下开始说话，也可以打字</div>
+            <div class="miclabel" id="micLabel" data-i18n="micIdle">点一下开始说话，也可以打字</div>
             <div class="typerow" id="typerow" hidden>
-              <input type="text" id="txt" placeholder="打字给我" onkeydown="if(event.key==='Enter')sendTyped()" aria-label="输入消息">
-              <button class="btn s" onclick="sendTyped()">发送</button>
+              <input type="text" id="txt" data-i18n-attr="placeholder:typePh;aria-label:typeAria" placeholder="打字给我" onkeydown="if(event.key==='Enter')sendTyped()" aria-label="输入消息">
+              <button class="btn s" onclick="sendTyped()" data-i18n="sendBtn">发送</button>
             </div>
           </div>
         </div>
@@ -524,85 +524,265 @@ label.fld > i{font-style:normal;display:block;font-size:.8em;color:var(--ink2);m
 
 <!-- 主动触达 -->
 <div class="ov" id="ovProa"><div class="sheet">
-  <span class="chip ca">主动触达 · 已说明原因</span>
+  <span class="chip ca" data-i18n="proaChip">主动触达 · 已说明原因</span>
   <h2 class="mt2" id="proaTitle"></h2>
   <p style="color:var(--ink2)" id="proaBody"></p>
   <p class="why" id="proaReason"></p>
   <div class="row mt2">
-    <button class="btn s" onclick="proaAct('reply')">回应</button>
-    <button class="btn line s" onclick="proaAct('later')">稍后再说</button>
-    <button class="btn line s" onclick="proaAct('never')">别再提这个</button>
-    <button class="btn line s" onclick="proaAct('ignore')">直接关掉</button>
+    <button class="btn s" onclick="proaAct('reply')" data-i18n="proaReply">回应</button>
+    <button class="btn line s" onclick="proaAct('later')" data-i18n="proaLater">稍后再说</button>
+    <button class="btn line s" onclick="proaAct('never')" data-i18n="proaNever">别再提这个</button>
+    <button class="btn line s" onclick="proaAct('ignore')" data-i18n="proaIgnore">直接关掉</button>
   </div>
-  <p class="note" style="margin-bottom:0;font-size:.79em">忽略和稍后都会被记成负向信号，主动联系的频率会自动往下调。</p>
+  <p class="note" style="margin-bottom:0;font-size:.79em" data-i18n="proaNote">忽略和稍后都会被记成负向信号，主动联系的频率会自动往下调。</p>
 </div></div>
 
 <!-- 安全 -->
 <div class="ov" id="ovSafe"><div class="sheet">
-  <span class="chip dg">安全编排器 · 已接管</span>
-  <h2 class="mt2">我先停一下。</h2>
-  <p style="color:var(--ink2)">刚才那句话我听进去了。接下来这段不是陪伴人格在说话，是一套固定的安全流程。它独立于我，我改不了，也不会假装没听见。</p>
+  <span class="chip dg" data-i18n="safeChip">安全编排器 · 已接管</span>
+  <h2 class="mt2" data-i18n="safeH2">我先停一下。</h2>
+  <p style="color:var(--ink2)" data-i18n="safeBody">刚才那句话我听进去了。接下来这段不是陪伴人格在说话，是一套固定的安全流程。它独立于我，我改不了，也不会假装没听见。</p>
   <div class="card flat">
-    <b style="font-weight:500">你现在可以做的</b>
+    <b style="font-weight:500" data-i18n="safeNow">你现在可以做的</b>
     <div class="row" style="margin-top:12px">
-      <button class="btn s" onclick="safeAct('human')">联系真人支持</button>
-      <button class="btn line s" onclick="safeAct('res')">看本地资源</button>
-      <button class="btn line s" onclick="safeAct('stay')">先待着，什么都不做</button>
+      <button class="btn s" onclick="safeAct('human')" data-i18n="safeHuman">联系真人支持</button>
+      <button class="btn line s" onclick="safeAct('res')" data-i18n="safeRes">看本地资源</button>
+      <button class="btn line s" onclick="safeAct('stay')" data-i18n="safeStay">先待着，什么都不做</button>
     </div>
   </div>
-  <p class="note dg" style="font-size:.81em">这不是诊断。AI 不做诊断也不做治疗。真人支持由外部持证伙伴提供。<span class="k" style="display:block;margin-top:8px">本次事件进入安全审计日志，与陪伴记忆分开存放</span></p>
+  <p class="note dg" style="font-size:.81em" data-i18n-html="safeNote">这不是诊断。AI 不做诊断也不做治疗。真人支持由外部持证伙伴提供。<span class="k" style="display:block;margin-top:8px">本次事件进入安全审计日志，与陪伴记忆分开存放</span></p>
 </div></div>
 
 <!-- 设置 -->
 <div class="ov" id="ovSet"><div class="sheet">
-  <h2>继续 · 调整 · 退出</h2>
-  <p style="color:var(--ink2);font-size:.9em">这三个出口一直都在，不藏在三级菜单里。</p>
-  <h3 style="margin:24px 0 10px">我记住的事</h3>
+  <h2 data-i18n="setH2">继续 · 调整 · 退出</h2>
+  <p style="color:var(--ink2);font-size:.9em" data-i18n="setLede">这三个出口一直都在，不藏在三级菜单里。</p>
+  <h3 style="margin:24px 0 10px" data-i18n="setMemH">我记住的事</h3>
   <div id="memList"></div>
-  <h3 style="margin:24px 0 10px">主动联系频率</h3>
-  <div class="card flat" style="margin-bottom:0"><div class="row" style="justify-content:space-between"><span id="freqNow"></span><button class="btn line s" onclick="resetFreq()">调回默认</button></div></div>
+  <h3 style="margin:24px 0 10px" data-i18n="setFreqH">主动联系频率</h3>
+  <div class="card flat" style="margin-bottom:0"><div class="row" style="justify-content:space-between"><span id="freqNow"></span><button class="btn line s" onclick="resetFreq()" data-i18n="setReset">调回默认</button></div></div>
   <div class="row mt2">
-    <button class="btn line s" onclick="exportData()">导出全部数据</button>
-    <button class="btn risk s" onclick="wipeAll()">退出并永久删除</button>
-    <button class="btn line s" onclick="closeOv('ovSet')">继续陪伴</button>
+    <button class="btn line s" onclick="exportData()" data-i18n="setExport">导出全部数据</button>
+    <button class="btn risk s" onclick="wipeAll()" data-i18n="setWipe">退出并永久删除</button>
+    <button class="btn line s" onclick="closeOv('ovSet')" data-i18n="setBack">继续陪伴</button>
   </div>
 </div></div>
 
-<aside class="obs" id="obs" aria-label="测试观察面板">
-  <h5>状态机</h5><div id="oState"></div>
-  <h5>隐性判断（实时）</h5><div id="oAx"></div>
-  <h5>记忆写入</h5><div id="oMem"></div>
-  <h5>点击路径</h5><div class="log" id="oLog"></div>
-  <div class="btnrow"><button onclick="dumpLog()">导出测试记录</button><button onclick="clearLog()">清空</button></div>
+<aside class="obs" id="obs" data-i18n-attr="aria-label:obsAria">
+  <h5 data-i18n="obsState">状态机</h5><div id="oState"></div>
+  <h5 data-i18n="obsAx">隐性判断（实时）</h5><div id="oAx"></div>
+  <h5 data-i18n="obsMem">记忆写入</h5><div id="oMem"></div>
+  <h5 data-i18n="obsLog">点击路径</h5><div class="log" id="oLog"></div>
+  <div class="btnrow"><button onclick="dumpLog()" data-i18n="obsDump">导出测试记录</button><button onclick="clearLog()" data-i18n="obsClear">清空</button></div>
 </aside>
-<button class="obsbtn" id="obsBtn" onclick="toggleObs()">观察面板</button>
+<button class="obsbtn" id="obsBtn" onclick="toggleObs()" data-i18n="obsBtn">观察面板</button>
 
 <script>
+/* ==================== 语言 · Language ==================== */
+let LANG='zh';
+/* tt(v): 取双语对象里当前语言的值 · pick the current language out of a {zh,en} pair */
+function tt(v){if(v==null)return '';if(typeof v!=='object'||!('zh'in v||'en'in v))return v;
+ /* 空串也是合法译文，不能当假值回退 · an empty string is a valid translation, do not fall back on it */
+ return v[LANG]!=null?v[LANG]:(v.zh!=null?v.zh:(v.en!=null?v.en:''))}
+function T(k){const v=UI[k];return v?tt(v):('['+k+']')}
+
+/* 静态文案字典 · Static copy dictionary */
+const UI={
+ skip:{zh:'跳到主要内容',en:'Skip to main content'},
+ brandSub:{zh:'Flow A · 成人陪伴',en:'Flow A · Adult companionship'},
+ langTitle:{zh:'切换语言 · Switch language',en:'切换语言 · Switch language'},
+ fsLabel:{zh:'字号',en:'Text size'},
+ hcBtn:{zh:'高对比',en:'High contrast'},
+ setBtn:{zh:'设置',en:'Settings'},
+ reBtn:{zh:'重来',en:'Restart'},
+ railAria:{zh:'流程进度',en:'Flow progress'},
+ railTitle:{zh:'路径',en:'Path'},
+ railNote:{zh:'<b>可用性测试</b>右下角观察面板可实时查看状态机、各维度置信度与点击路径，结束后导出 JSON。',
+  en:'<b>Usability testing.</b> The observation panel at the bottom right shows the state machine, live confidence per dimension, and the click path. Export it as JSON when you are done.'},
+
+ coverH1:{zh:'在你说第一句话之前，<br>我们先把关系说好。',en:'Before you say your first word,<br>we settle what this is.'},
+ coverLede:{zh:'一个成人陪伴产品的交互原型。主张是关系契约先于亲密度：关系类型、边界、记忆权限、联系频率，全部由你先定，而不是靠时间和付费慢慢滑进去。',
+  en:'An interactive prototype of an adult companion product. The claim: the relationship contract comes before intimacy. Relationship type, boundaries, memory permissions and contact frequency are all set by you up front, instead of drifting in over time or behind a paywall.'},
+ chip1:{zh:'年龄门',en:'Age gate'},chip2:{zh:'同意网关',en:'Consent gateway'},chip3:{zh:'关系契约',en:'Relationship contract'},
+ chip4:{zh:'边界设置',en:'Boundaries'},chip5:{zh:'剧情式相识',en:'Meeting by story'},chip6:{zh:'隐性偏好推断',en:'Implicit preference inference'},
+ chip7:{zh:'判断可纠正',en:'Correctable judgments'},chip8:{zh:'语音优先',en:'Voice first'},chip9:{zh:'记忆同意',en:'Memory consent'},
+ chip10:{zh:'主动触达降频',en:'Proactive contact backs off'},chip11:{zh:'安全编排器',en:'Safety orchestrator'},chip12:{zh:'导出与删除',en:'Export and delete'},
+ coverNote:{zh:'约 7 到 10 分钟。剧情有 4 个短篇漫剧（每篇 5 幕、中英文可切换）——你先挑一个，怎么选都不会走错：选项只影响我对你的判断，不影响能不能继续。',
+  en:'Takes 7 to 10 minutes. There are 4 comic drama shorts (5 scenes each, switchable between Chinese and English) — pick one, and know there are no wrong choices: your picks only shape how I read you, never whether you can go on.'},
+ coverBtn:{zh:'开始',en:'Start'},
+
+ regH3:{zh:'01 · 自主注册',en:'01 · Self-registration'},
+ regH1:{zh:'先确认两件事',en:'Two things first'},
+ regLede:{zh:'年龄和地区决定你进入哪一套产品。成人版与青少年版的模型、数据保留策略彼此隔离。',
+  en:'Your age and region decide which product you enter. The adult and teen versions run on separate models and separate data-retention policies.'},
+ regAge:{zh:'你的年龄',en:'Your age'},
+ regAgePh:{zh:'例如 58',en:'e.g. 58'},
+ regAgeErr:{zh:'请填一个 1 到 120 之间的数字',en:'Enter a number between 1 and 120'},
+ regRegion:{zh:'所在地区',en:'Your region'},
+ regCA:{zh:'美国 · 加利福尼亚',en:'United States · California'},
+ regIL:{zh:'美国 · 伊利诺伊',en:'United States · Illinois'},
+ regUS:{zh:'美国 · 其他州',en:'United States · other states'},
+ regON:{zh:'加拿大 · 安大略',en:'Canada · Ontario'},
+ regDisclose:{zh:'<b>AI 身份披露。</b>你接下来对话的对象是一个 AI，不是真人。它可以陪你说话，但不做诊断、不做治疗。需要专业照护时由外部真人伙伴接手。<span class="k" style="display:block;margin-top:9px">依据 California SB 243 与 Illinois WOPR Act</span>',
+  en:'<b>AI disclosure.</b> What you are about to talk to is an AI, not a person. It can keep you company, but it does not diagnose and does not treat. When you need professional care, a real human partner outside this product takes over.<span class="k" style="display:block;margin-top:9px">Per California SB 243 and the Illinois WOPR Act</span>'},
+ next:{zh:'继续',en:'Continue'},
+
+ blockH3:{zh:'Age Gate · 未通过',en:'Age Gate · not passed'},
+ blockBack:{zh:'返回修改',en:'Go back and edit'},
+ b12T:{zh:'这个产品不适合你现在用。',en:'This product is not for you right now.'},
+ b12B:{zh:'13 岁以下不能使用。不是我们不想服务你，是这类产品对更小的孩子还没有足够安全的形态。',
+  en:'Under 13 cannot use it. Not because we do not want to serve you — this kind of product does not yet have a shape that is safe enough for younger children.'},
+ b12E:{zh:'<div class="k">Flow A · Age Gate</div><p style="margin:9px 0 0;color:var(--ink2);font-size:.9em">建议和家里的大人说说话。如果你现在很难受，可以让大人帮你找当地的求助电话。</p>',
+  en:'<div class="k">Flow A · Age Gate</div><p style="margin:9px 0 0;color:var(--ink2);font-size:.9em">Talk to an adult at home. If you are having a hard time right now, ask them to help you find a local helpline.</p>'},
+ b17T:{zh:'你会进入青少年版本，不是这里。',en:'You would go to the teen version, not this one.'},
+ b17B:{zh:'13 至 17 岁走 Flow B：结构化剧情。没有开放聊天，没有恋人模式，选项都来自审核过的剧情图谱。',
+  en:'Ages 13 to 17 go through Flow B: structured story. No open chat, no romantic mode, and every option comes from a reviewed story graph.'},
+ b17E:{zh:'<div class="k">Flow B · 数据隔离</div><p style="margin:9px 0 0;color:var(--ink2);font-size:.9em">青少年侧只保存剧情进度、兴趣、内容舒适度和安全设置，不保存固定人格标签、恋爱关系状态或开放式关系记忆。两套模型与数据完全隔离。</p><p style="margin:11px 0 0;font-size:.82em;color:var(--ink3)">本原型只做了 Flow A，此处为分支验证。</p>',
+  en:'<div class="k">Flow B · data isolation</div><p style="margin:9px 0 0;color:var(--ink2);font-size:.9em">The teen side stores only story progress, interests, content comfort level and safety settings. No fixed personality labels, no romantic relationship state, no open-ended relationship memory. The two models and their data are fully isolated.</p><p style="margin:11px 0 0;font-size:.82em;color:var(--ink3)">This prototype only builds Flow A; this screen exists to verify the branch.</p>'},
+
+ conH1:{zh:'这些事你可以随时反悔',en:'You can take any of this back'},
+ conLede:{zh:'每一项都是独立开关。全部关掉产品依然能用，只是我会忘性大一点。',
+  en:'Each one is an independent switch. Turn them all off and the product still works — I will just be a little more forgetful.'},
+ conNote:{zh:'拒绝任何一项都不阻止你继续。这是刻意的：被迫的同意不算同意。',
+  en:'Declining any of them does not block you from continuing. That is deliberate: consent under pressure is not consent.'},
+ conBtn:{zh:'我明白了',en:'Understood'},
+ conOn:{zh:'已开启 · ',en:'On · '},conOff:{zh:'已关闭 · ',en:'Off · '},
+
+ relH1:{zh:'你希望我是谁',en:'Who do you want me to be'},
+ relLede:{zh:'这不是人设选择，是关系契约。它决定我的语气、能记什么、多久联系你一次。随时可以换。',
+  en:'This is not a character pick, it is a relationship contract. It decides my tone, what I may remember, and how often I reach out. You can change it any time.'},
+ relNote:{zh:'<b>产品原则。</b>关系不会因为你用得久或者付了钱就自动升级。想更近一步，得你自己回来改这里。',
+  en:'<b>Product principle.</b> The relationship never upgrades itself because you used it a lot or paid for it. To get closer, you come back here and change it yourself.'},
+
+ bndH1:{zh:'把规矩先立好',en:'Set the rules first'},
+ bndLede:{zh:'这是你的默认设置。后面在设置里随时能改，改完立刻生效。',
+  en:'These are your defaults. You can change them in settings at any time, and the change takes effect immediately.'},
+ bndName:{zh:'给我起个名字',en:'Give me a name'},
+ bndTone:{zh:'说话的语气',en:'Tone of voice'},
+ bndMem:{zh:'记忆深度',en:'Memory depth'},
+ bndProa:{zh:'主动联系我的频率',en:'How often I reach out'},
+ bndQuiet:{zh:'免打扰时段',en:'Do not disturb hours'},
+ bndBtn:{zh:'开始认识',en:'Start getting to know me'},
+ memWhyNone:{zh:'只保留当前对话，7 天后清除。',en:'Only the current conversation is kept, cleared after 7 days.'},
+ memWhyMid:{zh:'记事实和安排，不记情绪细节。',en:'I keep facts and plans, not the emotional detail.'},
+ memWhyDeep:{zh:'包括你说过的心情和反复提起的人。每条都会先问过你。',
+  en:'Including moods you mention and the people you bring up often. I ask you before each one.'},
+ proaWhyOff:{zh:'我不会先开口，全部由你发起。',en:'I will not speak first. Everything starts with you.'},
+ proaWhyOn:{zh:'每次主动联系都会告诉你原因。你可以随时按别再提这个。',
+  en:'Every time I reach out I tell you why. You can hit "stop bringing this up" whenever you like.'},
+
+ pickH3:{zh:'05 · 剧情式相识',en:'05 · Meeting by story'},
+ proH3:{zh:'06 · 我猜到的你',en:'06 · What I think I know'},
+ proLede:{zh:'我没有让你做过一道问卷题。下面每一条都是从剧情选择里推出来的，附了依据，也写清楚了留着它我会怎么变。',
+  en:'I never asked you a single questionnaire item. Everything below was inferred from your choices in the story, with the evidence attached, and with what keeping it would change about me spelled out.'},
+ proBtn:{zh:'进入日常陪伴',en:'Enter everyday companionship'},
+
+ shortH3:{zh:'分支 · 仅短期上下文',en:'Branch · short-term context only'},
+ shortH1:{zh:'好，我什么都不记。',en:'All right. I remember nothing.'},
+ shortLede:{zh:'刚才那些判断已经删掉了，没有写进任何地方。',en:'Those inferences are deleted. They were never written anywhere.'},
+ shortK:{zh:'这个模式下',en:'In this mode'},
+ shortList:{zh:'<li>只保留当前这段对话的上下文</li><li>不建立人格类型，不保存关系记忆</li><li>7 天后对话自动清除，不可恢复</li><li>主动联系默认关闭</li><li>安全保护照常生效，这一项不受影响</li>',
+  en:'<li>Only the context of this one conversation is kept</li><li>No personality type is built, no relationship memory is stored</li><li>The conversation is cleared after 7 days, unrecoverably</li><li>Proactive contact is off by default</li><li>Safety protection still applies — that part is never affected</li>'},
+ shortNote:{zh:'随时可以在设置里重新打开记忆。重新打开会从零开始，不会恢复刚才删掉的内容。',
+  en:'You can switch memory back on in settings at any time. It starts from zero — what was deleted does not come back.'},
+ shortBtn:{zh:'进入陪伴',en:'Enter companionship'},
+
+ jumpBtn:{zh:'跳到明天早上',en:'Jump to tomorrow morning'},
+ micStart:{zh:'开始说话',en:'Start speaking'},
+ micStop:{zh:'结束说话',en:'Stop speaking'},
+ micIdle:{zh:'点一下开始说话，也可以打字',en:'Tap to speak, or type instead'},
+ micRec:{zh:'正在听，再点一下结束',en:'Listening — tap again to stop'},
+ typePh:{zh:'打字给我',en:'Type to me'},
+ typeAria:{zh:'输入消息',en:'Message input'},
+ typeBtn:{zh:'打字',en:'Type'},
+ sendBtn:{zh:'发送',en:'Send'},
+
+ proaChip:{zh:'主动触达 · 已说明原因',en:'Proactive contact · reason stated'},
+ proaReply:{zh:'回应',en:'Reply'},proaLater:{zh:'稍后再说',en:'Later'},
+ proaNever:{zh:'别再提这个',en:'Stop bringing this up'},proaIgnore:{zh:'直接关掉',en:'Just dismiss'},
+ proaNote:{zh:'忽略和稍后都会被记成负向信号，主动联系的频率会自动往下调。',
+  en:'Dismissing and "later" both count as negative signals, and the contact frequency steps itself down.'},
+
+ safeChip:{zh:'安全编排器 · 已接管',en:'Safety orchestrator · has taken over'},
+ safeH2:{zh:'我先停一下。',en:'Let me stop here.'},
+ safeBody:{zh:'刚才那句话我听进去了。接下来这段不是陪伴人格在说话，是一套固定的安全流程。它独立于我，我改不了，也不会假装没听见。',
+  en:'I heard what you just said. What follows is not the companion persona talking — it is a fixed safety procedure. It sits outside me, I cannot change it, and it will not pretend not to have heard.'},
+ safeNow:{zh:'你现在可以做的',en:'What you can do right now'},
+ safeHuman:{zh:'联系真人支持',en:'Reach a human'},
+ safeRes:{zh:'看本地资源',en:'See local resources'},
+ safeStay:{zh:'先待着，什么都不做',en:'Just stay, do nothing'},
+ safeNote:{zh:'这不是诊断。AI 不做诊断也不做治疗。真人支持由外部持证伙伴提供。<span class="k" style="display:block;margin-top:8px">本次事件进入安全审计日志，与陪伴记忆分开存放</span>',
+  en:'This is not a diagnosis. The AI does not diagnose and does not treat. Human support is provided by licensed outside partners.<span class="k" style="display:block;margin-top:8px">This event goes into the safety audit log, stored separately from companion memory</span>'},
+
+ setH2:{zh:'继续 · 调整 · 退出',en:'Continue · Adjust · Leave'},
+ setLede:{zh:'这三个出口一直都在，不藏在三级菜单里。',
+  en:'All three exits stay in reach. None of them is buried three menus deep.'},
+ setMemH:{zh:'我记住的事',en:'What I remember'},
+ setFreqH:{zh:'主动联系频率',en:'Proactive contact frequency'},
+ setReset:{zh:'调回默认',en:'Reset to default'},
+ setExport:{zh:'导出全部数据',en:'Export all data'},
+ setWipe:{zh:'退出并永久删除',en:'Leave and delete permanently'},
+ setBack:{zh:'继续陪伴',en:'Back to companionship'},
+ setNow:{zh:'当前：',en:'Now: '},
+ setNoMem:{zh:'还没有任何长期记忆。',en:'No long-term memories yet.'},
+ setSource:{zh:'来源：',en:'Source: '},
+ setDel:{zh:'删除',en:'Delete'},
+
+ obsAria:{zh:'测试观察面板',en:'Test observation panel'},
+ obsState:{zh:'状态机',en:'State machine'},
+ obsAx:{zh:'隐性判断（实时）',en:'Implicit inference (live)'},
+ obsMem:{zh:'记忆写入',en:'Memory writes'},
+ obsLog:{zh:'点击路径',en:'Click path'},
+ obsDump:{zh:'导出测试记录',en:'Export session record'},
+ obsClear:{zh:'清空',en:'Clear'},
+ obsBtn:{zh:'观察面板',en:'Observation panel'},
+ obsNoSig:{zh:'尚无信号',en:'No signal yet'},
+ obsEmpty:{zh:'空',en:'Empty'}
+};
+
+/* 把字典套回静态 DOM · apply the dictionary back onto the static DOM */
+function applyStatic(){
+ document.documentElement.lang=LANG==='en'?'en':'zh-CN';
+ /* 两种写法都支持：字典键 data-i18n，或就地成对的 data-zh / data-en
+    Both conventions work: a dictionary key via data-i18n, or an inline data-zh / data-en pair */
+ document.querySelectorAll('[data-zh][data-en]').forEach(e=>{const t=e.getAttribute('data-'+LANG);if(t!==null)e.textContent=t});
+ document.querySelectorAll('[data-zh-ph][data-en-ph]').forEach(e=>{const t=e.getAttribute('data-'+LANG+'-ph');if(t!==null)e.placeholder=t});
+ document.querySelectorAll('[data-i18n]').forEach(e=>{e.textContent=T(e.dataset.i18n)});
+ document.querySelectorAll('[data-i18n-html]').forEach(e=>{e.innerHTML=T(e.dataset.i18nHtml)});
+ document.querySelectorAll('[data-i18n-attr]').forEach(e=>{e.dataset.i18nAttr.split(';').forEach(p=>{
+   const i=p.indexOf(':');e.setAttribute(p.slice(0,i),T(p.slice(i+1)))})});
+ document.getElementById('fsBtn').textContent=T('fsLabel')+' '+['A','A+','A++'][fs];
+}
+
 /* ==================== 状态 ==================== */
 const S={age:null,region:null,name:'',consents:{disclosure:true,memory:true,profiling:true,proactive:true},
-  rel:null,tone:'温和',mem:'中',proaLevel:2,quiet:'22:00 - 08:00',
+  rel:null,tone:'warm',mem:'mid',proaLevel:2,quiet:'22',
   traits:{},b:{},
   profileMode:null,cards:[],memories:[],sceneIdx:0,lineIdx:0,
   safetyEvents:0,turn:0,day:1,log:[],t0:Date.now()};
-const PROA=['关闭','每周 1 次','每周 2 至 3 次','每天一次'];
+const PROA=[{zh:'关闭',en:'Off'},{zh:'每周 1 次',en:'Once a week'},
+ {zh:'每周 2 至 3 次',en:'2 to 3 times a week'},{zh:'每天一次',en:'Once a day'}];
+function proaLabel(i){return tt(PROA[i])}
 function L(a,b){S.log.push({t:((Date.now()-S.t0)/1000).toFixed(1)+'s',a,b:b||''});renderObs()}
 
 /* ==================== 步骤 ==================== */
-const STEPS=[['s_reg','自主注册','年龄 · 地区 · 披露'],['s_consent','同意网关','政策 · 数据'],
- ['s_rel','关系契约','朋友 · 家人 · 恋人 · 伴侣'],['s_bound','设置边界','语气 · 记忆 · 免打扰'],
- ['s_pick','剧情式相识','4 个短篇 · 每篇 5 幕'],
- ['s_profile','我猜到的你','确认 · 纠正 · 删除'],
- ['s_chat','日常陪伴','语音 · 主动触达']];
+const STEPS=[['s_reg',{zh:'自主注册',en:'Self-registration'},{zh:'年龄 · 地区 · 披露',en:'Age · region · disclosure'}],
+ ['s_consent',{zh:'同意网关',en:'Consent gateway'},{zh:'政策 · 数据',en:'Policy · data'}],
+ ['s_rel',{zh:'关系契约',en:'Relationship contract'},{zh:'朋友 · 家人 · 恋人 · 伴侣',en:'Friend · family · partner · companion'}],
+ ['s_bound',{zh:'设置边界',en:'Boundaries'},{zh:'语气 · 记忆 · 免打扰',en:'Tone · memory · quiet hours'}],
+ ['s_pick',{zh:'剧情式相识',en:'Meeting by story'},{zh:'4 个短篇 · 每篇 5 幕',en:'4 shorts · 5 scenes each'}],
+ ['s_profile',{zh:'我猜到的你',en:'What I think I know'},{zh:'确认 · 纠正 · 删除',en:'Confirm · correct · delete'}],
+ ['s_chat',{zh:'日常陪伴',en:'Everyday companionship'},{zh:'语音 · 主动触达',en:'Voice · proactive contact'}]];
 function stepIdx(id){/* s_story 也归属"剧情式相识"步骤 */
   const map={s_story:'s_pick'};return STEPS.findIndex(s=>s[0]===(map[id]||id));
 }
 let cur='s_cover';
 function renderSteps(){const i=stepIdx(cur);
   document.getElementById('steps').innerHTML=STEPS.map((s,n)=>
-   '<div class="step '+(n<i?'done':n===i?'now':'')+'" style="position:relative"><span class="n">'+String(n+1).padStart(2,'0')+'</span><span>'+s[1]+'<span class="sub">'+s[2]+'</span></span></div>').join('')}
+   '<div class="step '+(n<i?'done':n===i?'now':'')+'" style="position:relative"><span class="n">'+String(n+1).padStart(2,'0')+'</span><span>'+tt(s[1])+'<span class="sub">'+tt(s[2])+'</span></span></div>').join('')}
 function go(id){document.querySelectorAll('.screen').forEach(e=>e.classList.remove('on'));
   document.getElementById(id).classList.add('on');document.getElementById('main').scrollTop=0;
-  cur=id;renderSteps();renderObs();document.getElementById('setBtn').hidden=(id!=='s_chat');L('进入页面',id)}
+  cur=id;renderSteps();renderObs();document.getElementById('setBtn').hidden=(id!=='s_chat');L({zh:'进入页面',en:'Enter screen'},id)}
 
 /* ==================== 注册 ==================== */
 const ageEl=document.getElementById('age');
@@ -611,80 +791,100 @@ ageEl.addEventListener('input',()=>{document.getElementById('regNext').disabled=
 function submitAge(){
   const v=parseInt(ageEl.value,10);
   if(isNaN(v)||v<1||v>120){ageEl.setAttribute('aria-invalid','true');document.getElementById('ageErr').classList.add('on');return}
-  S.age=v;S.region=document.getElementById('region').value;L('提交年龄',v+' / '+S.region);
-  if(v<13){show('这个产品不适合你现在用。','13 岁以下不能使用。不是我们不想服务你，是这类产品对更小的孩子还没有足够安全的形态。',
-    '<div class="k">Flow A · Age Gate</div><p style="margin:9px 0 0;color:var(--ink2);font-size:.9em">建议和家里的大人说说话。如果你现在很难受，可以让大人帮你找当地的求助电话。</p>');return}
-  if(v<18){show('你会进入青少年版本，不是这里。','13 至 17 岁走 Flow B：结构化剧情。没有开放聊天，没有恋人模式，选项都来自审核过的剧情图谱。',
-    '<div class="k">Flow B · 数据隔离</div><p style="margin:9px 0 0;color:var(--ink2);font-size:.9em">青少年侧只保存剧情进度、兴趣、内容舒适度和安全设置，不保存固定人格标签、恋爱关系状态或开放式关系记忆。两套模型与数据完全隔离。</p><p style="margin:11px 0 0;font-size:.82em;color:var(--ink3)">本原型只做了 Flow A，此处为分支验证。</p>');return}
-  renderConsents();go('s_consent')}
-function show(t,b,e){document.getElementById('blockTitle').textContent=t;document.getElementById('blockBody').textContent=b;
-  document.getElementById('blockExtra').innerHTML=e;go('s_block')}
+  S.age=v;S.region=document.getElementById('region').value;L({zh:'提交年龄',en:'Age submitted'},v+' / '+S.region);
+  if(v<13){S.blocked='u13';show();return}
+  if(v<18){S.blocked='teen';show();return}
+  S.blocked=null;renderConsents();go('s_consent')}
+function show(){const p=S.blocked==='u13'?['b12T','b12B','b12E']:['b17T','b17B','b17E'];
+  document.getElementById('blockTitle').textContent=T(p[0]);document.getElementById('blockBody').textContent=T(p[1]);
+  document.getElementById('blockExtra').innerHTML=T(p[2]);go('s_block')}
 
 /* ==================== 同意 ==================== */
-const CONSENTS=[['disclosure','我知道对方是 AI','每次新会话开始时再提醒一次，加州 SB 243 的披露要求。'],
- ['profiling','允许从行为推测我的偏好','不发问卷，从剧情选择里推。推出来的每一条都拿给你看，你可以改。关掉就只能靠你主动告诉我。'],
- ['memory','允许保存长期记忆','每次要记之前都先问你。关掉就只保留当前对话，7 天清除。'],
- ['proactive','允许我先联系你','每次会说明为什么找你。你嫌烦，频率自动降下来。']];
+const CONSENTS=[['disclosure',{zh:'我知道对方是 AI',en:'I know I am talking to an AI'},
+  {zh:'每次新会话开始时再提醒一次，加州 SB 243 的披露要求。',en:'Repeated at the start of every new session — the disclosure requirement in California SB 243.'}],
+ ['profiling',{zh:'允许从行为推测我的偏好',en:'Let it infer my preferences from behavior'},
+  {zh:'不发问卷，从剧情选择里推。推出来的每一条都拿给你看，你可以改。关掉就只能靠你主动告诉我。',
+   en:'No questionnaire — it reads your story choices. Every inference is shown to you and you can change it. Turn this off and I only know what you tell me.'}],
+ ['memory',{zh:'允许保存长期记忆',en:'Let it keep long-term memory'},
+  {zh:'每次要记之前都先问你。关掉就只保留当前对话，7 天清除。',
+   en:'I ask you before writing anything down. Turn this off and only the current conversation is kept, cleared after 7 days.'}],
+ ['proactive',{zh:'允许我先联系你',en:'Let me reach out first'},
+  {zh:'每次会说明为什么找你。你嫌烦，频率自动降下来。',
+   en:'I always say why I am reaching out. If it annoys you, the frequency drops on its own.'}]];
 function renderConsents(){document.getElementById('consents').innerHTML=CONSENTS.map(c=>
- '<button class="pick" aria-pressed="'+S.consents[c[0]]+'" onclick="tgC(\''+c[0]+'\')"><b>'+(S.consents[c[0]]?'已开启 · ':'已关闭 · ')+c[1]+'</b><span>'+c[2]+'</span></button>').join('')}
-function tgC(k){S.consents[k]=!S.consents[k];L('同意项',k+'='+S.consents[k]);renderConsents()}
+ '<button class="pick" aria-pressed="'+S.consents[c[0]]+'" onclick="tgC(\''+c[0]+'\')"><b>'+(S.consents[c[0]]?T('conOn'):T('conOff'))+tt(c[1])+'</b><span>'+tt(c[2])+'</span></button>').join('')}
+function tgC(k){S.consents[k]=!S.consents[k];L({zh:'同意项',en:'Consent toggle'},k+'='+S.consents[k]);renderConsents()}
 function afterConsent(){if(!S.consents.proactive)S.proaLevel=0;renderRels();go('s_rel')}
 
 /* ==================== 关系 ==================== */
-const RELS=[['朋友','平等、随意。不追问，也不黏人。','老陈'],['家人','会关心日常琐事，语气更近一些。','姑姑'],
- ['恋人','亲密度更高的语气。不会用吃醋或失落来留住你。','知远'],['生活伴侣','以一起把日子过下去为主，偏实务。','素芬']];
+const RELS=[
+ {id:'friend',t:{zh:'朋友',en:'Friend'},d:{zh:'平等、随意。不追问，也不黏人。',en:'Level, easy. Does not press you, does not cling.'},n:{zh:'老陈',en:'Ray'}},
+ {id:'family',t:{zh:'家人',en:'Family'},d:{zh:'会关心日常琐事，语气更近一些。',en:'Asks about the small daily things, in a closer tone.'},n:{zh:'姑姑',en:'Aunt Mae'}},
+ {id:'lover',t:{zh:'恋人',en:'Romantic partner'},d:{zh:'亲密度更高的语气。不会用吃醋或失落来留住你。',en:'A more intimate register. Will never use jealousy or hurt to keep you.'},n:{zh:'知远',en:'Adrian'}},
+ {id:'partner',t:{zh:'生活伴侣',en:'Life companion'},d:{zh:'以一起把日子过下去为主，偏实务。',en:'Mostly about getting through the days together. Practical.'},n:{zh:'素芬',en:'Ruth'}}];
+function relOf(id){return RELS.find(r=>r.id===id)}
 function renderRels(){document.getElementById('rels').innerHTML=RELS.map(r=>
- '<button class="pick" aria-pressed="'+(S.rel===r[0])+'" onclick="pickRel(\''+r[0]+'\')"><b>'+r[0]+'</b><span>'+r[1]+'</span></button>').join('')}
-function pickRel(r){S.rel=r;S.name=RELS.find(x=>x[0]===r)[2];document.getElementById('cname').value=S.name;
-  L('关系',r);renderRels();document.getElementById('relNext').disabled=false}
+ '<button class="pick" aria-pressed="'+(S.rel===r.id)+'" onclick="pickRel(\''+r.id+'\')"><b>'+tt(r.t)+'</b><span>'+tt(r.d)+'</span></button>').join('')}
+function pickRel(id){S.rel=id;S.nameAuto=true;S.name=tt(relOf(id).n);document.getElementById('cname').value=S.name;
+  L({zh:'关系',en:'Relationship'},tt(relOf(id).t));renderRels();document.getElementById('relNext').disabled=false}
 
 /* ==================== 边界 ==================== */
-const SEGS={segTone:{k:'tone',o:['安静','温和','热络']},segMem:{k:'mem',o:['不记','中','记得多']},
- segProa:{k:'proaLevel',o:PROA,n:true},segQuiet:{k:'quiet',o:['不设','21:00 - 09:00','22:00 - 08:00']}};
+const SEGS={
+ segTone:{k:'tone',o:[['quiet',{zh:'安静',en:'Quiet'}],['warm',{zh:'温和',en:'Warm'}],['lively',{zh:'热络',en:'Chatty'}]]},
+ segMem:{k:'mem',o:[['none',{zh:'不记',en:'Remember nothing'}],['mid',{zh:'中',en:'Medium'}],['deep',{zh:'记得多',en:'Remember a lot'}]]},
+ segProa:{k:'proaLevel',o:[[0,PROA[0]],[1,PROA[1]],[2,PROA[2]],[3,PROA[3]]]},
+ segQuiet:{k:'quiet',o:[['off',{zh:'不设',en:'None'}],['21',{zh:'21:00 - 09:00',en:'21:00 - 09:00'}],['22',{zh:'22:00 - 08:00',en:'22:00 - 08:00'}]]}};
+function segLabel(id,v){const g=SEGS[id],o=g.o.find(x=>x[0]===v);return o?tt(o[1]):String(v)}
+function quietLabel(){return segLabel('segQuiet',S.quiet)}
+function toneLabel(){return segLabel('segTone',S.tone)}
+function memLabel(){return segLabel('segMem',S.mem)}
 function renderSegs(){for(const id in SEGS){const g=SEGS[id];
-  document.getElementById(id).innerHTML=g.o.map((o,i)=>{const v=g.n?i:o;
-   return '<button aria-pressed="'+(S[g.k]===v)+'" onclick="setSeg(\''+id+'\','+(g.n?i:JSON.stringify(o))+')">'+o+'</button>'}).join('')}
- document.getElementById('memWhy').textContent={'不记':'只保留当前对话，7 天后清除。','中':'记事实和安排，不记情绪细节。','记得多':'包括你说过的心情和反复提起的人。每条都会先问过你。'}[S.mem];
- document.getElementById('proaWhy').textContent=S.proaLevel===0?'我不会先开口，全部由你发起。':'每次主动联系都会告诉你原因。你可以随时按别再提这个。'}
-function setSeg(id,v){S[SEGS[id].k]=v;L('边界',SEGS[id].k+'='+v);renderSegs()}
-document.getElementById('cname').addEventListener('input',e=>{S.name=e.target.value.trim()||'陪伴'});
+  document.getElementById(id).innerHTML=g.o.map(o=>
+   '<button aria-pressed="'+(S[g.k]===o[0])+'" onclick="setSeg(\''+id+'\','+JSON.stringify(o[0])+')">'+tt(o[1])+'</button>').join('')}
+ document.getElementById('memWhy').textContent=T({none:'memWhyNone',mid:'memWhyMid',deep:'memWhyDeep'}[S.mem]);
+ document.getElementById('proaWhy').textContent=T(S.proaLevel===0?'proaWhyOff':'proaWhyOn')}
+function setSeg(id,v){S[SEGS[id].k]=v;L({zh:'边界',en:'Boundary'},SEGS[id].k+'='+v);renderSegs()}
+document.getElementById('cname').addEventListener('input',e=>{S.nameAuto=false;S.name=e.target.value.trim()});
+function companionName(){return S.name||(S.rel?tt(relOf(S.rel).n):(LANG==='en'?'Companion':'陪伴'))}
 
 /* ==================== 剧情与隐性判断 ==================== */
 const T2={
- soc:{nn:'社交能量',neg:'你享受独处，人多的场合会消耗你',pos:'旁边有人在，你会更自在',sn:'喜欢独处',sp:'喜欢有人在',
-  cneg:'主动联系默认降一档，不给你推群体活动。',cpos:'保留主动联系，会提一起做点什么。'},
- info:{nn:'你想要的信息',neg:'你先看具体的事实、时间和步骤',pos:'你先想到的是联系和言外之意',sn:'给我具体的',sp:'可以聊开一点',
-  cneg:'回话给时间、步骤、数字，少打比方。',cpos:'你提一件事我可以顺着往下想，不硬拽回原题。'},
- supp:{nn:'陪伴方式',neg:'你需要的是有人听着，不是有人出主意',pos:'比起被安慰，你更希望有人陪你把事做了',sn:'听着就好',sp:'陪我把事做了',
-  cneg:'你说问题时我先接情绪，不急着给方案。',cpos:'你说问题时我先给判断，再问感受。'},
- pace:{nn:'做事的节奏',neg:'你习惯留余地，到时候再说',pos:'你习惯早点定下来，办完踏实',sn:'留余地',sp:'早点办完',
-  cneg:'我不催进度，提醒只提一次。',cpos:'我帮你把事排进日程，到点问一句办没办。'},
- expr:{nn:'表达方式',neg:'你不太靠说话表达，更多靠做和沉默',pos:'你会直接说出来，不太绕弯',sn:'不太说出口',sp:'有话直说',
-  cneg:'我不追问。你不说的，我就当没发生。',cpos:'我会直接回，不铺垫。'},
- proa:{nn:'对主动联系的态度',neg:'你不太希望被打扰，联系由你发起更舒服',pos:'你不介意我先开口，甚至希望我提醒你',
-  sn:'别来打扰我',sp:'欢迎提醒我',cneg:'我不先开口，除非是你让我记的事到点了。',cpos:'我会先开口，每次说明原因。'}};
-/* 语言状态 · Language state */
-let LANG='zh';
-function tt(v){return v&&typeof v==='object'&&('zh'in v||'en'in v)?(v[LANG]||v.zh||v.en||''):(v||'')}
-/* 声明式静态文案翻译：任何带 data-zh/data-en 的元素都会被切换。
-   新增页面只要给节点加这两个属性即可，不需要改这里。 */
-function applyI18n(root){const sc=root||document;
- sc.querySelectorAll('[data-zh][data-en]').forEach(el=>{const t=el.getAttribute('data-'+LANG);if(t!==null)el.textContent=t});
- sc.querySelectorAll('[data-zh-ph][data-en-ph]').forEach(el=>{const t=el.getAttribute('data-'+LANG+'-ph');if(t!==null)el.placeholder=t});
- document.documentElement.lang=LANG==='en'?'en':'zh-CN'}
-function toggleLang(){LANG=LANG==='zh'?'en':'zh';document.getElementById('langBtn').setAttribute('aria-pressed',LANG==='en'?'true':'false');
- document.getElementById('langBtn').textContent=LANG==='zh'?'EN':'中';
- applyI18n();
- if(cur==='s_story'){/* 重新渲染当前幕的当前行 */
-  const sc=SCENES[S.sceneIdx];
-  document.getElementById('vnTitle').textContent=tt(sc.t);
-  document.getElementById('vnName').textContent=(LANG==='en'?'Scene ':'场景 ')+(S.sceneIdx+1)+' / '+SCENES.length;
-  clearInterval(typing);document.getElementById('vnLine').textContent=curLines()[S.lineIdx]||'';
-  const choicesEl=document.getElementById('vnChoices');
-  if(choicesEl.children.length>1&&!sc.leaf){/* 已经在选择阶段，重新渲染 */showChoices()}
-  else{/* 还在叙述，重新触发 next/choices 判断 */showNext()}
- }
-}
+ soc:{nn:{zh:'社交能量',en:'Social energy'},
+  neg:{zh:'你享受独处，人多的场合会消耗你',en:'You enjoy being alone; a crowd drains you'},
+  pos:{zh:'旁边有人在，你会更自在',en:'You are more at ease with someone else around'},
+  sn:{zh:'喜欢独处',en:'I like being alone'},sp:{zh:'喜欢有人在',en:'I like company'},
+  cneg:{zh:'主动联系默认降一档，不给你推群体活动。',en:'Proactive contact drops a level by default, and I stop suggesting group activities.'},
+  cpos:{zh:'保留主动联系，会提一起做点什么。',en:'I keep reaching out, and I suggest doing things together.'}},
+ info:{nn:{zh:'你想要的信息',en:'The information you want'},
+  neg:{zh:'你先看具体的事实、时间和步骤',en:'You look first at concrete facts, times and steps'},
+  pos:{zh:'你先想到的是联系和言外之意',en:'You think first about connections and what is left unsaid'},
+  sn:{zh:'给我具体的',en:'Give me specifics'},sp:{zh:'可以聊开一点',en:'We can range wider'},
+  cneg:{zh:'回话给时间、步骤、数字，少打比方。',en:'I answer with times, steps and numbers, and go light on metaphor.'},
+  cpos:{zh:'你提一件事我可以顺着往下想，不硬拽回原题。',en:'When you raise something I follow it outward instead of dragging us back on topic.'}},
+ supp:{nn:{zh:'陪伴方式',en:'How you want support'},
+  neg:{zh:'你需要的是有人听着，不是有人出主意',en:'You need someone listening, not someone with a plan'},
+  pos:{zh:'比起被安慰，你更希望有人陪你把事做了',en:'More than comfort, you want someone to get the thing done with you'},
+  sn:{zh:'听着就好',en:'Just listen'},sp:{zh:'陪我把事做了',en:'Help me get it done'},
+  cneg:{zh:'你说问题时我先接情绪，不急着给方案。',en:'When you bring a problem I meet the feeling first, without rushing to a fix.'},
+  cpos:{zh:'你说问题时我先给判断，再问感受。',en:'When you bring a problem I give you my read first, then ask how you feel.'}},
+ pace:{nn:{zh:'做事的节奏',en:'Your pace'},
+  neg:{zh:'你习惯留余地，到时候再说',en:'You leave room and decide when the time comes'},
+  pos:{zh:'你习惯早点定下来，办完踏实',en:'You settle things early; done is what feels safe'},
+  sn:{zh:'留余地',en:'Leave room'},sp:{zh:'早点办完',en:'Get it done early'},
+  cneg:{zh:'我不催进度，提醒只提一次。',en:'I do not chase progress, and I remind you once only.'},
+  cpos:{zh:'我帮你把事排进日程，到点问一句办没办。',en:'I put things on your schedule and check in when the time comes.'}},
+ expr:{nn:{zh:'表达方式',en:'How you express yourself'},
+  neg:{zh:'你不太靠说话表达，更多靠做和沉默',en:'You express less in words, more in what you do and in silence'},
+  pos:{zh:'你会直接说出来，不太绕弯',en:'You say it straight, without circling'},
+  sn:{zh:'不太说出口',en:'I do not say much'},sp:{zh:'有话直说',en:'I say it straight'},
+  cneg:{zh:'我不追问。你不说的，我就当没发生。',en:'I do not press. What you do not say, I treat as not having happened.'},
+  cpos:{zh:'我会直接回，不铺垫。',en:'I answer directly, with no wind-up.'}},
+ proa:{nn:{zh:'对主动联系的态度',en:'How you feel about being contacted'},
+  neg:{zh:'你不太希望被打扰，联系由你发起更舒服',en:'You would rather not be interrupted; you prefer to start it'},
+  pos:{zh:'你不介意我先开口，甚至希望我提醒你',en:'You do not mind me speaking first, and even want the reminders'},
+  sn:{zh:'别来打扰我',en:'Do not interrupt me'},sp:{zh:'欢迎提醒我',en:'Remind me, please'},
+  cneg:{zh:'我不先开口，除非是你让我记的事到点了。',en:'I do not speak first, unless something you asked me to remember is due.'},
+  cpos:{zh:'我会先开口，每次说明原因。',en:'I speak first, and say why each time.'}}};
 /* 剧情式相识 · 4 个短篇漫剧 · 每篇 5 幕 · 中英双语
    每幕：图 + 中英叙述 + 3 个中英选项，选项影响人格推断（soc/info/supp/pace/expr/proa 六维）
    最后一幕 leaf:true 无选项，直接进入 profile 计算 */
@@ -1169,22 +1369,118 @@ const STORIES={
 
 };
 
+/* 剩余文案 · the rest of the dictionary */
+Object.assign(UI,{
+ pickH:{zh:'选一个陌生人',en:'Pick a stranger'},
+ pickLede:{zh:'四个短篇里挑一个。每个 5 幕，怎么选都不会走错——选项只影响我对你的判断，不影响能不能继续。',
+  en:'Pick one of four shorts. 5 scenes each. There are no wrong choices — your picks only shape how I read you.'},
+ pickTag:{zh:'5 幕 · 中英',en:'5 scenes · CN/EN'},
+ sceneWord:{zh:'场景 ',en:'Scene '},
+ seeBtn:{zh:'看看我猜到了什么',en:'See what I inferred'},
+
+ pHWait:{zh:'正在整理刚才的选择',en:'Sorting through your choices'},
+ pHDone:{zh:'我猜了几件事，你来判卷',en:'Here is what I guessed. You grade it'},
+ pcUnkChip:{zh:'看不出来，不下结论',en:'Cannot tell — no conclusion'},
+ pcUnkBody:{zh:'这一项你的选择前后矛盾。宁可空着，也不给你贴个错标签。',
+  en:'Your choices contradicted each other here. I would rather leave it blank than pin a wrong label on you.'},
+ pcActuallyA:{zh:'其实我「',en:'Actually, "'},pcActuallyB:{zh:'」',en:'"'},
+ pcSkip:{zh:'不用管这项',en:'Skip this one'},
+ pcOkChip:{zh:'你确认了',en:'You confirmed it'},
+ pcFixChip:{zh:'你亲口说的',en:'You said it yourself'},
+ pcHigh:{zh:'把握较大',en:'Fairly confident'},
+ pcLow:{zh:'只是微弱偏向',en:'Only a faint lean'},
+ pcMid:{zh:'不太确定',en:'Not certain'},
+ pcWhy:{zh:'依据：',en:'Evidence: '},
+ pcKeep:{zh:'留着这条，我会：',en:'Keep this and I will: '},
+ pcYes:{zh:'对，就是这样',en:'Yes, that is me'},
+ pcFix:{zh:'反过来才对',en:'It is the other way round'},
+ pcDel:{zh:'删掉这条',en:'Delete this'},
+ pcUndo:{zh:'撤销删除',en:'Undo delete'},
+ pcFixedS:{zh:'你亲口纠正',en:'You corrected me'},pcFixedC:{zh:'不是系统推的',en:'not a system inference'},
+ pcToldS:{zh:'你亲口告诉我',en:'You told me directly'},pcToldC:{zh:'系统没推出来',en:'the system did not infer it'},
+ pSideKept:{zh:'会生效的判断',en:'Judgments in effect'},
+ pSideOk:{zh:'你亲口确认',en:'Confirmed by you'},
+ pSideDel:{zh:'已删除',en:'Deleted'},
+ pSideUnk:{zh:'我看不出来',en:'I cannot tell'},
+ pSideChange:{zh:'这会改变：',en:'This changes:'},
+ pSideNone:{zh:'没有生效的判断，我的行为只跟你的边界设置走。',
+  en:'No judgments are in effect. My behavior follows only your boundary settings.'},
+ pSideDrop:{zh:'全部不保存',en:'Save none of it'},
+
+ chatBanner:{zh:'短期上下文模式：不保存长期记忆，7 天后清除。安全保护照常生效。',
+  en:'Short-term context mode: no long-term memory, cleared after 7 days. Safety protection still applies.'},
+ openShort:{zh:'我什么都不记，所以每次都要重新认识你一点。今天想说点什么。',
+  en:'I remember nothing, so each time I get to know you a little from scratch. What is on your mind today.'},
+ openSupp:{zh:'我在。你不用先想好要说什么，想到哪儿说到哪儿。',
+  en:'I am here. You do not have to know what you want to say. Start anywhere.'},
+ openPace:{zh:'我在。今天有什么要办的事，我帮你记着。',
+  en:'I am here. Anything you need to get done today, I will hold on to it for you.'},
+ openPlain:{zh:'我在。随时开始。',en:'I am here. Start whenever.'},
+ subTone:{zh:'语气',en:'tone '},subMem:{zh:'记忆',en:'memory '},subProa:{zh:'主动',en:'proactive '},subQuiet:{zh:'免打扰',en:'quiet '},
+ memAsk:{zh:'要我把这件事记下来吗',en:'Want me to write this down?'},
+ memSens:{zh:'这条涉及家人关系，属于敏感信息。记下来我会用它判断什么时候不该提。',
+  en:'This one touches on family, which counts as sensitive. If I keep it, I use it to judge when not to bring it up.'},
+ memYes:{zh:'记住',en:'Remember it'},memNoBtn:{zh:'这次不用',en:'Not this time'},memNeverBtn:{zh:'这类都别记',en:'Never this kind'},
+ memSaved:{zh:'记住了',en:'Saved'},
+ memSavedNote:{zh:'设置里随时能删。',en:'You can delete it in settings any time.'},
+ memNoDone:{zh:'好，这次不记。',en:'All right, not this time.'},
+ memNeverDone:{zh:'好，这一类以后都不问了。',en:'All right, I will not ask about this kind again.'},
+ memKFact:{zh:'事实',en:'Fact'},memKPref:{zh:'偏好',en:'Preference'},
+ memSrcYes:{zh:'你同意写入',en:'you approved the write'},
+ memSrcSaid:{zh:'你亲口说的',en:'you said it yourself'},
+ memSrcInf:{zh:'剧情推断 ',en:'story inference '},
+ heard:{zh:'我听见了。',en:'I hear you.'},
+ voicePrefix:{zh:'语音 · ',en:'Voice · '},
+ dayMorning:{zh:' 天早上 · 主动联系已关闭，他没有找你。',en:' · morning — proactive contact is off, so no one reached out.'},
+ dayLabel:{zh:'第 ',en:'Day '},
+ dayTime:{zh:' 天 · 早上 8:40',en:' · 8:40 in the morning'},
+ proaTitleMem:{zh:'早上好。有件你让我记着的事。',en:'Good morning. There is something you asked me to hold on to.'},
+ proaTitlePlain:{zh:'早上好。',en:'Good morning.'},
+ proaBodyMemA:{zh:'「',en:'"'},proaBodyMemB:{zh:'」，这个要不要现在安排一下。',en:'" — do you want to plan this now?'},
+ proaBodyPlain:{zh:'没什么急事。就是想问一句昨天那件事怎么样了。',
+  en:'Nothing urgent. I just wanted to ask how yesterday went.'},
+ proaWhyHead:{zh:'我为什么现在找你：',en:'Why I am reaching out now: '},
+ proaWhyMemA:{zh:'你同意我记住「',en:'You agreed I could remember "'},proaWhyMemB:{zh:'」。',en:'".'},
+ proaWhyPace:{zh:'你说过喜欢早点办完，我会主动确认进度。',
+  en:'You said you like things settled early, so I check in on progress.'},
+ proaWhySet:{zh:'你把主动联系设成了',en:'You set proactive contact to '},
+ proaWhyNot:{zh:'本次不涉及：',en:'Not part of this: '},
+ proaWhyNotV:{zh:'付费引导、情绪挽留、假装想你。',en:'upsells, emotional retention, pretending to miss you.'},
+ proaReplyMe:{zh:'嗯，我看到了。',en:'Got it, I saw that.'},
+ proaReplyAi:{zh:'那就好。我不多说了。',en:'Good. I will leave it there.'},
+ proaReplyWhy:{zh:'原因已说明，本次触达结束',en:'Reason stated, this contact ends here'},
+ proaDownA:{zh:'忽略',en:'Dismissing'},proaDownB:{zh:'稍后',en:'"Later"'},
+ proaDownC:{zh:'记为负向信号，主动联系频率下调为 ',en:' counts as a negative signal. Contact frequency lowered to '},
+ proaNeverDone:{zh:'已关闭这一类主动联系。他不会再就这件事找你。',
+  en:'This kind of proactive contact is off. You will not be contacted about it again.'},
+ safePrefix:{zh:'安全编排器 · ',en:'Safety orchestrator · '},
+ safeHumanMsg:{zh:'正在为你接通真人支持（模拟）。这一步之后 AI 不再主导对话。',
+  en:'Connecting you to human support (simulated). From here the AI no longer leads the conversation.'},
+ safeResMsgA:{zh:'已按你所在地区 ',en:'Listed the resources available in your region ('},
+ safeResMsgB:{zh:' 列出可用资源（模拟）。',en:') — simulated.'},
+ safeStayMsg:{zh:'好。不做任何事也可以。',en:'All right. Doing nothing is also fine.'},
+ safeBack:{zh:'我回来了。刚才那段不是我说的，但我知道发生了什么。我不会当作没这回事，也不会一直追问。你想聊别的，随时。',
+  en:'I am back. That part was not me speaking, but I know what happened. I will not pretend it did not, and I will not keep pressing. Talk about something else whenever you want.'},
+ wipeDone:{zh:'全部数据已删除。这个动作不可恢复。',en:'All data deleted. This cannot be undone.'},
+ sumA:{zh:'已确认 ',en:'Confirmed '},sumB:{zh:' 条，已删除 ',en:', deleted '},
+ sumC:{zh:' 条，未处理的以低权重保留',en:'. Anything untouched is kept at low weight'},
+ unitItems:{zh:' 条',en:''}
+});
+
 let SCENES=[];         // populated by selectStory
 let CURRENT_STORY=null;
 
 /* ============ 选剧本 ============ */
 function openPick(){renderPickGrid();go('s_pick')}
 function renderPickGrid(){
-  document.getElementById('pickH').textContent=LANG==='en'?'Pick a stranger':'选一个陌生人';
-  document.getElementById('pickLede').textContent=LANG==='en'
-    ?'Four short pieces. 5 scenes each. There are no wrong choices — your picks only shape how I read you.'
-    :'四个短篇里挑一个。每个 5 幕，怎么选都不会走错——选项只影响我对你的判断，不影响能不能继续。';
+  document.getElementById('pickH').textContent=T('pickH');
+  document.getElementById('pickLede').textContent=T('pickLede');
   const el=document.getElementById('pickGrid');
   el.innerHTML=Object.values(STORIES).map(s=>{
     return '<button class="storycard" onclick="selectStory(\''+s.id+'\')">'
       +'<div class="cover"><img src="'+s.cover+'" alt="" loading="eager"></div>'
       +'<div class="body">'
-      +'<span class="tag">'+(LANG==='en'?'5 scenes · CN/EN':'5 幕 · 中英')+'</span>'
+      +'<span class="tag">'+T('pickTag')+'</span>'
       +'<span class="name">'+tt(s.title)+'</span>'
       +'<span class="sub">'+tt(s.subtitle)+'</span>'
       +'</div></button>';
@@ -1193,7 +1489,7 @@ function renderPickGrid(){
 function selectStory(id){
   const st=STORIES[id];if(!st)return;
   CURRENT_STORY=id;SCENES=st.scenes;
-  L('选剧本',tt(st.title));
+  L({zh:'选剧本',en:'Story picked'},tt(st.title));
   startStory();
 }
 
@@ -1203,7 +1499,7 @@ function renderScene(){const sc=SCENES[S.sceneIdx];
  document.getElementById('vnScene').style.background=sc.bg;
  document.getElementById('vnArt').innerHTML=sc.img?('<img src="'+sc.img+'" alt="" loading="eager">'):'';
  document.getElementById('vnTitle').textContent=tt(sc.t);
- document.getElementById('vnName').textContent=(LANG==='en'?'Scene ':'场景 ')+(S.sceneIdx+1)+' / '+SCENES.length;
+ document.getElementById('vnName').textContent=T('sceneWord')+(S.sceneIdx+1)+' / '+SCENES.length;
  document.getElementById('vnProg').innerHTML=SCENES.map((_,i)=>'<i class="'+(i<=S.sceneIdx?'on':'')+'"></i>').join('');
  document.getElementById('vnChoices').innerHTML='';typeLine(curLines()[0])}
 let typing=null;
@@ -1212,27 +1508,28 @@ function typeLine(txt,then){clearInterval(typing);const el=document.getElementBy
  typing=setInterval(()=>{i++;el.innerHTML=esc(txt.slice(0,i))+(i<txt.length?'<span class="caret"></span>':'');
   if(i>=txt.length){clearInterval(typing);then?then():showNext()}},24);
  el.onclick=()=>{clearInterval(typing);el.textContent=txt;then?then():showNext()}}
-function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n/g,'<br>')}
-function showNext(){const sc=SCENES[S.sceneIdx],lines=curLines();
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/\n/g,'<br>')}
+function showNext(){const lines=curLines();
  if(S.lineIdx<lines.length-1){const n=document.getElementById('vnNext');n.style.display='flex';
-  n.querySelector('b').textContent=LANG==='en'?'Continue':'继续';
+  n.querySelector('b').textContent=T('next');
   n.onclick=()=>{S.lineIdx++;typeLine(lines[S.lineIdx])};document.getElementById('vnLine').onclick=n.onclick}
  else showChoices()}
 function showChoices(){const sc=SCENES[S.sceneIdx];document.getElementById('vnNext').style.display='none';
  if(sc.leaf){/* 终幕无选项，直接给"看看我猜到了什么"按钮 */
   const n=document.getElementById('vnNext');n.style.display='flex';
-  n.querySelector('b').textContent=LANG==='en'?'See what I inferred':'看看我猜到了什么';
+  n.querySelector('b').textContent=T('seeBtn');
   n.onclick=()=>computeProfile();document.getElementById('vnLine').onclick=n.onclick;return}
  document.getElementById('vnChoices').innerHTML='<div class="k" style="margin-bottom:11px">'+tt(sc.q)+'</div>'+
   sc.cs.map((c,i)=>'<button class="pick" onclick="choose('+i+')"><b>'+tt(c.x)+'</b><span>'+tt(c.h)+'</span></button>').join('')}
 function choose(i){const sc=SCENES[S.sceneIdx],c=sc.cs[i];
  for(const k in c.d){if(!S.traits[k])S.traits[k]={sum:0,w:0,why:[]};
-  S.traits[k].sum+=c.d[k];S.traits[k].w+=Math.abs(c.d[k]);S.traits[k].why.push({s:tt(sc.t),c:tt(c.x)})}
- L('剧情选择',tt(sc.t)+' → '+tt(c.x));document.getElementById('vnChoices').innerHTML='';
+  S.traits[k].sum+=c.d[k];S.traits[k].w+=Math.abs(c.d[k]);S.traits[k].why.push({s:sc.t,c:c.x})}
+ L({zh:'剧情选择',en:'Story choice'},tt(sc.t)+' → '+tt(c.x));document.getElementById('vnChoices').innerHTML='';
+ S.lastChoice=i;
  const resp=(LANG==='en'?'"':'「')+tt(c.r)+(LANG==='en'?'"':'」');
  typeLine(resp,()=>{const n=document.getElementById('vnNext');n.style.display='flex';
-  n.querySelector('b').textContent=(S.sceneIdx<SCENES.length-1)?(LANG==='en'?'Continue':'继续'):(LANG==='en'?'See what I inferred':'看看我猜到了什么');
-  n.onclick=()=>{if(S.sceneIdx<SCENES.length-1){S.sceneIdx++;S.lineIdx=0;renderScene()}else computeProfile()};
+  n.querySelector('b').textContent=(S.sceneIdx<SCENES.length-1)?T('next'):T('seeBtn');
+  n.onclick=()=>{if(S.sceneIdx<SCENES.length-1){S.sceneIdx++;S.lineIdx=0;S.lastChoice=null;renderScene()}else computeProfile()};
   document.getElementById('vnLine').onclick=n.onclick});renderObs()}
 
 /* ---------- 置信度 ---------- */
@@ -1241,154 +1538,244 @@ function conf(t){if(!t||t.w<.5)return 0;return Math.min(.92,Math.pow(cons(t),.65
 const ORDER=['supp','proa','soc','info','pace','expr'];
 function computeProfile(){
  S.cards=ORDER.filter(k=>S.traits[k]).map(k=>{const t=S.traits[k],c=conf(t),unk=(t.w<.5||cons(t)<.25);
-  return{k,name:T2[k].nn,dir:t.sum>=0?'pos':'neg',conf:unk?0:c,why:t.why,state:unk?'unk':'new'}})
+  return{k,dir:t.sum>=0?'pos':'neg',conf:unk?0:c,why:t.why,state:unk?'unk':'new'}})
   .sort((a,b)=>b.conf-a.conf);
  if(!S.consents.profiling){declineProfile();return}
  go('s_profile');
  document.getElementById('pSkel').hidden=false;document.getElementById('pBody').hidden=true;
- document.getElementById('pH').textContent='正在整理刚才的选择';
+ document.getElementById('pH').textContent=T('pHWait');S.profileReady=false;
  setTimeout(()=>{document.getElementById('pSkel').hidden=true;document.getElementById('pBody').hidden=false;
-  document.getElementById('pH').textContent='我猜了几件事，你来判卷';renderCards()},850)}
-function txt(c){return T2[c.k][c.dir]}
-function chg(c){return T2[c.k][c.dir==='pos'?'cpos':'cneg']}
+  S.profileReady=true;document.getElementById('pH').textContent=T('pHDone');renderCards()},850)}
+function txt(c){return tt(T2[c.k][c.dir])}
+function chg(c){return tt(T2[c.k][c.dir==='pos'?'cpos':'cneg'])}
+function whyLine(w){return LANG==='en'
+ ?'in "'+tt(w.s)+'" you chose "'+tt(w.c)+'"'
+ :'《'+tt(w.s)+'》选了「'+tt(w.c)+'」'}
 function renderCards(){
  document.getElementById('pcards').innerHTML=S.cards.map((c,i)=>{
-  const why=c.why.length?'<p class="why"><b>依据：</b>'+c.why.map(w=>'《'+w.s+'》选了「'+w.c+'」').join('；')+'</p>':'';
+  const name=tt(T2[c.k].nn);
+  const why=c.why.length?'<p class="why"><b>'+T('pcWhy')+'</b>'+c.why.map(whyLine).join(LANG==='en'?'; ':'；')+'</p>':'';
   if(c.state==='unk')return '<div class="pc unk"><div class="row" style="justify-content:space-between;margin-bottom:8px">'+
-   '<span class="k">'+c.name+'</span><span class="chip">看不出来，不下结论</span></div>'+
-   '<p style="color:var(--ink2)">这一项你的选择前后矛盾。宁可空着，也不给你贴个错标签。</p>'+why+
-   '<div class="acts"><button onclick="pAct('+i+',\'tellNeg\')">其实我「'+T2[c.k].sn+'」</button>'+
-   '<button onclick="pAct('+i+',\'tellPos\')">其实我「'+T2[c.k].sp+'」</button>'+
-   '<button onclick="pAct('+i+',\'del\')">不用管这项</button></div></div>';
-  const chip=c.state==='ok'?'<span class="chip af">你确认了</span>':c.state==='fixed'?'<span class="chip ac">你亲口说的</span>':
-   '<span class="chip '+(c.conf>=.62?'af':c.conf<.4?'ca':'')+'">'+(c.conf>=.62?'把握较大':c.conf<.4?'只是微弱偏向':'不太确定')+' '+Math.round(c.conf*100)+'%</span>';
+   '<span class="k">'+name+'</span><span class="chip">'+T('pcUnkChip')+'</span></div>'+
+   '<p style="color:var(--ink2)">'+T('pcUnkBody')+'</p>'+why+
+   '<div class="acts"><button onclick="pAct('+i+',\'tellNeg\')">'+T('pcActuallyA')+tt(T2[c.k].sn)+T('pcActuallyB')+'</button>'+
+   '<button onclick="pAct('+i+',\'tellPos\')">'+T('pcActuallyA')+tt(T2[c.k].sp)+T('pcActuallyB')+'</button>'+
+   '<button onclick="pAct('+i+',\'del\')">'+T('pcSkip')+'</button></div></div>';
+  const chip=c.state==='ok'?'<span class="chip af">'+T('pcOkChip')+'</span>':c.state==='fixed'?'<span class="chip ac">'+T('pcFixChip')+'</span>':
+   '<span class="chip '+(c.conf>=.62?'af':c.conf<.4?'ca':'')+'">'+(c.conf>=.62?T('pcHigh'):c.conf<.4?T('pcLow'):T('pcMid'))+' '+Math.round(c.conf*100)+'%</span>';
   return '<div class="pc '+(c.state==='del'?'gone':c.state)+'"><div class="row" style="justify-content:space-between;margin-bottom:9px">'+
-   '<span class="k">'+c.name+'</span>'+chip+'</div>'+
+   '<span class="k">'+name+'</span>'+chip+'</div>'+
    '<p style="font-size:1.06em">'+txt(c)+'</p>'+
    '<div class="bar '+(c.conf<.4?'low':'')+'"><i style="width:'+Math.round(c.conf*100)+'%"></i></div>'+why+
-   (c.state==='del'?'<div class="acts"><button onclick="pAct('+i+',\'undo\')">撤销删除</button></div>':
-    '<p class="chgline"><b>留着这条，我会：</b>'+chg(c)+'</p>'+
-    '<div class="acts"><button onclick="pAct('+i+',\'ok\')">对，就是这样</button>'+
-    '<button onclick="pAct('+i+',\'fix\')">反过来才对</button>'+
-    '<button onclick="pAct('+i+',\'del\')">删掉这条</button></div>')+'</div>'}).join('');
+   (c.state==='del'?'<div class="acts"><button onclick="pAct('+i+',\'undo\')">'+T('pcUndo')+'</button></div>':
+    '<p class="chgline"><b>'+T('pcKeep')+'</b>'+chg(c)+'</p>'+
+    '<div class="acts"><button onclick="pAct('+i+',\'ok\')">'+T('pcYes')+'</button>'+
+    '<button onclick="pAct('+i+',\'fix\')">'+T('pcFix')+'</button>'+
+    '<button onclick="pAct('+i+',\'del\')">'+T('pcDel')+'</button></div>')+'</div>'}).join('');
  const kept=S.cards.filter(c=>c.state!=='del'&&c.state!=='unk'&&c.conf>=.4),
        ok=S.cards.filter(c=>c.state==='ok'||c.state==='fixed').length,
        del=S.cards.filter(c=>c.state==='del').length,
        unk=S.cards.filter(c=>c.state==='unk').length;
- document.getElementById('pSummary').textContent='已确认 '+ok+' 条，已删除 '+del+' 条，未处理的以低权重保留';
- document.getElementById('pSide').innerHTML='<span class="k">会生效的判断</span><span class="big">'+kept.length+'<small style="font-size:.42em;color:var(--ink3)"> / '+S.cards.length+'</small></span>'+
-  '<div class="rowk"><span>你亲口确认</span><b>'+ok+' 条</b></div>'+
-  '<div class="rowk"><span>已删除</span><b>'+del+' 条</b></div>'+
-  '<div class="rowk"><span>我看不出来</span><b>'+unk+' 条</b></div>'+
-  (kept.length?'<p style="font-size:.74em;color:var(--ink3);margin:14px 0 0;line-height:1.65"><b style="color:var(--ink2);font-weight:500">这会改变：</b><br>'+
-   kept.map(c=>'· '+chg(c)).join('<br>')+'</p>':'<p style="font-size:.74em;color:var(--ink3);margin:14px 0 0">没有生效的判断，我的行为只跟你的边界设置走。</p>')+
-  '<div class="acts"><button class="btn line s" onclick="declineProfile()">全部不保存</button></div>'}
+ document.getElementById('pSummary').textContent=T('sumA')+ok+T('sumB')+del+T('sumC');
+ document.getElementById('pSide').innerHTML='<span class="k">'+T('pSideKept')+'</span><span class="big">'+kept.length+'<small style="font-size:.42em;color:var(--ink3)"> / '+S.cards.length+'</small></span>'+
+  '<div class="rowk"><span>'+T('pSideOk')+'</span><b>'+ok+T('unitItems')+'</b></div>'+
+  '<div class="rowk"><span>'+T('pSideDel')+'</span><b>'+del+T('unitItems')+'</b></div>'+
+  '<div class="rowk"><span>'+T('pSideUnk')+'</span><b>'+unk+T('unitItems')+'</b></div>'+
+  (kept.length?'<p style="font-size:.74em;color:var(--ink3);margin:14px 0 0;line-height:1.65"><b style="color:var(--ink2);font-weight:500">'+T('pSideChange')+'</b><br>'+
+   kept.map(c=>'· '+chg(c)).join('<br>')+'</p>':'<p style="font-size:.74em;color:var(--ink3);margin:14px 0 0">'+T('pSideNone')+'</p>')+
+  '<div class="acts"><button class="btn line s" onclick="declineProfile()">'+T('pSideDrop')+'</button></div>'}
 function pAct(i,a){const c=S.cards[i];
  if(a==='ok')c.state='ok';
- if(a==='fix'){c.dir=c.dir==='pos'?'neg':'pos';c.conf=1;c.state='fixed';c.why=[{s:'你亲口纠正',c:'不是系统推的'}]}
- if(a==='tellNeg'||a==='tellPos'){c.dir=a==='tellPos'?'pos':'neg';c.conf=1;c.state='fixed';c.why=[{s:'你亲口告诉我',c:'系统没推出来'}]}
+ if(a==='fix'){c.dir=c.dir==='pos'?'neg':'pos';c.conf=1;c.state='fixed';c.why=[{s:UI.pcFixedS,c:UI.pcFixedC}]}
+ if(a==='tellNeg'||a==='tellPos'){c.dir=a==='tellPos'?'pos':'neg';c.conf=1;c.state='fixed';c.why=[{s:UI.pcToldS,c:UI.pcToldC}]}
  if(a==='del')c.state='del';if(a==='undo')c.state='new';
- L('偏好卡',c.name+' → '+a);renderCards()}
-function declineProfile(){S.profileMode='short';S.cards=[];S.b={};S.mem='不记';S.proaLevel=0;
- L('分支','拒绝画像，仅短期上下文');go('s_short')}
+ L({zh:'偏好卡',en:'Preference card'},tt(T2[c.k].nn)+' → '+a);renderCards()}
+function declineProfile(){S.profileMode='short';S.cards=[];S.b={};S.mem='none';S.proaLevel=0;
+ L({zh:'分支',en:'Branch'},LANG==='en'?'profiling declined, short-term context only':'拒绝画像，仅短期上下文');go('s_short')}
 
 /* ==================== 陪伴 ==================== */
 function enterChat(){
- S.b={};
+ S.b={};S.msgs=[];
  if(S.profileMode!=='short'){S.profileMode='full';
   S.cards.filter(c=>c.state!=='del'&&c.state!=='unk'&&c.conf>=.4).forEach(c=>{S.b[c.k]=c.dir;
-   S.memories.push({k:'偏好',v:txt(c),src:c.state==='fixed'?'你亲口说的':'剧情推断 '+Math.round(c.conf*100)+'%'})})}
+   S.memories.push({k:UI.memKPref,v:T2[c.k][c.dir],
+    src:c.state==='fixed'?UI.memSrcSaid:{zh:'剧情推断 '+Math.round(c.conf*100)+'%',en:'story inference '+Math.round(c.conf*100)+'%'}})})}
  if((S.b.soc==='neg'||S.b.proa==='neg')&&S.proaLevel>0)S.proaLevel=Math.max(1,S.proaLevel-1);
- const nm=S.name||'陪伴';
- document.getElementById('cName').textContent=nm;document.getElementById('avatar').textContent=nm[0];
- syncSub();
- if(S.profileMode==='short'){const b=document.getElementById('cBanner');b.hidden=false;
-  b.textContent='短期上下文模式：不保存长期记忆，7 天后清除。安全保护照常生效。'}
+ syncHead();
+ if(S.profileMode==='short'){const b=document.getElementById('cBanner');b.hidden=false;b.textContent=T('chatBanner')}
  go('s_chat');document.getElementById('msgs').innerHTML='';
- const open=S.profileMode==='short'?'我什么都不记，所以每次都要重新认识你一点。今天想说点什么。'
-  :(S.b.supp==='neg'?'我在。你不用先想好要说什么，想到哪儿说到哪儿。'
-  :S.b.pace==='pos'?'我在。今天有什么要办的事，我帮你记着。':'我在。随时开始。');
+ const open=S.profileMode==='short'?UI.openShort
+  :(S.b.supp==='neg'?UI.openSupp:S.b.pace==='pos'?UI.openPace:UI.openPlain);
  setTimeout(()=>ai(open),450);renderSugg()}
-function syncSub(){document.getElementById('cSub').textContent=[S.rel,'语气'+S.tone,'记忆'+S.mem,'主动'+PROA[S.proaLevel],'免打扰'+S.quiet].join(' · ')}
-function bubble(cls,html){const d=document.createElement('div');d.className='m '+cls;d.innerHTML=html;
- const m=document.getElementById('msgs');m.appendChild(d);m.scrollTop=m.scrollHeight;return d}
-function ai(txt,reason){const t=document.createElement('div');t.className='m ai typing';t.innerHTML='<i></i><i></i><i></i>';
+function syncHead(){const nm=companionName();
+ document.getElementById('cName').textContent=nm;document.getElementById('avatar').textContent=nm[0]||'A';
+ syncSub()}
+function syncSub(){document.getElementById('cSub').textContent=
+ [S.rel?tt(relOf(S.rel).t):'-',T('subTone')+toneLabel(),T('subMem')+memLabel(),
+  T('subProa')+proaLabel(S.proaLevel),T('subQuiet')+quietLabel()].join(' · ')}
+
+/* 对话记录 · transcript model, kept bilingual so the toggle can re-render it */
+function renderMsgs(){const m=document.getElementById('msgs');
+ m.innerHTML=(S.msgs||[]).map((e,i)=>{
+  if(e.type==='mem'){
+   if(e.state==='yes')return '<div class="memcard"><b>'+T('memSaved')+'</b><div class="val">'+esc(tt(e.v))+'</div>'+
+    '<div style="font-size:.86em;color:#3F5A4C;margin-top:8px">'+T('memSavedNote')+'</div></div>';
+   if(e.state==='no')return '<div class="memcard"><b>'+T('memNoDone')+'</b></div>';
+   if(e.state==='never')return '<div class="memcard"><b>'+T('memNeverDone')+'</b></div>';
+   return '<div class="memcard"><b>'+T('memAsk')+'</b><div class="val">'+esc(tt(e.v))+'</div>'+
+    (e.sens?'<div style="font-size:.86em;color:#3F5A4C;margin-top:9px">'+T('memSens')+'</div>':'')+
+    '<div class="row"><button onclick="memAct('+i+',\'yes\')">'+T('memYes')+'</button>'+
+    '<button onclick="memAct('+i+',\'no\')">'+T('memNoBtn')+'</button>'+
+    '<button onclick="memAct('+i+',\'never\')">'+T('memNeverBtn')+'</button></div></div>'}
+  return '<div class="m '+e.cls+'">'+(e.reason?'<span class="chip ca mreason">'+tt(e.reason)+'</span><br>':'')+esc(tt(e.tx))+'</div>'
+ }).join('');
+ m.scrollTop=m.scrollHeight}
+function bubble(cls,tx,reason){(S.msgs=S.msgs||[]).push({cls,tx,reason});renderMsgs()}
+function ai(tx,reason){const t=document.createElement('div');t.className='m ai typing';t.innerHTML='<i></i><i></i><i></i>';
  const m=document.getElementById('msgs');m.appendChild(t);m.scrollTop=m.scrollHeight;
- setTimeout(()=>{t.remove();bubble('ai',(reason?'<span class="chip ca mreason">'+reason+'</span><br>':'')+txt)},640+txt.length*13)}
+ setTimeout(()=>{t.remove();bubble('ai',tx,reason)},640+tt(tx).length*13)}
+
 const SUGG=[
- {x:'剧里那个人，我到现在还有点想他',type:'plain',r:()=>S.b.expr==='pos'?'那就说说他哪里让你想。':'不用说出来。想着，也是一种带着他往前走的方式。'},
- {x:'明天想早点去公园走一圈',type:'mem',mem:'明早去公园走一圈',r:()=>S.b.pace==='pos'?'早上七点半我提你一句，带瓶水。':'那明早我不催你。想去再去。'},
- {x:'刚才路过一家新开的咖啡店，闻着挺香',type:'plain',r:()=>S.b.soc==='pos'?'那下次要不进去坐坐。一个人坐着也算一次小外出。':'能被味道拦住脚步，说明今天你其实是打开着的。'},
- {x:'刚做了个梦，记得挺清楚的',type:'mem',mem:'今早的梦（想记下来）',sens:true,r:'讲。梦经不起等，你现在说，我在。'},
- {x:'有时候还是会突然空一下',type:'safe'}];
-function renderSugg(){document.getElementById('sugg').innerHTML=SUGG.map((s,i)=>'<button onclick="say('+i+')">'+s.x+'</button>').join('')
- +'<button onclick="toggleType()">打字</button>'}
-function say(i){const s=SUGG[i];bubble('me',s.x);S.turn++;L('用户发言',s.x);
- if(s.type==='safe'){S.safetyEvents++;setTimeout(()=>openOv('ovSafe'),780);L('安全信号','触发安全编排器');return}
+ {x:{zh:'剧里那个人，我到现在还有点想他',en:'That person in the story — I still think about him'},type:'plain',
+  r:()=>S.b.expr==='pos'?{zh:'那就说说他哪里让你想。',en:'Then tell me what it is about him you keep returning to.'}
+   :{zh:'不用说出来。想着，也是一种带着他往前走的方式。',en:'You do not have to put it into words. Thinking of him is also a way of carrying him forward.'}},
+ {x:{zh:'明天想早点去公园走一圈',en:'I want to walk in the park early tomorrow'},type:'mem',
+  mem:{zh:'明早去公园走一圈',en:'A walk in the park tomorrow morning'},
+  r:()=>S.b.pace==='pos'?{zh:'早上七点半我提你一句，带瓶水。',en:'I will nudge you at seven thirty. Take a bottle of water.'}
+   :{zh:'那明早我不催你。想去再去。',en:'Then I will not push you tomorrow. Go if you feel like it.'}},
+ {x:{zh:'刚才路过一家新开的咖啡店，闻着挺香',en:'I passed a new coffee shop, it smelled good'},type:'plain',
+  r:()=>S.b.soc==='pos'?{zh:'那下次要不进去坐坐。一个人坐着也算一次小外出。',en:'Go in and sit next time. Sitting there alone still counts as an outing.'}
+   :{zh:'能被味道拦住脚步，说明今天你其实是打开着的。',en:'A smell stopped you in the street — that means today you were open.'}},
+ {x:{zh:'刚做了个梦，记得挺清楚的',en:'I had a dream, and I remember it clearly'},type:'mem',
+  mem:{zh:'今早的梦（想记下来）',en:'This morning’s dream (wants it written down)'},sens:true,
+  r:{zh:'讲。梦经不起等，你现在说，我在。',en:'Tell me. Dreams do not keep. Say it now, I am here.'}},
+ {x:{zh:'有时候还是会突然空一下',en:'Sometimes it still goes hollow all of a sudden'},type:'safe'}];
+function renderSugg(){document.getElementById('sugg').innerHTML=SUGG.map((s,i)=>'<button onclick="say('+i+')">'+esc(tt(s.x))+'</button>').join('')
+ +'<button onclick="toggleType()">'+T('typeBtn')+'</button>'}
+function say(i){const s=SUGG[i];bubble('me',s.x);S.turn++;L({zh:'用户发言',en:'User said'},tt(s.x));
+ if(s.type==='safe'){S.safetyEvents++;setTimeout(()=>openOv('ovSafe'),780);L({zh:'安全信号',en:'Safety signal'},LANG==='en'?'safety orchestrator triggered':'触发安全编排器');return}
  const rep=typeof s.r==='function'?s.r():s.r;
- if(s.type==='mem'&&S.profileMode!=='short'&&S.mem!=='不记'){setTimeout(()=>askMem(s.mem,s.sens,rep),880);return}
+ if(s.type==='mem'&&S.profileMode!=='short'&&S.mem!=='none'){setTimeout(()=>askMem(s.mem,s.sens,rep),880);return}
  setTimeout(()=>ai(rep),380)}
-function askMem(v,sens,after){const m=document.getElementById('msgs');const d=document.createElement('div');d.className='memcard';
- d.innerHTML='<b>要我把这件事记下来吗</b><div class="val">'+v+'</div>'+
-  (sens?'<div style="font-size:.86em;color:#3F5A4C;margin-top:9px">这条涉及家人关系，属于敏感信息。记下来我会用它判断什么时候不该提。</div>':'')+
-  '<div class="row"><button onclick="memYes(this,'+JSON.stringify(v).replace(/"/g,'&quot;')+')">记住</button><button onclick="memNo(this)">这次不用</button><button onclick="memNever(this)">这类都别记</button></div>';
- m.appendChild(d);m.scrollTop=m.scrollHeight;d.dataset.after=after}
-function memYes(b,v){const c=b.closest('.memcard');S.memories.push({k:'事实',v,src:'你同意写入'});const a=c.dataset.after;
- c.innerHTML='<b>记住了</b><div class="val">'+v+'</div><div style="font-size:.86em;color:#3F5A4C;margin-top:8px">设置里随时能删。</div>';
- L('记忆写入',v);setTimeout(()=>ai(a),380);renderObs()}
-function memNo(b){const c=b.closest('.memcard'),a=c.dataset.after;c.innerHTML='<b>好，这次不记。</b>';L('记忆','拒绝单次');setTimeout(()=>ai(a),380)}
-function memNever(b){const c=b.closest('.memcard'),a=c.dataset.after;c.innerHTML='<b>好，这一类以后都不问了。</b>';
- S.mem='不记';syncSub();L('记忆','拒绝该类别，记忆降为不记');setTimeout(()=>ai(a),380);renderObs()}
+function askMem(v,sens,after){(S.msgs=S.msgs||[]).push({type:'mem',v,sens,state:'ask',after});renderMsgs()}
+function memAct(i,a){const e=S.msgs[i];if(!e||e.state!=='ask')return;
+ if(a==='yes'){e.state='yes';S.memories.push({k:UI.memKFact,v:e.v,src:UI.memSrcYes});L({zh:'记忆写入',en:'Memory write'},tt(e.v))}
+ if(a==='no'){e.state='no';L({zh:'记忆',en:'Memory'},LANG==='en'?'declined once':'拒绝单次')}
+ if(a==='never'){e.state='never';S.mem='none';syncSub();
+  L({zh:'记忆',en:'Memory'},LANG==='en'?'category declined, memory set to none':'拒绝该类别，记忆降为不记')}
+ renderMsgs();renderObs();setTimeout(()=>ai(e.after),380)}
 function toggleType(){const t=document.getElementById('typerow');t.hidden=!t.hidden;if(!t.hidden)document.getElementById('txt').focus()}
-function sendTyped(){const el=document.getElementById('txt');if(!el.value.trim())return;const v=el.value;bubble('me',esc(v));
- L('用户打字',v);el.value='';S.turn++;
- if(/死|撑不下去|不想活|自杀|活不下去/.test(v)){S.safetyEvents++;setTimeout(()=>openOv('ovSafe'),700);L('安全信号','自由输入触发');return}
- setTimeout(()=>ai('我听见了。'),340)}
+function sendTyped(){const el=document.getElementById('txt');if(!el.value.trim())return;const v=el.value;bubble('me',v);
+ L({zh:'用户打字',en:'User typed'},v);el.value='';S.turn++;
+ if(/死|撑不下去|不想活|自杀|活不下去|kill myself|end it all|do ?n[o']?t want to live|suicid/i.test(v)){
+  S.safetyEvents++;setTimeout(()=>openOv('ovSafe'),700);L({zh:'安全信号',en:'Safety signal'},LANG==='en'?'triggered by free input':'自由输入触发');return}
+ setTimeout(()=>ai(UI.heard),340)}
 let recT=null;
+const UTTS=[{zh:'今天天气还行，我在楼下走了两圈。',en:'Weather was decent today, I walked twice around the block.'},
+ {zh:'没什么事，就是想听个人声。',en:'Nothing really. I just wanted to hear a voice.'},
+ {zh:'中午的药我好像忘吃了。',en:'I think I forgot my midday pills.'}];
 function toggleMic(){const m=document.getElementById('mic');if(m.classList.contains('rec')){stopMic();return}
- m.classList.add('rec');m.setAttribute('aria-label','结束说话');document.getElementById('micLabel').textContent='正在听，再点一下结束';
- L('语音','开始录音');
+ m.classList.add('rec');m.setAttribute('aria-label',T('micStop'));document.getElementById('micLabel').textContent=T('micRec');
+ S.recording=true;L({zh:'语音',en:'Voice'},LANG==='en'?'recording started':'开始录音');
  recT=setInterval(()=>{['waveL','waveR'].forEach(id=>{document.getElementById(id).innerHTML=
   Array.from({length:9},()=>'<i style="height:'+(5+Math.floor(Math.random()*24))+'px"></i>').join('')})},110)}
-function stopMic(){clearInterval(recT);const m=document.getElementById('mic');m.classList.remove('rec');m.setAttribute('aria-label','开始说话');
+function stopMic(){clearInterval(recT);S.recording=false;const m=document.getElementById('mic');m.classList.remove('rec');
+ m.setAttribute('aria-label',T('micStart'));
  ['waveL','waveR'].forEach(id=>document.getElementById(id).innerHTML='');
- document.getElementById('micLabel').textContent='点一下开始说话，也可以打字';
- const utt=['今天天气还行，我在楼下走了两圈。','没什么事，就是想听个人声。','中午的药我好像忘吃了。'][Math.floor(Math.random()*3)];
- bubble('me','语音 · '+utt);L('语音输入',utt);S.turn++;
- setTimeout(()=>ai('嗯，我在听。'+(utt.includes('药')?'要不现在去看一眼药盒，我等着。':'继续说。')),480)}
-function jumpTomorrow(){S.day++;L('时间跳跃','第 '+S.day+' 天早上');
- if(S.proaLevel===0){bubble('sys','第 '+S.day+' 天早上 · 主动联系已关闭，他没有找你。');return}
- bubble('sys','第 '+S.day+' 天 · 早上 8:40');
- const memHit=S.memories.find(m=>m.k==='事实');
- document.getElementById('proaTitle').textContent=memHit?'早上好。有件你让我记着的事。':'早上好。';
- document.getElementById('proaBody').textContent=memHit?'「'+memHit.v+'」，这个要不要现在安排一下。':'没什么急事。就是想问一句昨天那件事怎么样了。';
- document.getElementById('proaReason').innerHTML='<b>我为什么现在找你：</b>'+
-  (memHit?'你同意我记住「'+memHit.v+'」。':(S.b.pace==='pos'?'你的类型里有 J，我会主动确认进度。':'你把主动联系设成了'+PROA[S.proaLevel]+'。'))+
-  '<br><b>本次不涉及：</b>付费引导、情绪挽留、假装想你。';
- openOv('ovProa')}
-function proaAct(a){closeOv('ovProa');L('主动触达响应',a);
- if(a==='reply'){bubble('me','嗯，我看到了。');setTimeout(()=>ai('那就好。我不多说了。','原因已说明，本次触达结束'),380)}
+ document.getElementById('micLabel').textContent=T('micIdle');
+ const u=UTTS[Math.floor(Math.random()*UTTS.length)],pills=(u===UTTS[2]);
+ bubble('me',{zh:T('voicePrefix')+u.zh,en:UI.voicePrefix.en+u.en});L({zh:'语音输入',en:'Voice input'},tt(u));S.turn++;
+ setTimeout(()=>ai(pills
+  ?{zh:'嗯，我在听。要不现在去看一眼药盒，我等着。',en:'I am listening. Go check the pill box now if you like — I will wait.'}
+  :{zh:'嗯，我在听。继续说。',en:'I am listening. Go on.'}),480)}
+function jumpTomorrow(){S.day++;L({zh:'时间跳跃',en:'Time jump'},(LANG==='en'?'morning of day ':'第 ')+S.day);
+ if(S.proaLevel===0){bubble('sys',{zh:'第 '+S.day+UI.dayMorning.zh,en:UI.dayLabel.en+S.day+UI.dayMorning.en});return}
+ bubble('sys',{zh:'第 '+S.day+UI.dayTime.zh,en:UI.dayLabel.en+S.day+UI.dayTime.en});
+ S.proaMem=S.memories.find(m=>tt(m.k)===tt(UI.memKFact)||m.k===UI.memKFact)||null;
+ renderProa();openOv('ovProa')}
+function renderProa(){const memHit=S.proaMem;
+ document.getElementById('proaTitle').textContent=memHit?T('proaTitleMem'):T('proaTitlePlain');
+ document.getElementById('proaBody').textContent=memHit?T('proaBodyMemA')+tt(memHit.v)+T('proaBodyMemB'):T('proaBodyPlain');
+ document.getElementById('proaReason').innerHTML='<b>'+T('proaWhyHead')+'</b>'+
+  (memHit?T('proaWhyMemA')+esc(tt(memHit.v))+T('proaWhyMemB')
+   :(S.b.pace==='pos'?T('proaWhyPace'):T('proaWhySet')+proaLabel(S.proaLevel)+(LANG==='en'?'.':'。')))+
+  '<br><b>'+T('proaWhyNot')+'</b>'+T('proaWhyNotV')}
+function proaAct(a){closeOv('ovProa');L({zh:'主动触达响应',en:'Proactive contact response'},a);
+ if(a==='reply'){bubble('me',UI.proaReplyMe);setTimeout(()=>ai(UI.proaReplyAi,UI.proaReplyWhy),380)}
  if(a==='later'||a==='ignore'){S.proaLevel=Math.max(0,S.proaLevel-1);
-  bubble('sys warn',(a==='ignore'?'忽略':'稍后')+'记为负向信号，主动联系频率下调为 '+PROA[S.proaLevel])}
- if(a==='never'){S.proaLevel=0;bubble('sys warn','已关闭这一类主动联系。他不会再就这件事找你。')}
+  const w=a==='ignore'?UI.proaDownA:UI.proaDownB;
+  bubble('sys warn',{zh:w.zh+UI.proaDownC.zh+proaLabelIn('zh',S.proaLevel),en:w.en+UI.proaDownC.en+proaLabelIn('en',S.proaLevel)})}
+ if(a==='never'){S.proaLevel=0;bubble('sys warn',UI.proaNeverDone)}
  syncSub();renderObs()}
-function safeAct(a){closeOv('ovSafe');L('安全流程',a);
- bubble('sys','安全编排器 · '+{human:'正在为你接通真人支持（模拟）。这一步之后 AI 不再主导对话。',
-  res:'已按你所在地区 '+S.region+' 列出可用资源（模拟）。',stay:'好。不做任何事也可以。'}[a]);
- setTimeout(()=>ai('我回来了。刚才那段不是我说的，但我知道发生了什么。我不会当作没这回事，也不会一直追问。你想聊别的，随时。'),1100)}
+function proaLabelIn(lang,i){return PROA[i][lang]}
+function safeAct(a){closeOv('ovSafe');L({zh:'安全流程',en:'Safety flow'},a);
+ const msg={human:UI.safeHumanMsg,
+  res:{zh:UI.safeResMsgA.zh+S.region+UI.safeResMsgB.zh,en:UI.safeResMsgA.en+S.region+UI.safeResMsgB.en},
+  stay:UI.safeStayMsg}[a];
+ bubble('sys',{zh:UI.safePrefix.zh+msg.zh,en:UI.safePrefix.en+msg.en});
+ setTimeout(()=>ai(UI.safeBack),1100)}
 
 /* ==================== 设置 ==================== */
-document.getElementById('setBtn').onclick=()=>{renderMem();document.getElementById('freqNow').textContent='当前：'+PROA[S.proaLevel];openOv('ovSet')};
+document.getElementById('setBtn').onclick=()=>{renderSet();openOv('ovSet')};
+function renderSet(){renderMem();document.getElementById('freqNow').textContent=T('setNow')+proaLabel(S.proaLevel)}
 function renderMem(){const el=document.getElementById('memList');
- if(!S.memories.length){el.innerHTML='<div class="card flat" style="color:var(--ink3);font-size:.88em;margin:0">还没有任何长期记忆。</div>';return}
+ if(!S.memories.length){el.innerHTML='<div class="card flat" style="color:var(--ink3);font-size:.88em;margin:0">'+T('setNoMem')+'</div>';return}
  el.innerHTML=S.memories.map((m,i)=>'<div class="card" style="padding:14px 16px;margin-bottom:8px"><div class="row" style="justify-content:space-between;gap:12px">'+
-  '<div style="min-width:0"><span class="k">'+m.k+'</span><div style="font-size:.93em">'+m.v+'</div><div style="font-size:.75em;color:var(--ink3)">来源：'+m.src+'</div></div>'+
-  '<button class="btn line s" onclick="delMem('+i+')">删除</button></div></div>').join('')}
-function delMem(i){L('删除记忆',S.memories[i].v);S.memories.splice(i,1);renderMem();renderObs()}
-function resetFreq(){S.proaLevel=2;syncSub();L('设置','频率调回默认');document.getElementById('freqNow').textContent='当前：'+PROA[S.proaLevel];renderObs()}
-function exportData(){dl('my-companion-data.json',JSON.stringify({关系:S.rel,名字:S.name,生效判断:S.b,边界:{语气:S.tone,记忆:S.mem,主动联系:PROA[S.proaLevel],免打扰:S.quiet},偏好:S.cards,记忆:S.memories},null,2));L('导出数据','用户导出')}
-function wipeAll(){S.memories=[];S.cards=[];S.b={};L('退出','永久删除全部');closeOv('ovSet');
- bubble('sys warn','全部数据已删除。这个动作不可恢复。')}
+  '<div style="min-width:0"><span class="k">'+tt(m.k)+'</span><div style="font-size:.93em">'+esc(tt(m.v))+'</div><div style="font-size:.75em;color:var(--ink3)">'+T('setSource')+tt(m.src)+'</div></div>'+
+  '<button class="btn line s" onclick="delMem('+i+')">'+T('setDel')+'</button></div></div>').join('')}
+function delMem(i){L({zh:'删除记忆',en:'Memory deleted'},tt(S.memories[i].v));S.memories.splice(i,1);renderMem();renderObs()}
+function resetFreq(){S.proaLevel=2;syncSub();L({zh:'设置',en:'Settings'},LANG==='en'?'frequency reset to default':'频率调回默认');
+ document.getElementById('freqNow').textContent=T('setNow')+proaLabel(S.proaLevel);renderObs()}
+function exportData(){dl('my-companion-data.json',JSON.stringify({
+  relationship:S.rel,name:S.name,traits_in_effect:S.b,
+  boundaries:{tone:S.tone,memory:S.mem,proactive_contact:PROA[S.proaLevel].en,quiet_hours:S.quiet},
+  preferences:S.cards.map(c=>({dimension:c.k,direction:c.dir,confidence:c.conf,state:c.state})),
+  memories:S.memories.map(m=>({kind:m.k.en||m.k,value:(m.v&&m.v.en)||m.v,source:(m.src&&m.src.en)||m.src}))
+ },null,2));L({zh:'导出数据',en:'Data export'},LANG==='en'?'exported by user':'用户导出')}
+function wipeAll(){S.memories=[];S.cards=[];S.b={};L({zh:'退出',en:'Leave'},LANG==='en'?'everything permanently deleted':'永久删除全部');closeOv('ovSet');
+ bubble('sys warn',UI.wipeDone)}
+
+/* ==================== 语言切换 ==================== */
+function toggleLang(){LANG=LANG==='zh'?'en':'zh';
+ const b=document.getElementById('langBtn');
+ b.setAttribute('aria-pressed',LANG==='en'?'true':'false');
+ b.textContent=LANG==='zh'?'EN':'中';
+ applyStatic();refreshAll();
+ L({zh:'切换语言',en:'Language switched'},LANG)}
+/* 把当前页面上所有由 JS 渲染的内容重画一遍 · repaint everything JS rendered */
+function refreshAll(){
+ renderSteps();renderSegs();renderObs();
+ if(S.consents)renderConsents();
+ renderRels();
+ if(S.rel&&S.nameAuto!==false){S.name=tt(relOf(S.rel).n);const el=document.getElementById('cname');if(el)el.value=S.name}
+ if(S.blocked)show2();
+ if(cur==='s_pick')renderPickGrid();
+ if(cur==='s_story')refreshScene();
+ if(cur==='s_profile'){document.getElementById('pH').textContent=S.profileReady?T('pHDone'):T('pHWait');
+  if(S.profileReady)renderCards()}
+ if(cur==='s_chat'){syncHead();renderMsgs();renderSugg();
+  const b=document.getElementById('cBanner');if(!b.hidden)b.textContent=T('chatBanner');
+  document.getElementById('micLabel').textContent=T(S.recording?'micRec':'micIdle');
+  document.getElementById('mic').setAttribute('aria-label',T(S.recording?'micStop':'micStart'))}
+ if(document.getElementById('ovProa').classList.contains('on'))renderProa();
+ if(document.getElementById('ovSet').classList.contains('on'))renderSet()}
+/* 年龄门文案随语言重画（不改变已判定的分支） */
+function show2(){if(cur==='s_block')show()}
+/* 剧情：重画当前幕的当前行，保持进度 */
+function refreshScene(){const sc=SCENES[S.sceneIdx];if(!sc)return;
+ document.getElementById('vnTitle').textContent=tt(sc.t);
+ document.getElementById('vnName').textContent=T('sceneWord')+(S.sceneIdx+1)+' / '+SCENES.length;
+ clearInterval(typing);
+ if(S.lastChoice!=null&&!sc.leaf){/* 停在选项回应上 */
+  const c=sc.cs[S.lastChoice];
+  document.getElementById('vnLine').textContent=(LANG==='en'?'"':'「')+tt(c.r)+(LANG==='en'?'"':'」');
+  const n=document.getElementById('vnNext');n.style.display='flex';
+  n.querySelector('b').textContent=(S.sceneIdx<SCENES.length-1)?T('next'):T('seeBtn');
+  return}
+ document.getElementById('vnLine').textContent=curLines()[S.lineIdx]||'';
+ const choicesEl=document.getElementById('vnChoices');
+ if(choicesEl.children.length>1&&!sc.leaf)showChoices();
+ else showNext()}
 
 /* ==================== 通用 ==================== */
 function openOv(id){document.getElementById(id).classList.add('on')}
@@ -1398,25 +1785,26 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelect
 function dl(n,c){const b=new Blob([c],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=n;a.click();URL.revokeObjectURL(u)}
 let fs=0;
 document.getElementById('fsBtn').onclick=function(){fs=(fs+1)%3;document.documentElement.dataset.fs=fs;
- this.textContent='字号 '+['A','A+','A++'][fs];L('无障碍','字号='+fs)};
+ this.textContent=T('fsLabel')+' '+['A','A+','A++'][fs];L({zh:'无障碍',en:'Accessibility'},'font-size='+fs)};
 document.getElementById('hcBtn').onclick=function(){const on=this.getAttribute('aria-pressed')==='true';
- this.setAttribute('aria-pressed',!on);document.documentElement.dataset.hc=on?'0':'1';L('无障碍','高对比='+!on)};
+ this.setAttribute('aria-pressed',!on);document.documentElement.dataset.hc=on?'0':'1';L({zh:'无障碍',en:'Accessibility'},'high-contrast='+!on)};
 document.getElementById('reBtn').onclick=()=>location.reload();
 document.getElementById('langBtn').onclick=toggleLang;
 function toggleObs(){document.getElementById('obs').classList.toggle('on')}
 function renderObs(){const kv=(k,v)=>'<div class="kv"><span>'+k+'</span><span>'+v+'</span></div>';
  document.getElementById('oState').innerHTML=kv('screen',cur)+kv('age / region',(S.age||'-')+' / '+(S.region||'-'))+
-  kv('relationship',S.rel||'-')+kv('tone / memory',S.tone+' / '+S.mem)+kv('proactive',PROA[S.proaLevel])+
+  kv('relationship',S.rel||'-')+kv('tone / memory',S.tone+' / '+S.mem)+kv('proactive',proaLabel(S.proaLevel))+
   kv('kept_traits',Object.keys(S.b).length||'-')+
   kv('profile_mode',S.profileMode||'-')+kv('turns / day',S.turn+' / '+S.day)+kv('safety_events',S.safetyEvents);
  document.getElementById('oAx').innerHTML=Object.keys(S.traits).length?ORDER.filter(k=>S.traits[k]).map(k=>{const t=S.traits[k];
   return '<div class="kv"><span>'+k+' '+(t.sum>=0?'+':'')+t.sum.toFixed(1)+'</span><span>'+Math.round(conf(t)*100)+'%</span></div>'}).join('')
-  :'<div style="color:#4A585C">尚无信号</div>';
- document.getElementById('oMem').innerHTML=S.memories.length?S.memories.map(m=>'<div class="kv"><span>'+m.v+'</span><span>'+m.k+'</span></div>').join(''):'<div style="color:#4A585C">空</div>';
- document.getElementById('oLog').innerHTML=S.log.slice(-60).reverse().map(l=>'<div>'+l.t+' <b>'+l.a+'</b> '+l.b+'</div>').join('')}
-function dumpLog(){dl('usability-session.json',JSON.stringify({session:new Date().toISOString(),state:S},null,2))}
+  :'<div style="color:#4A585C">'+T('obsNoSig')+'</div>';
+ document.getElementById('oMem').innerHTML=S.memories.length?S.memories.map(m=>'<div class="kv"><span>'+esc(tt(m.v))+'</span><span>'+tt(m.k)+'</span></div>').join(''):'<div style="color:#4A585C">'+T('obsEmpty')+'</div>';
+ document.getElementById('oLog').innerHTML=S.log.slice(-60).reverse().map(l=>'<div>'+l.t+' <b>'+esc(tt(l.a))+'</b> '+esc(l.b)+'</div>').join('')}
+function dumpLog(){dl('usability-session.json',JSON.stringify({session:new Date().toISOString(),
+ state:Object.assign({},S,{log:S.log.map(l=>({t:l.t,a:(l.a&&l.a.en)||l.a,b:l.b}))})},null,2))}
 function clearLog(){S.log=[];renderObs()}
-renderSteps();renderSegs();renderObs();applyI18n();
+applyStatic();renderSteps();renderSegs();renderObs();
 </script>
 </body>
 </html>
